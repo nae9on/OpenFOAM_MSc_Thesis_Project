@@ -1,0 +1,21 @@
+EXE_INC = \
+    -I$(LIB_SRC)/finiteVolume/lnInclude \
+    -I$(LIB_SRC)/thermophysicalModels/reactionThermo/lnInclude \
+    -I$(LIB_SRC)/thermophysicalModels/basic/lnInclude \
+    -I$(LIB_SRC)/thermophysicalModels/chemistryModel/lnInclude \
+    -I$(LIB_SRC)/thermophysicalModels/specie/lnInclude \
+    -I$(LIB_SRC)/turbulenceModels/compressible/turbulenceModel \
+    -I$(FOAM_USER_LIBBIN)/../edcChemistryModel/lnInclude \
+    -I$(FOAM_USER_LIBBIN)/../radiation/lnInclude     
+
+EXE_LIBS = \
+    -L$(FOAM_USER_LIBBIN) \
+    -lbasicThermophysicalModels_mod \
+    -lreactionThermophysicalModels_mod \
+    -lspecie_mod \
+    -lcompressibleRASModels \
+    -lcompressibleLESModels \
+    -lfiniteVolume \
+    -ledcChemistryModel \
+    -lwsggmRadiation
+

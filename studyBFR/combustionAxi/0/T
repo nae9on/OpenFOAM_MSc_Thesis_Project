@@ -1,0 +1,77 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2.3.0                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    object      T;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 0 0 1 0 0 0];
+
+internalField   uniform 2000;
+
+boundaryField
+{
+    /*inlet
+    {
+        type            fixedValue;
+        value           uniform 1000;
+    }*/
+ 
+    inlet
+    {
+        type            groovyBC;
+        variables (
+            "cFactor=1;"
+            "distSquare=pos().y*pos().y+pos().z*pos().z;"
+            "distR=pow(distSquare,0.5);"	
+            "T1=(distR<0.015) ? 300 : 0;"
+            "T2=(distR >= 0.015 && distR < 0.025) ? 300 : 0;"
+            "T3=(distR >= 0.025) ? 411 : 0;"
+            "Tnet=cFactor*(T1+T2+T3);"
+        );
+        value uniform 300;
+        valueExpression "Tnet";
+    }    
+
+    outlet
+    {
+        type            zeroGradient;
+    }
+
+    fixedWalls
+    {
+        type            fixedValue;
+        value           uniform 550;
+    }
+
+    frontAndBack_pos
+    {
+        type            wedge;
+    } 
+    
+    frontAndBack_neg
+    {
+        type            wedge;
+    }
+    
+    bottom
+    {
+        type            empty;
+    }
+    
+    frontAndBack
+    {
+        type            empty;
+    }
+}
+
+// ************************************************************************* //

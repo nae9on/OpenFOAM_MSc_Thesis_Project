@@ -1,0 +1,31 @@
+ali@ali-Inspiron-1525:~/Desktop/salome$ ls
+Salome-V7_3_0-LGPL-x86_64.run
+ali@ali-Inspiron-1525:~/Desktop/salome$ chmod +x Salome-V7_3_0-LGPL-x86_64.run
+ali@ali-Inspiron-1525:~/Desktop/salome$ ./Salome-V7_3_0-LGPL-x86_64.run
+
+=======================================
+Self Extracting SALOME V7_3_0 Installer
+=======================================
+
+Enter the Salome install directory [default=/home/ali/salome] : 
+Salome is in English, do you want to be in French ? [y/N] : N
+Installation of SALOME V7_3_0 in /home/ali/salome/Salome-V7_3_0-LGPL-x86_64 ...
+Verifying archive integrity...
+All good.
+Done                                                                                                                   
+Creating SALOME application in /home/ali/salome/appli_V7_3_0 ...
+Installing the CatalogResources file in /home/ali/salome/appli_V7_3_0/CatalogResources.xml
+Missing repertory: /opt/ThirdParty-2.3.0/platforms/linux64Gcc/gperftools-svn/lib
+Missing repertory: /opt/ThirdParty-2.3.0/platforms/linux64GccDPOpt/lib/openmpi-system
+Missing repertory: /home/ali/OpenFOAM/ali-2.3.0/platforms/linux64GccDPOpt/lib
+Missing repertory: /opt/site/2.3.0/platforms/linux64GccDPOpt/lib
+Missing repertory: /opt/ThirdParty-2.3.0/platforms/linux64GccDPOpt/lib
+Missing repertory: /opt/ThirdParty-2.3.0/platforms/linux64Gcc/gperftools-svn/bin
+Missing repertory: /home/ali/OpenFOAM/ali-2.3.0/platforms/linux64GccDPOpt/bin
+Missing repertory: /opt/site/2.3.0/platforms/linux64GccDPOpt/bin
+The SALOME application was successfully created.
+To run the application:
+$ /home/ali/salome/appli_V7_3_0/runAppli
+ali@ali-Inspiron-1525:~/Desktop/salome$ ls
+Salome-V7_3_0-LGPL-x86_64.run
+ali@ali-Inspiron-1525:~/Desktop/salome$

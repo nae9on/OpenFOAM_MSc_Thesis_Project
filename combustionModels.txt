@@ -1,0 +1,93 @@
+Source:
+
+http://www.personal.psu.edu/dab143/OFW6/Training/christ_slides.pdf
+Aalborg University Paper.
+OF wiki pages
+
+Combustion Models present in OpenFOAM.
+Foam::combustionModels Namespace Reference: http://foam.sourceforge.net/docs/cpp/a10391.html
+######################################
+
+#reactingFoam (Already Working for OF2.3.0, Most relevant)
+######################################
+Transient Solver for combustion with chemical reactions.
+
+The chemistry model in reactingFoam is a Partially Stirred Reactor Combustion Model
+or PaSR, which generally is used for turbulent non-premixed combustion. The PaSR
+model is a modified version of the Eddy Dissipation Concept (EDC) where the chemical
+timescale is handled differently.
+
+The model calculates a finite rate, based on both turbulence and chemistry time scales. 
+Depending on mesh resolution, the Cmix parameter can be used to scale the turbulence 
+mixing time scale. 
+
+If turbulent combustion is enabled, reaction rates are based on which is the slowest, 
+chemistry or mixing. The mixing or turbulent reaction rate is defined as the turbulent 
+dissipation rate ε divided by the turbulent kinetic energy k.
+
+reactingFoam proves to approach a steady solution. It is interesting to see that the 
+transient model becomes steady and this also means that modelling this case transient 
+is somewhat an unnecessary waste of computational resources.
+
+To get a steady solution using reactingFoam at least 10 seconds has to be simulated.
+The 10 seconds of real time corresponds to a very large computational time ~ 1week
+(as from Aalborg univ paper, will check myself soon).
+
+#edcSimpleFoam (steady-state solver, Working for OF1.6.0 and will have to be adapted to OF2.3.0)
+######################################
+rhoSimpleFoam: Steady-state SIMPLE solver for reacting laminar or turbulent RANS flow of
+compressible fluids.
+
+edcPisoFoam: Transient solver for gas combustion using edcChemistryModel and thus providing 
+access to several flavors of the Eddy Dissipation Concept (EDC) Model by B.Magnussen
+Time step adaption is supported.
+
+
+Theory
+######################################
+The Eddy-Dissipation Concept (EDC) assumes reactions in fine structures.
+EDC reaction rate depends on turbulent flow properties and chemical kinetics 
+approach for fine structure composition.
+
+Varoius Chemical kinetics approaches for fine structure composition:
+
+1. Fast Chemistry (least accurate, fastest)
+-assumes infinitely fast reactions
+-Assumes sufficient time to achieve equilibrium inside fine structures
+-Works only with irreversible global reactions
+-Combustion occurs if fuel, oxidizer and products meet simultaneously
+
+2. Local Extinction(more accurate, not that fast)
+-employs data from a priori PSR calculations.
+
+3. Perfectly Stirred Reactor(most accurate, slowest)
+-determines the steady-state of a perfectly stirred reactor
+-The PaSR combustion model derives the reation rate in a transient manner.
+
+
+
+
+Other Models in OpenFOAM
+######################################
+#LTSReactingFoam
+Local time stepping (LTS) solver for steady, compressible, laminar or turbulent reacting and non-reacting flow
+
+#PDRFoam
+Solver for compressible premixed/partially-premixed combustion with turbulence modelling
+
+#rhoReactingBuoyantFoam
+Solver for combustion with chemical reactions using density based thermodynamics package, using enahanced buoyancy treatment
+
+#rhoReactingFoam
+Solver for combustion with chemical reactions using density based thermodynamics package
+
+#XiFoam
+Solver for compressible premixed/partially-premixed combustion with turbulence modelling 
+
+
+Foam::combustionModels Namespace Reference
+######################################
+
+
+
+

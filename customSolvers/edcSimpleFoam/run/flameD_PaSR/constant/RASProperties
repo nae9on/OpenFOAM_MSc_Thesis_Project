@@ -1,0 +1,123 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  1.4.1                                 |
+|   \\  /    A nd           | Web:      http://www.openfoam.org               |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+
+// FoamX Case Dictionary.
+
+FoamFile
+{
+    version         2.0;
+    format          ascii;
+
+    root            "/home/dc/OpenFOAM/dc-1.4.1/run/validation";
+    case            "sandia_propane_jet_simpleFoam_axis";
+    instance        "constant";
+    local           "";
+
+    class           dictionary;
+    object          turbulenceProperties;
+}
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+RASModel kEpsilon;
+
+printCoeffs         on;
+
+turbulence      on;
+
+
+
+
+laminarCoeffs
+{
+
+}
+
+
+kEpsilonCoeffs
+{
+    Cmu              0.09;
+    C1               1.44;
+    C2               1.92;
+    C3               -0.33;
+    alphah           1;
+    alphak           1;
+    alphaEps         0.76923;
+}
+realizableKECoeffs
+{
+    Cmu         0.09;
+    A0          4.0;
+    C2          1.9;
+    alphak      1.0;
+    alphaEps    0.833333;
+    alphah      1.0;    // only for compressible
+}
+
+RNGkEpsilonCoeffs
+{
+    Cmu              0.0845;
+    C1               1.42;
+    C2               1.68;
+    C3               -0.33;
+    alphah           1;
+    alphak           1.39;
+    alphaEps         1.39;
+    eta0             4.38;
+    beta             0.012;
+}
+
+LaunderSharmaKECoeffs
+{
+    Cmu              0.09;
+    C1               1.44;
+    C2               1.92;
+    C3               -0.33;
+    alphah           1;
+    alphak           1;
+    alphaEps         0.76923;
+}
+
+LRRCoeffs
+{
+    Cmu              0.09;
+    Clrr1            1.8;
+    Clrr2            0.6;
+    C1               1.44;
+    C2               1.92;
+    Cs               0.25;
+    Ceps             0.15;
+    alphah           1;
+    alphaEps         0.76923;
+    alphaR           1.22;
+}
+
+LaunderGibsonRSTMCoeffs
+{
+    Cmu              0.09;
+    Clg1             1.8;
+    Clg2             0.6;
+    C1               1.44;
+    C2               1.92;
+    C1Ref            0.5;
+    C2Ref            0.3;
+    Cs               0.25;
+    Ceps             0.15;
+    alphah           1;
+    alphaEps         0.76923;
+    alphaR           1.22;
+}
+
+wallFunctionCoeffs
+{
+    kappa           0.4187;
+    E               9 ;
+}
+
+
+// ************************************************************************* //

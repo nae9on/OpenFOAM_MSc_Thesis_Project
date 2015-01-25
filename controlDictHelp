@@ -1,0 +1,67 @@
+
+#on choosing the appropriate ControlDict parameters
+
+#Only the time control and writeInterval entries are truly compulsory, 
+#with the database taking default values for others
+
+application     simpleFoam;
+
+startFrom controls the start time of the simulation.
+- firstTime Earliest time step from the set of time directories.
+- startTime Time specified by the startTime keyword entry.
+- latestTime Most recent time step from the set of time directories.  
+
+startFrom       startTime; 
+
+startTime       0;
+
+stopAt controls the end time of the simulation.
+- endTime Time specified by the endTime keyword entry.
+- writeNow Stops simulation on completion of current time step and writes data.
+- noWriteNow Stops simulation on completion of current time step and does not write out data.
+- nextWrite Stops simulation on completion of next scheduled write time, specified by writeControl. 
+
+stopAt          endTime;
+
+endTime         10000;
+
+#deltaT should be set to 1 since in steady state cases such as this is effectively an iteration counter.
+deltaT          1;
+
+
+writeControl controls the timing of write output to file.
+- timeStep† Writes data every writeInterval time steps.
+- runTime Writes data every writeInterval seconds of simulated time.
+- adjustableRunTime Writes data every writeInterval seconds of simulated time, adjusting the time steps to coincide with the writeInterval if necessary — used in cases with automatic time step adjustment.
+- cpuTime Writes data every writeInterval seconds of CPU time.
+- clockTime Writes data out every writeInterval seconds of real time. 
+
+#writeControl    timeStep;(default)
+
+#writeInterval   1000; (compulsary)
+
+
+Integer representing a limit on the number of time directories that are stored by overwriting time directories on a cyclic basis
+purgeWrite      0;
+
+writeFormat     ascii;
+
+writePrecision  6;
+
+writeCompression off;
+
+timeFormat      general;
+
+timePrecision   6;
+
+        
+
+yes(default)/no switch for OpenFOAM to adjust the time step during the simulation, usually according to…
+maxCo Maximum Courant number, e.g. 0.5 
+adjustTimeStep  
+  
+  
+yes(default)/no switch for whether dictionaries, e.g.controlDict, are re-read by OpenFOAM at the beginning of each time step. 
+runTimeModifiable true;
+
+// ************************************************************************* //

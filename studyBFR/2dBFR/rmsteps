@@ -1,0 +1,11 @@
+#!/bin/bash
+
+TIME_STEPS=$(ls -d [0-9]*)
+
+echo -e "\n\tRemoving time steps ...\n"
+
+for i in $TIME_STEPS; do
+  if [ "$i" != "0" ]; then
+    rm -rf $i
+  fi
+done 

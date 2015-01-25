@@ -1,0 +1,52 @@
+/*---------------------------------------------------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  1.4                                   |
+|   \\  /    A nd           | Web:      http://www.openfoam.org               |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+
+
+FoamFile
+{
+    version         2.0;
+    format          ascii;
+
+    root            "";
+    case            "";
+    instance        "";
+    local           "";
+
+    class           dictionary;
+    object          thermophysicalProperties;
+}
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+// Thermophysical model
+
+thermoType hsRhoMixtureThermo<reactingMixture<gasThermoPhysics>>;
+chemistryReader foamChemistryReader;
+foamChemistryFile   "$FOAM_CASE/chemistry/ch4oneStep";
+//foamChemistryFile   "$FOAM_CASE/chemistry/GRIMech.OF";
+
+foamChemistryThermoFile "$FOAM_CASE/chemistry/thermo.OF";
+//foamChemistryThermoFile "$FOAM_CASE/chemistry/GRIMechThermo.OF";
+
+inertSpecie     N2;
+
+
+
+limitTemperature on;
+TMin        TMin [0 0 0 1 0 0 0] 250;
+TMax        TMax [0 0 0 1 0 0 0] 3000;
+
+
+//Laminar diffusion coefficient for species transport
+DY DY [0 2 -1 0 0 0 0] 2.88e-5;
+// turbulent Schmidt number
+Sct Sct [0 0 0 0 0 0 0] 0.9;
+
+
+
+

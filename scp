@@ -1,0 +1,20 @@
+
+#TUD276420
+ssh TUD276420
+scp -r * akadar@TUD276420:/data/akadar/2dBFR
+scp -r akadar@TUD276420:/data/akadar/2dBFR/* .
+
+
+http://www.hypexr.org/linux_scp_help.php
+
+# login into linux bastion
+ssh akadar@linux-bastion.tudelft.nl
+
+# get data from remote to shared storge
+# login into linux bastion
+scp -r akadar@TUD276546:/data/akadar/3dBFR/8000 .
+
+# put data from shared storge to remote
+# login into linux bastion
+scp -r combustion2D akadar@TUD276420:/data/akadar
+

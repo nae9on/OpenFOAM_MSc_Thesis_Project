@@ -1,0 +1,34 @@
+Valid psi types are:
+
+chemistrySolver    chemistryThermo  transport   thermo       equationOfState           specie  energy                  
+
+EulerImplicit      psi              const       hConst       incompressiblePerfectGas  specie  sensibleEnthalpy        
+EulerImplicit      psi              const       hConst       incompressiblePerfectGas  specie  sensibleInternalEnergy  
+EulerImplicit      psi              const       hConst       perfectGas                specie  sensibleEnthalpy        
+EulerImplicit      psi              const       hConst       perfectGas                specie  sensibleInternalEnergy  
+EulerImplicit      psi              polynomial  hPolynomial  icoPolynomial             specie  sensibleEnthalpy        
+EulerImplicit      psi              polynomial  hPolynomial  icoPolynomial             specie  sensibleInternalEnergy  
+EulerImplicit      psi              sutherland  janaf        incompressiblePerfectGas  specie  sensibleEnthalpy        
+EulerImplicit      psi              sutherland  janaf        incompressiblePerfectGas  specie  sensibleInternalEnergy  
+EulerImplicit      psi              sutherland  janaf        perfectGas                specie  sensibleEnthalpy        
+EulerImplicit      psi              sutherland  janaf        perfectGas                specie  sensibleInternalEnergy  
+noChemistrySolver  psi              const       hConst       incompressiblePerfectGas  specie  sensibleEnthalpy        
+noChemistrySolver  psi              const       hConst       incompressiblePerfectGas  specie  sensibleInternalEnergy  
+noChemistrySolver  psi              const       hConst       perfectGas                specie  sensibleEnthalpy        
+noChemistrySolver  psi              const       hConst       perfectGas                specie  sensibleInternalEnergy  
+noChemistrySolver  psi              polynomial  hPolynomial  icoPolynomial             specie  sensibleEnthalpy        
+noChemistrySolver  psi              polynomial  hPolynomial  icoPolynomial             specie  sensibleInternalEnergy  
+noChemistrySolver  psi              sutherland  janaf        incompressiblePerfectGas  specie  sensibleEnthalpy        
+noChemistrySolver  psi              sutherland  janaf        incompressiblePerfectGas  specie  sensibleInternalEnergy  
+noChemistrySolver  psi              sutherland  janaf        perfectGas                specie  sensibleEnthalpy        
+noChemistrySolver  psi              sutherland  janaf        perfectGas                specie  sensibleInternalEnergy  
+ode                psi              const       hConst       incompressiblePerfectGas  specie  sensibleEnthalpy        
+ode                psi              const       hConst       incompressiblePerfectGas  specie  sensibleInternalEnergy  
+ode                psi              const       hConst       perfectGas                specie  sensibleEnthalpy        
+ode                psi              const       hConst       perfectGas                specie  sensibleInternalEnergy  
+ode                psi              polynomial  hPolynomial  icoPolynomial             specie  sensibleEnthalpy        
+ode                psi              polynomial  hPolynomial  icoPolynomial             specie  sensibleInternalEnergy  
+ode                psi              sutherland  janaf        incompressiblePerfectGas  specie  sensibleEnthalpy        
+ode                psi              sutherland  janaf        incompressiblePerfectGas  specie  sensibleInternalEnergy  
+ode                psi              sutherland  janaf        perfectGas                specie  sensibleEnthalpy        
+ode                psi              sutherland  janaf        perfectGas                specie  sensibleInternalEnergy 

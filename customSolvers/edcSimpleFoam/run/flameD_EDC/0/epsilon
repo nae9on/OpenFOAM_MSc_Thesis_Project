@@ -1,0 +1,73 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  1.6.x                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    location    "0";
+    object      epsilon;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 2 -3 0 0 0 0];
+
+internalField   uniform 30000;
+
+boundaryField
+{
+    wallTube
+    {
+        type            compressible::epsilonWallFunction;
+        Cmu             0.09;
+        kappa           0.41;
+        E               9.8;
+        value           uniform 10;
+    }
+    outlet
+    {
+        type            zeroGradient;
+    }
+    inletPilot
+    {
+        type            compressible::turbulentMixingLengthDissipationRateInlet;
+        mixingLength    0.000735;
+        value           uniform 1;
+    }
+    inletAir
+    {
+        type            compressible::turbulentMixingLengthDissipationRateInlet;
+        mixingLength    0.019677;
+        value           uniform 1;
+    }
+    wallOutside
+    {
+        type            compressible::epsilonWallFunction;
+        Cmu             0.09;
+        kappa           0.41;
+        E               9.8;
+        value           uniform 10;
+    }
+    inletCH4
+    {
+        type            compressible::turbulentMixingLengthDissipationRateInlet;
+        mixingLength    0.000504;
+        value           uniform 1;
+    }
+    frontAndBack_pos
+    {
+        type            wedge;
+    }
+    frontAndBack_neg
+    {
+        type            wedge;
+    }
+}
+
+
+// ************************************************************************* //

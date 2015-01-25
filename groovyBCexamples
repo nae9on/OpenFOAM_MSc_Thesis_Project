@@ -1,0 +1,79 @@
+    outlet1
+    {
+        type            groovyBC;
+        valueExpression "0.5*(pInlet+pOutlet2)";
+        variables       "pInlet{inlet}=sum(p*mag(Sf()))/sum(mag(Sf()));pOutlet2{outlet2}=p;";
+        value           uniform 100010;
+    }
+
+boundaryField
+{
+    floor
+    {
+        type            fixedValue;
+        value           uniform (0 0 0);
+    }
+    atmosphere
+    {
+        type            groovyBC;
+        globalScopes ( inletPos );        
+//         variables "r1=0.25*(max(pts().x)-min(pts().x));r2=r1*0.2*(1-0.5*cos(54*time()));";
+//         valueExpression "(sqrt(pow(pos().x-r1*sin(10*time()),2)+pow(pos().z-r1*cos(15*time()),2))<r2) ? vector(0,-1,0) : vector(0,0,0)";        
+        // valueExpression "-(alpha1+internalField(alpha1))*0.5*normal()";
+        valueExpression "mag(pos()-inletCenter)<inletRadius ? -normal()*inletVelocity : vector(0,0,0)";
+        value           uniform (0 0 0);
+    }
+    spill
+    {
+        //        type groovyBC;
+        valueExpression "vector(0,0,0)";
+        gradientExpression "vector(0,0,0)";
+        fractionExpression "(phi>0) ? ((alpha1>1e-3) ? 0 : 0.5) : 1";
+        type            pressureInletOutletVelocity;
+         phi             phi;
+         value           uniform (0 0 0);
+    }
+    sides
+    {
+//         type groovyBC;
+//         valueExpression "vector(0,0,0)";
+//         gradientExpression "vector(0,0,0)";
+//         fractionExpression "(phi>0) ? ((alpha1>1e-3) ? 0 : 0.5) : 1";
+
+//          type            pressureInletOutletVelocity;
+//          phi             phi;
+//          value           uniform (0 0 0);
+
+        type            fixedValue;
+        value           uniform (0 0 0);
+    }
+}
+
+    atmosphere
+    {
+        type            groovyBC;
+        globalScopes ( inletPos inletPosInit );
+//         variables "r1=0.25*(max(pts().x)-min(pts().x));r2=r1*0.2*(1-0.5*cos(54*time()));";
+//         valueExpression "(sqrt(pow(pos().x-r1*sin(10*time()),2)+pow(pos().z-r1*cos(15*time()),2))<r2) ? 1 : 0";
+        valueExpression "mag(pos()-inletCenter)<inletRadius ? 1 : 0";
+        value           uniform 0;
+    }
+
+
+rightWall
+    {
+        type            groovyBC;
+        value           uniform (0 0 0);
+        valueExpression "((pos().y < 0.1) && full<1) ? -normal() : vector(0,0,0)";
+        storedVariables (
+            {
+                name full;
+                initialValue "0";
+            }
+        );
+        variables (
+            "aHeight{set'fillingLine}=average(alpha1*(max(pos().y)-min(pos().y)));"
+            "pling=aHeight>0.35;"
+            "full=(full>0) ? full : ((aHeight>0.35) ? 1 : 0);"
+        );
+    }

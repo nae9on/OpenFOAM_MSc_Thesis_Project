@@ -1,0 +1,130 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  1.4.1                                 |
+|   \\  /    A nd           | Web:      http://www.openfoam.org               |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+
+// FoamX Case Dictionary.
+
+FoamFile
+{
+    version         2.0;
+    format          ascii;
+
+    root            "/home/dc/OpenFOAM/dc-1.4.1/run/validation";
+    case            "sandia_propane_jet_simpleFoam_axis";
+    instance        "system";
+    local           "";
+
+    class           dictionary;
+    object          fvSchemes;
+}
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+ddtSchemes
+{
+    default         SLTS phi rho 0.7;
+}
+
+gradSchemes
+{
+    default         Gauss linear;
+    grad(p)         Gauss linear;
+    grad(U)         Gauss linear;
+}
+
+divSchemes
+{
+   default    Gauss linearUpwind cellLimited Gauss linear 1; 
+
+div(phi,Yi_h) Gauss multivariateSelection
+{
+
+hs	linearUpwind  cellLimited Gauss linear 1;
+
+H2	linearUpwind  cellLimited Gauss linear 1;
+H	linearUpwind  cellLimited Gauss linear 1;
+O	linearUpwind  cellLimited Gauss linear 1;
+O2	linearUpwind  cellLimited Gauss linear 1;
+OH	linearUpwind  cellLimited Gauss linear 1;
+H2O	linearUpwind  cellLimited Gauss linear 1;
+HO2	linearUpwind  cellLimited Gauss linear 1;
+H2O2	linearUpwind  cellLimited Gauss linear 1;
+C	linearUpwind  cellLimited Gauss linear 1;
+CH	linearUpwind  cellLimited Gauss linear 1;
+CH2	linearUpwind  cellLimited Gauss linear 1;
+CH2xSx	linearUpwind  cellLimited Gauss linear 1;
+CH3	linearUpwind  cellLimited Gauss linear 1;
+CH4	linearUpwind  cellLimited Gauss linear 1;
+CO	linearUpwind  cellLimited Gauss linear 1;
+CO2	linearUpwind  cellLimited Gauss linear 1;
+HCO	linearUpwind  cellLimited Gauss linear 1;
+CH2O	linearUpwind  cellLimited Gauss linear 1;
+CH2OH	linearUpwind  cellLimited Gauss linear 1;
+CH3O	linearUpwind  cellLimited Gauss linear 1;
+CH3OH	linearUpwind  cellLimited Gauss linear 1;
+C2H	linearUpwind  cellLimited Gauss linear 1;
+C2H2	linearUpwind  cellLimited Gauss linear 1;
+C2H3	linearUpwind  cellLimited Gauss linear 1;
+C2H4	linearUpwind  cellLimited Gauss linear 1;
+C2H5	linearUpwind  cellLimited Gauss linear 1;
+C2H6	linearUpwind  cellLimited Gauss linear 1;
+HCCO	linearUpwind  cellLimited Gauss linear 1;
+CH2CO	linearUpwind  cellLimited Gauss linear 1;
+HCCOH	linearUpwind  cellLimited Gauss linear 1;
+N	linearUpwind  cellLimited Gauss linear 1;
+NH	linearUpwind  cellLimited Gauss linear 1;
+NH2	linearUpwind  cellLimited Gauss linear 1;
+NH3	linearUpwind  cellLimited Gauss linear 1;
+NNH	linearUpwind  cellLimited Gauss linear 1;
+NO	linearUpwind  cellLimited Gauss linear 1;
+NO2	linearUpwind  cellLimited Gauss linear 1;
+N2O	linearUpwind  cellLimited Gauss linear 1;
+HNO	linearUpwind  cellLimited Gauss linear 1;
+CN	linearUpwind  cellLimited Gauss linear 1;
+HCN	linearUpwind  cellLimited Gauss linear 1;
+H2CN	linearUpwind  cellLimited Gauss linear 1;
+HCNN	linearUpwind  cellLimited Gauss linear 1;
+HCNO	linearUpwind  cellLimited Gauss linear 1;
+HOCN	linearUpwind  cellLimited Gauss linear 1;
+HNCO	linearUpwind  cellLimited Gauss linear 1;
+NCO	linearUpwind  cellLimited Gauss linear 1;
+N2	linearUpwind  cellLimited Gauss linear 1;
+AR	linearUpwind  cellLimited Gauss linear 1;
+C3H7	linearUpwind  cellLimited Gauss linear 1;
+C3H8	linearUpwind  cellLimited Gauss linear 1;
+CH2CHO	linearUpwind  cellLimited Gauss linear 1;
+CH3CHO    	linearUpwind  cellLimited Gauss linear 1;
+};
+ 
+    div((muEff*dev2(grad(U).T()))) Gauss linear;
+}
+
+laplacianSchemes
+{
+    default         Gauss linear corrected;
+}
+
+interpolationSchemes
+{
+    default         linear;
+    interpolate(U)  linear;
+}
+
+snGradSchemes
+{
+    default         corrected;
+}
+
+fluxRequired
+{
+    default         no;
+    p;
+
+}
+
+
+// ************************************************************************* //

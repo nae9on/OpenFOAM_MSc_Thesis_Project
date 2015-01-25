@@ -1,0 +1,185 @@
+The mesh is generated from a dictionary file named blockMeshDict 
+located in the constant/polyMesh directory of a case.
+
+The domain geometry is divided into a set of 1 or more three dimensional, hexahedral blocks. 
+Edges of the blocks can be straight lines, arcs or splines.
+
+Each block of the geometry is defined by 8 vertices, one at each corner of a hexahedron. 
+The vertices are written in a list so that each vertex can be accessed using its label, 
+The first element of the list has label ‘0’.
+
+Example
+------------------------
+
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2.3.0                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      blockMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+convertToMeters 0.1; 
+/*scaling factor by which all vertex coordinates in the mesh description 
+are multiplied.*/
+
+vertices
+(
+    (0 4 0) // (x y z) coordinates of the vertex 0
+    (4 4 0)
+    (0 8 0)
+    (4 8 0)
+    (8 8 0)
+    (0 12 0)
+    (4 12 0)
+    (8 12 0)
+
+    (0 4 1)
+    (4 4 1)
+    (0 8 1)
+    (4 8 1)
+    (8 8 1)
+    (0 12 1)
+    (4 12 1)
+    (8 12 1)
+    
+    (12 12 1)
+    (12 12 0)
+    (12 8 0)
+    (12 8 1)
+    (8 4 0)
+    (8 4 1)
+    (4 0 0)
+    (4 0 1)
+    (0 0 0)
+    (0 0 1)
+
+);
+
+blocks
+(
+    /* The first entry is the shape identifier of the block. 
+    The shape is always hex since the blocks are always hexahedra. 
+    There follows a list of vertex numbers, ordered in a specific manner.
+    
+    The second entry gives the number of cells in each of the x y z directions for that block.
+    
+    The third entry gives the cell expansion ratios for each direction in the block. 
+    The expansion ratio enables the mesh to be graded, or refined, in specified directions.
+    simpleGrading is one of the two grading specifications available in blockMesh.
+    */
+    
+    hex (0 1 3 2 8 9 11 10) (10 20 1) simpleGrading (1 1 1)
+    hex (2 3 6 5 10 11 14 13) (10 40 1) simpleGrading (1 1 1)
+    hex (3 4 7 6 11 12 15 14) (20 40 1) simpleGrading (1 1 1)
+    hex (4 18 17 7 12 19 16 15) (40 40 1) simpleGrading (1 1 1)
+    hex (1 20 4 3 9 21 12 11) (20 20 1) simpleGrading (1 1 1)
+    hex (24 22 1 0 25 23 9 8) (10 10 1) simpleGrading (1 1 1)
+);
+
+edges
+(
+/*
+Each edge joining 2 vertex points is assumed to be straight by default. 
+However any edge may be specified to be curved by entries in a list named edges. 
+The list is optional; if the geometry contains no curved edges, it may be omitted.
+*/
+);
+
+boundary
+(
+/*
+The boundary of the mesh is given in a list named boundary. 
+The boundary is broken into patches (regions), where each patch in the list has its name as 
+the keyword, which is the choice of the user.
+
+type specifies the patch type. We have the following types available.
+--------------------------
+patch   generic patch
+symmetryPlane   plane of symmetry
+empty   front and back planes of a 2D geometry
+wedge   wedge front and back for an axi-symmetric geometry
+cyclic  cyclic plane
+wall    wall — used for wall functions in turbulent flows
+
+blockMesh collects all faces that are omitted from the boundary list 
+and assigns them to a default patch named defaultFaces of type empty. 
+This means that for a 2 dimensional geometry, the user has the option to omit block faces 
+lying in the 2D plane, knowing that they will be collected into an empty patch as required.
+
+*/
+
+    lid //user choice
+    {
+        type wall;
+        faces
+        (
+            (5 13 14 6) // the faces are numbered clockwise while looking from inside the block
+            (6 14 15 7)
+            (7 15 16 17)
+        );
+    }
+    fixedWalls
+    {
+        type wall;
+        faces
+        (
+            (0 8 10 2)
+            (2 10 13 5)
+            (24 25 8 0)
+            (12 21 20 4)
+            (23 22 1 9)
+            (17 16 19 18)
+            (19 12 4 18)
+            (21 9 1 20)
+            (23 25 24 22)
+        );
+    }
+    frontAndBack
+    {
+        type empty; //patch whose plane is normal to dimension for which no solution is required.
+        faces
+        (
+        );
+    }
+);
+
+mergePatchPairs
+(
+/*
+Multiple blocks
+A mesh can be created using more than 1 block. 
+In such circumstances, the mesh is created as has been described in the preceeding text; 
+the only additional issue is the connection between blocks, in which there are two distinct
+possibilities:
+
+face matching
+the set of faces that comprise a patch from one block are formed from the same set of 
+vertices as a set of faces patch that comprise a patch from another block;
+
+To connect two blocks with face matching, the two patches that form the connection 
+should simply be ignored from the patches list. blockMesh then identifies that the 
+faces do not form an external boundary and combines each collocated pair into a single 
+internal faces that connects cells from the two blocks.
+
+face merging
+a group of faces from a patch from one block are connected to another group of faces 
+from a patch from another block, to create a new set of internal faces connecting the 
+two blocks.
+
+The alternative, face merging, requires that the block patches to be merged are 
+first defined in the patches list. Each pair of patches whose faces are to be merged 
+must then be included in an optional list named mergePatchPairs. 
+*
+);
+
+// ************************************************************************* //
+

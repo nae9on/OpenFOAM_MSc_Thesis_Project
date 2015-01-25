@@ -1,0 +1,100 @@
+{
+    fvScalarMatrix hEqn
+    (
+         mvConvection->fvmDiv(phi, h)
+//        fvm::div(phi, h)
+//      - fvm::Sp(fvc::div(phi), h)
+      - fvm::laplacian(turbulence->alphaEff(), h)
+     ==
+        fvc::div(phi/fvc::interpolate(rho), p, "div(U,p)")
+      - p*fvc::div(phi/fvc::interpolate(rho))
+    );
+
+    hEqn.relax();
+
+    eqnResidual = hEqn.solve().initialResidual();
+    maxResidual = max(eqnResidual, maxResidual);
+
+    if (limitTemperature)
+    {
+        //Limit temperature to TMin and TMax
+
+        // define temporary fields for hMin and hMax as copy of h
+        tmp<volScalarField> hMin
+            (new volScalarField
+               (
+                 IOobject
+                 (
+                     "hMin",
+                     runTime.timeName(),
+                     mesh,
+                     IOobject::NO_READ,
+                     IOobject::AUTO_WRITE
+                 ),
+                 h
+               )
+           );
+        tmp<volScalarField> hMax
+            (new volScalarField
+               (
+                 IOobject
+                 (
+                     "hMax",
+                     runTime.timeName(),
+                     mesh,
+                     IOobject::NO_READ,
+                     IOobject::AUTO_WRITE
+                 ),
+                 h
+               )
+           );
+
+
+        gasThermoPhysics mixture(specieThermo[0]);
+
+
+        forAll(h.internalField(), cellI)
+        {
+            mixture = Y[0].internalField()[cellI]/specieThermo[0].W()*specieThermo[0];
+
+            for (label specieI=1; specieI < composition.Y().size(); specieI++)        
+            {
+        	    mixture += Y[specieI].internalField()[cellI]/specieThermo[specieI].W()*specieThermo[specieI];
+            }    
+            hMin().internalField()[cellI]=mixture.H(TMin.value());
+            hMax().internalField()[cellI]=mixture.H(TMax.value());
+
+        }
+
+        forAll(h.boundaryField(), patchI)
+        {
+            
+            forAll(h.boundaryField()[patchI], faceI)
+            {
+                mixture= Y[0].boundaryField()[patchI][faceI]/specieThermo[0].W()*specieThermo[0];
+                for (label specieI=1; specieI < composition.Y().size(); specieI++)        
+                {
+                    mixture+= Y[specieI].boundaryField()[patchI][faceI]/specieThermo[specieI].W()*specieThermo[specieI];
+                }
+                hMin().boundaryField()[patchI][faceI]=mixture.H(TMin.value());
+                hMax().boundaryField()[patchI][faceI]=mixture.H(TMax.value());
+
+            }
+        }
+
+      
+
+
+
+        Info << "Limiting temperature between " << TMin << " and " << TMax << endl;
+        //bound h to TMin
+        h=max(h, hMin());
+        //bound h to TMax
+        h=min(h, hMax());
+
+    }
+    Info << "Maximum temperature: " << Foam::max(thermo.T()).value() << " K" << endl;
+
+
+    thermo.correct();
+}

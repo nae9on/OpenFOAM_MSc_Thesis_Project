@@ -1,0 +1,16 @@
+binaryNode = binaryNode
+binaryTree = binaryTree
+chemPoint = chemPoint
+
+$(binaryNode)/binaryNode.C
+
+$(binaryTree)/binaryTreeAdd.C
+$(binaryTree)/binaryTree.C
+$(binaryTree)/binaryTreeClean.C
+$(binaryTree)/binaryTreeInsert.C
+$(binaryTree)/binaryTreeScan.C
+$(binaryTree)/binaryTreeSearch.C
+
+$(chemPoint)/chemPoint.C
+
+LIB = $(FOAM_USER_LIBBIN)/libbinaryTree

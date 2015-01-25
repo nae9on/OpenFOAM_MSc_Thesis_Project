@@ -1,0 +1,17 @@
+mesh conversion to COMSOL
+foamToSurface Valid types: ( ac gts inp obj off ofs smesh stl stlb tri vtk wrl x3d )
+foamToSurface bfrAxisymmetric.stl
+
+Hannes' work has helped me on my ever-lasting project which is more about non-premixed combustion and deals with flamelet/progress-variable model.
+The code is in our SVN-repository: https://janus.fms.uni-rostock.de/svn/repository/OpenFOAM/trunk/LTTRostockExtensi ons 
+Username is "gast" with blank password. 
+Best regards, Hannes
+
+
+Hi Foamers I have a question about PaSR in OF
+as said in FabianPengKarrlhom PhD thesis "http://powerlab.fsb.hr/ped/kturbo/OpenFOAM/docs/ " 
+
+
+How to add temperature to icoFoam
+http://openfoamwiki.net/index.php/Installation/Working_with_the_Shell
+http://www.somogyibence.hu/documents/Cornell1/Cornell1.html

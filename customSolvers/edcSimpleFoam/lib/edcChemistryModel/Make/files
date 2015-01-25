@@ -1,0 +1,25 @@
+binaryNode = binaryTree/binaryNode
+binaryTree = binaryTree/binaryTree
+chemPoint = binaryTree/chemPoint
+
+$(binaryNode)/binaryNode.C
+
+$(binaryTree)/binaryTreeAdd.C
+$(binaryTree)/binaryTree.C
+$(binaryTree)/binaryTreeClean.C
+$(binaryTree)/binaryTreeInsert.C
+$(binaryTree)/binaryTreeScan.C
+$(binaryTree)/binaryTreeSearch.C
+
+$(chemPoint)/chemPoint.C
+
+edcChemistryModel/edcChemistryModel.C
+edcChemistryModel/newEdcChemistryModel.C
+edcChemistryModel/edcChemistryModels.C
+
+edcLE/itoa.C
+RADAU5/decsol.cpp
+RADAU5/IntegratorT.cpp
+RADAU5/StiffIntegratorT.cpp
+
+LIB = $(FOAM_USER_LIBBIN)/libedcChemistryModel

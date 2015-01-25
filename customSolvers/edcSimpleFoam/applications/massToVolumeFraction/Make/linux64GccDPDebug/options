@@ -1,0 +1,7 @@
+# 1 "options"
+# 1 "<built-in>"
+# 1 "<command-line>"
+# 1 "options"
+EXE_INC = -I$(FOAM_SRC)/finiteVolume/lnInclude -I$(FOAM_SRC)/turbulenceModels/RAS -I$(LIB_SRC)/thermophysicalModels/specie/lnInclude -I$(FOAM_SRC)/thermophysicalModels/basic/lnInclude -I$(FOAM_SRC)/thermophysicalModels/combustion/lnInclude -I$(FOAM_USER_LIBBIN)/../rhoEdcChemistryModel -I$(FOAM_USER_LIBBIN)/../rhoEdcChemistryModel/RADAU5 -I$(FOAM_USER_LIBBIN)/../binaryTree/lnInclude
+# 11 "options"
+EXE_LIBS = -L$(FOAM_USER_LIBBIN) -lrhoEdcChemistryModel

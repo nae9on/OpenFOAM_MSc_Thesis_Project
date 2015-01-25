@@ -1,0 +1,56 @@
+#!/bin/bash
+
+echo -e "\n\tOpenFOAM shell scripting "
+
+
+if [ 1 == 1 ]
+then
+foamQuery=$(find $FOAM_TUTORIALS -name "sampleDict")
+echo -e "\n\tListing all files ...\n"
+ for i in $foamQuery; do
+   echo $i
+ done
+fi
+
+if [ 1 == 1 ]
+then
+echo -e "\n\tListing important environment variables ...\n"
+echo WM_PROJECT_VERSION = $WM_PROJECT_VERSION
+echo WM_PROJECT_DIR = $WM_PROJECT_DIR
+echo WM_PROJECT_USER_DIR = $WM_PROJECT_USER_DIR
+echo FOAM_SOLVERS = $FOAM_SOLVERS
+echo FOAM_TUTORIALS = $FOAM_TUTORIALS
+echo FOAM_USER_LIBBIN = $FOAM_USER_LIBBIN
+echo FOAM_USER_APPBIN = $FOAM_USER_APPBIN
+echo ParaView_VERSION = $ParaView_VERSION
+echo -e "\n"
+fi
+
+
+: <<'MYCOMMENT'
+
+#--search commands--
+grep -r --include "fvSchemes" Gauss .
+grep -r --include "fvSchemes" -B 3 limitedLinear . //3 lines before match
+grep -r --include "fvSchemes" -A 3 limitedLinear . //3 lines after match
+
+#--basic OF--
+ps
+pidof pisoFoam
+foamEndJob -now 4021
+
+sample -time 0
+sample -latestTime
+
+checkMesh -latestTime
+checkMesh -constant
+checkMesh -time 1
+
+foamCalc components U -time 10000
+
+gnuplot *.gplt
+
+#--how to pass parameter to a dictionary file--
+m4 blockMeshDict.m4 > blockMeshDict
+
+MYCOMMENT

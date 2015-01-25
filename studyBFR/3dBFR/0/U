@@ -1,0 +1,64 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2.3.0                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volVectorField;
+    object      U;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 1 -1 0 0 0 0];
+
+internalField   uniform (0 0 0);
+
+boundaryField
+{
+    /*
+    inlet
+    {
+        type            fixedValue;
+        value           uniform (10 0 0);
+    }
+    */
+    
+    inlet
+    {
+        type            groovyBC;
+        variables (
+	    "cFactor=1;"	
+            "distSquare=pos().y*pos().y+pos().z*pos().z;"
+            "distR=pow(distSquare,0.5);"
+            "costh=pos().z/distR;"
+            "sinth=pos().y/distR;"  
+            "radial=(distR >= 0.025) ? 4.5 : 0;"
+            "tang=(distR >= 0.025) ? 12 : 0;"
+            "u1=(distR<0.015) ? 2.053 : 0;"
+            "u2=(distR >= 0.015 && distR < 0.025) ? 4.827 : 0;"
+            "u3=(distR >= 0.025) ? 10 : 0;"
+            "u=cFactor*(u1+u2+u3);"
+            "v=cFactor*(tang*costh+radial*sinth);"
+            "w=cFactor*(radial*costh-tang*sinth);"
+        );
+        valueExpression "vector(u,v,w)";
+        value           uniform (0 0 0);
+    }
+    outlet
+    {
+        type            zeroGradient;
+    }
+    fixedWalls
+    {
+        type            fixedValue;
+        value           uniform (0 0 0);
+    }
+
+}
+
+// ************************************************************************* //

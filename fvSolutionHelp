@@ -1,0 +1,89 @@
+
+#on choosing the appropriate fvSolution parameters
+
+fvSolution contains a set of subdictionaries that are specific to the solver being run.
+A small set of standard subdictionaries that cover most of those used by the standard solvers. 
+These subdictionaries include 
+solvers, 
+relaxationFactors, 
+PISO and SIMPLE.
+
+solvers(for Ax=b)
+{
+    p
+    {
+        solver          GAMG; Generalised geometric-algebraic multi-grid
+                        PCG/PBiCG†; Preconditioned (bi-)conjugate gradient   
+                        smoothSolver; Solver using a smoother
+                        diagonal; Diagonal solver for explicit systems
+                        
+        The solver stops if either of the following conditions are reached:
+        1. The residual falls below the solver tolerance, tolerance(compulsory);
+        2. Tthe ratio of current to initial residuals falls below the solver relative tolerance, relTol(compulsory);
+        3. The number of iterations exceeds a maximum number of iterations, maxIter(optional);
+        
+        #In transient simulations, it is usual to set the solver relative tolerance to 0 to force the solution to 
+        #converge to the solver tolerance in each time step.
+        
+        tolerance       1e-06;
+        relTol          0.1;
+    
+        smoother        GaussSeidel;
+        nPreSweeps      0;
+        nPostSweeps     2;
+        cacheAgglomeration on;
+        agglomerator    faceAreaPair;
+        nCellsInCoarsestLevel 10;
+        mergeLevels     1;
+    }
+
+    "(U|k|epsilon|R|nuTilda)"
+    {
+        solver          smoothSolver;
+        smoother        symGaussSeidel;
+        tolerance       1e-05;
+        relTol          0.1;
+    }
+}
+
+semi-implicit method for pressure-linked equations (SIMPLE)
+#SIMPLE for steady-state.
+SIMPLE
+{
+    nNonOrthogonalCorrectors 0;
+    A mesh is orthogonal if, for each face within it, the face normal is parallel to the vector between the centres of the cells that the face connects
+    #0 for an orthogonal mesh and increasing with the degree of non-orthogonality up to, say, 20 for the most non-orthogonal meshes
+
+    residualControl
+    {
+        p               1e-6;
+        U               1e-5;
+        "(k|epsilon|omega)" 1e-5;
+    }
+}
+
+pressure-implicit split-operator (PISO)
+#PISO being used for transient problems
+PISO
+
+relaxationFactors which controls under-relaxation, a technique used for improving stability of a computation, 
+#particularly in solving steady-state problems.
+relaxationFactors
+{
+    fields
+    {
+        p               0.3;
+    }
+    equations
+    {
+        U               0.7;
+        k               0.7;
+        epsilon         0.7;
+        R               0.7;
+        nuTilda         0.7;
+    }
+}
+
+
+// ************************************************************************* //
+

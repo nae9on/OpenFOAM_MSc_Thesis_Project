@@ -1,0 +1,139 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  1.4.1                                 |
+|   \\  /    A nd           | Web:      http://www.openfoam.org               |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+
+// FoamX Case Dictionary.
+
+FoamFile
+{
+    version         2.0;
+    format          ascii;
+
+    root            "/home/dc/OpenFOAM/dc-1.4.1/run/validation";
+    case            "sandia_propane_jet_simpleFoam_axis";
+    instance        "system";
+    local           "";
+
+    class           dictionary;
+    object          fvSolution;
+}
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+solvers
+{
+    "(p|G)"
+    {
+        solver          PCG;
+        preconditioner  DIC;
+        tolerance       1e-06;
+        relTol          0.003;
+    }
+
+    "(U|hs|R|k|epsilon|Ii)"
+    {
+        solver          PBiCG;
+        preconditioner  DILU;
+        tolerance       1e-06;
+        relTol          0.1;
+    }
+
+    "(Yi|CO2|O2|N2|CH4|H2|H2O|CO)"
+    {
+        solver          PBiCG;
+        preconditioner  DILU;
+        tolerance       1e-06;
+        relTol          0.1;
+    }
+}
+
+SIMPLE
+{
+    nNonOrthogonalCorrectors 0;
+    pMin 		pMin [1 -1 -2 0 0 0 0] 1e4;
+    pRef 		pRef [1 -1 -2 0 0 0 0] 1e5;
+
+
+}
+
+relaxationFactors
+{
+    p               0.3;
+
+    
+    hs	    	    0.7; // under-relax h or hs depending on which thermoModel you use!!!!
+//    h	    	    0.7;
+
+
+    U               0.5;
+    k               0.7;
+    epsilon         0.7;
+    rho             0.1;
+    G               0.7;
+
+
+CH4		0.2;
+CO		0.2;
+CO2		0.2;
+O2		0.2;
+H2O		0.2;
+N2		0.2;
+
+H2		0.2;
+H		0.2;
+O		0.2;
+OH		0.2;
+
+HO2		0.2;
+H2O2		0.2;
+C		0.2;
+CH		0.2;
+CH2		0.2;
+CH2xSx		0.2;
+CH3		0.2;
+HCO		0.2;
+CH2O		0.2;
+CH2OH		0.2;
+CH3O		0.2;
+CH3OH		0.2;
+C2H		0.2;
+C2H2		0.2;
+C2H3		0.2;
+C2H4		0.2;
+C2H5		0.2;
+C2H6		0.2;
+HCCO		0.2;
+CH2CO		0.2;
+HCCOH		0.2;
+N		0.2;
+NH		0.2;
+NH2		0.2;
+NH3		0.2;
+NNH		0.2;
+NO		0.2;
+NO2		0.2;
+N2O		0.2;
+HNO		0.2;
+CN		0.2;
+HCN		0.2;
+H2CN		0.2;
+HCNN		0.2;
+HCNO		0.2;
+HOCN		0.2;
+HNCO		0.2;
+NCO		0.2;
+
+AR		0.2;
+C3H7		0.2;
+C3H8		0.2;
+CH2CHO		0.2;
+CH3CHO		0.2;
+
+}
+
+
+// ************************************************************************* //

@@ -1,0 +1,89 @@
+/*---------------------------------------------------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  1.0                                   |
+|   \\  /    A nd           | Web:      http://www.openfoam.org               |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+version             1.0;
+format              ascii;
+root                "";
+case                "example";
+local               "constant";
+class               dictionary;
+form                dictionary;
+object              chemistryProperties;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+chemistry               on;
+
+turbulentReaction on;
+
+edcChemistryModel  edcLE<gasThermoPhysics>;
+//edcChemistryModel  edcFastChem<gasThermoPhysics>;
+//edcChemistryModel  edcPSR<gasThermoPhysics>;
+
+chemistrySolver ode;
+
+underRelaxFineStructures 1;
+additionalOutput 1;
+
+initialChemicalTimeStep     1.0e-5;
+
+edcFastChemCoeffs
+{
+    oxidiserName O2;
+    mainFuelName CH4; 
+}
+edcLECoeffs
+{
+
+    oxidiserName O2;
+    mainFuelName CH4;    
+    autoIgnitionTemperature 868;
+
+  
+    curve1
+    {
+        temperature 300;
+        tauChMin  7.00E-005;
+    }
+
+    curve2
+    {
+        temperature 500;
+        tauChMin 5.00E-005;
+    }    
+
+    curve3
+    {
+        temperature 700;
+        tauChMin 3.00E-005;
+    }    
+    
+    curve4
+    {
+        temperature 868;
+        tauChMin 2.00E-005;
+    }
+    
+
+
+}
+
+edcPSRCoeffs
+{
+    relativeTolerance 1.e-6;
+    absoluteTolerance 1.e-14;
+    maxIterations 1.e8;
+    
+    useBinaryTree off;
+    binaryTreeTolerance 1e-4;
+    binaryTreeSize 1.e7;
+    
+}    
+
+// ************************************************************************* //

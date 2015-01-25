@@ -1,0 +1,204 @@
+
+Guidelines
+******************************************************************************************************************
+
+Initial residual corresponds to the last result of the SIMPLE Algorithm
+Final residual corresponds to the improvement Linear Solver
+
+        The solver stops if either of the following conditions are reached:
+        1. The residual falls below the solver tolerance, tolerance(compulsory);
+        2. Tthe ratio of current to initial residuals falls below the solver relative tolerance, relTol(compulsory);
+        3. The number of iterations exceeds a maximum number of iterations, maxIter(optional);
+
+        In transient simulations, it is usual to set the solver relative tolerance to 0 to force the solution to 
+        converge to the solver tolerance in each time step.
+
+******************************************************************************************************************
+
+Conclusions
+******************************************************************************************************************
+
+The tolerance for the Simple Algorithm will decide the no of iterations needed for convergence.
+Only when the Initial residual for all the variables fall below there respective tolerance 
+the simulaton will stop(or when the endTime specified in the controlDict is reached).
+
+In case the simulation runs till the specified endTime, that would imply the SIMPLE algorithm fails to achieve the 
+specified tolearnce for each variable in that many no of iterations( = (endTime-startTime) / timeStep)
+
+Observe that the stopping criteria for the linear solver is always met with the relative tolerance specified as 0.1
+To study the effect of solver tolerance put the rel tolerance = 0(to force the solver to achieve the absolute tolerance).
+
+******************************************************************************************************************
+
+
+
+Simulation Results
+##################################################################################################################
+
+        p
+        tolerance       1e-06;
+        relTol          0.1;
+        
+        (U|k|epsilon|R|nuTilda)
+        tolerance       1e-05;
+        relTol          0.1;
+
+    residualControl
+    {
+        p               1e-2;
+        U               1e-1;
+        "(k|epsilon|omega)" 1e-1;
+    }
+
+Time = 280
+
+smoothSolver:  Solving for Ux, Initial residual = 0.00135612, Final residual = 9.98628e-05, No Iterations 2
+smoothSolver:  Solving for Uy, Initial residual = 0.00375588, Final residual = 0.000287439, No Iterations 2
+GAMG:  Solving for p, Initial residual = 0.0100156, Final residual = 0.0006414, No Iterations 4
+time step continuity errors : sum local = 0.000459646, global = 7.22828e-06, cumulative = 0.00325827
+smoothSolver:  Solving for epsilon, Initial residual = 0.00255638, Final residual = 0.000175623, No Iterations 2
+smoothSolver:  Solving for k, Initial residual = 0.00341547, Final residual = 0.000256861, No Iterations 2
+ExecutionTime = 19.69 s  ClockTime = 20 s
+
+Time = 281
+
+smoothSolver:  Solving for Ux, Initial residual = 0.00135154, Final residual = 9.95587e-05, No Iterations 2
+smoothSolver:  Solving for Uy, Initial residual = 0.00374829, Final residual = 0.000286867, No Iterations 2
+GAMG:  Solving for p, Initial residual = 0.00997498, Final residual = 0.000590835, No Iterations 4
+time step continuity errors : sum local = 0.00042311, global = 8.72907e-06, cumulative = 0.003267
+smoothSolver:  Solving for epsilon, Initial residual = 0.00254856, Final residual = 0.000175205, No Iterations 2
+smoothSolver:  Solving for k, Initial residual = 0.003404, Final residual = 0.000256123, No Iterations 2
+ExecutionTime = 19.75 s  ClockTime = 20 s
+
+
+SIMPLE solution converged in 281 iterations
+--------------------------------------------------------------------------------------------------------------------
+
+        p
+        tolerance       1e-06;
+        relTol          0.1;
+        
+        (U|k|epsilon|R|nuTilda)
+        tolerance       1e-05;
+        relTol          0.1;
+
+    residualControl
+    {
+        p               1e-2;
+        U               1e-3;
+        "(k|epsilon|omega)" 1e-1;
+    }
+
+smoothSolver:  Solving for Ux, Initial residual = 0.000261326, Final residual = 2.08759e-05, No Iterations 2
+smoothSolver:  Solving for Uy, Initial residual = 0.000999202, Final residual = 8.32758e-05, No Iterations 2
+GAMG:  Solving for p, Initial residual = 0.00202996, Final residual = 0.000190399, No Iterations 2
+time step continuity errors : sum local = 0.000105138, global = -2.13266e-06, cumulative = 0.00352348
+smoothSolver:  Solving for epsilon, Initial residual = 0.00047137, Final residual = 3.80941e-05, No Iterations 2
+smoothSolver:  Solving for k, Initial residual = 0.000722501, Final residual = 5.9995e-05, No Iterations 2
+ExecutionTime = 61.17 s  ClockTime = 64 s
+
+
+SIMPLE solution converged in 1178 iterations
+--------------------------------------------------------------------------------------------------------------------
+
+The Perfect Set of values for a Steady State Problem
+
+        p
+        tolerance       1e-06;
+        relTol          0.1;
+        
+        (U|k|epsilon|R|nuTilda)
+        tolerance       1e-05;
+        relTol          0.1;
+
+    residualControl
+    {
+        p               1e-6;
+        U               1e-5;
+        "(k|epsilon|omega)" 1e-5;
+    }
+
+SIMPLE Algorithm does not converge even in 10000 iterations
+--------------------------------------------------------------------------------------------------------------------
+
+        p
+        tolerance       1e-02;
+        relTol          0;
+        
+        (U|k|epsilon|R|nuTilda)
+        tolerance       1e-02;
+        relTol          0;
+
+    residualControl
+    {
+        p               1e-6;
+        U               1e-5;
+        "(k|epsilon|omega)" 1e-5;
+    }
+##################################################################################################################
+
+
+
+###########################################################################################
+
+For steady state cases the time step deltaT should be set to 1 
+since for steady state its role is effectively that of an iteration counter.
+source http://www.foamcfd.org/Nabla/guides/ProgrammersGuidese13.html
+
+My Conclusions
+For Steady State we use SIMPLE Algorithm which is essentially a guess and correct procedure
+for the calculation of pressure. So each time step involves a new guess followed by solving 
+a linear system(to obtain the corrections).
+
+startTime       0;
+stopAt          endTime;
+endTime         10000;
+deltaT          1;
+
+solvers
+{   p tolerance 1e-06;
+    U|k|epsilon|R|nuTilda tolerance 1e-05;
+}
+
+SIMPLE
+{
+    p 1e-2;
+    U 1e-3;
+    k|epsilon|omega 1e-3;
+}
+
+The above setting would essentially mean we repeat the guess-correct procedure 10000 times.
+However the main stopping criteria is the tolerance 1e-02 for p, 1e-03 for U ..etc.
+The simple algorithm would run until the above tolerance is achieved for each of p, U etc
+or the limit of 10000 is reached(which would essentially mean no convergence).
+
+The tolerance for the solver is not really important and the values specified above(taken from
+pitzDaily simpleFoam tutorial) are good enough. There is no point considering smaller tolerance
+say 1e-08 because we are trying to obtain corrections for pressure with guessed starting values.
+
+Some Observations(with a furnace geometry similar to pitzDaily but with a much refined mesh)
+p 1e-3, U 1e-2; k|epsilon|omega 1e-2;
+SIMPLE solution converged in 1572 iterations
+
+p 1e-2, U 1e-1; k|epsilon|omega 1e-1;
+SIMPLE solution converged in 281 iterations
+
+p 1e-6, U 1e-5; k|epsilon|omega 1e-5;
+SIMPLE solution did not converge even after 10000 iterations.
+
+p 1e-5, U 1e-1; k|epsilon|omega 1e-1;
+SIMPLE solution converged in 8910 iterations
+
+smoothSolver:  Solving for Ux, Initial residual = 2.76007e-06, Final residual = 2.76007e-06, No Iterations 0
+smoothSolver:  Solving for Uy, Initial residual = 8.51021e-06, Final residual = 8.51021e-06, No Iterations 0
+GAMG:  Solving for p, Initial residual = 9.7978e-06, Final residual = 8.63712e-07, No Iterations 2
+time step continuity errors : sum local = 3.83861e-07, global = -6.94709e-10, cumulative = 0.00612712
+smoothSolver:  Solving for epsilon, Initial residual = 9.99271e-06, Final residual = 9.99271e-06, No Iterations 0
+smoothSolver:  Solving for k, Initial residual = 9.86906e-06, Final residual = 9.86906e-06, No Iterations 0
+ExecutionTime = 2808.42 s  ClockTime = 2818 s
+
+Note: GAMG:  Solving for p, Initial residual = 9.7978e-06 is the one that has to be monitored for the tolerance limit.
+The Final Residual shows the local improvement. 
+For Ex Convergence after step 9000 would imply the sequence IR9001 ~ FR9001 ~ IR9002 ~ FR9002 ....
+
+Please email me at a.h.kadar@student.tudelft.nl if you doubt or find the above conclusions wrong.

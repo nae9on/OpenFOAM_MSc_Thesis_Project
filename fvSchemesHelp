@@ -1,0 +1,126 @@
+
+#on choosing the appropriate fvSchemes parameters
+
+
+#Note on default
+
+If a default scheme is specified in a particular Schemes sub-dictionary, 
+it is assigned to all of the terms to which the sub-dictionary refers, 
+e.g. specifying a default in gradSchemes sets the scheme for all gradient terms in the application.
+When a default is specified, it is not necessary to specify each specific term itself in that sub-dictionary 
+#However, if any of these terms are included, the specified scheme overrides the default scheme for that term. 
+
+#none forces the user to specify all terms individually which can be useful to remind the user 
+#which terms are actually present in the application
+
+
+
+
+
+First(ddt)and 
+second(d2dt2) time derivatives
+
+Euler First order, bounded, implicit
+localEuler Local-time step, first order, bounded, implicit
+CrankNicholson Second order, bounded, implicit
+backward Second order, implicit
+#steadyState Does not solve for time derivatives 
+
+ddtSchemes
+{
+    default         steadyState;
+}
+
+
+
+
+
+gradSchemes contains all the gradient derivative terms such as grad(p)
+Form = Gauss <interpolationScheme>
+
+gradSchemes
+{
+    default         Gauss linear;
+}
+
+
+
+
+
+divergence
+#div(phi,U) = div(rho*U*U) where phi = rho*U
+Form = Gauss <interpolationScheme for the dependent field U>
+
+divSchemes
+{
+    default         none;
+    div(phi,U)      bounded Gauss upwind;
+    div(phi,k)      bounded Gauss upwind;
+    div(phi,epsilon) bounded Gauss upwind;
+    div(phi,R)      bounded Gauss upwind;
+    div(R)          Gauss linear;
+    div(phi,nuTilda) bounded Gauss upwind;
+    div((nuEff*dev(T(grad(U))))) Gauss linear;
+}
+
+
+
+
+
+laplacian
+#laplacian(nu,U) = div(nu*grad(U)
+Form = Gauss <interpolationScheme for the diffusion coefficient nu> <snGradScheme a surface normal gradient scheme>
+
+laplacianSchemes
+{
+    default         Gauss linear corrected;
+}
+
+
+
+
+
+Point-to-point interpolations of values 
+#interpolations of values typically from cell centres to face centres.
+
+A general scheme is simply specified by quoting the keyword and entry, 
+e.g. a linear scheme is specified as default by:  default linear;
+
+#The convection-specific schemes calculate the interpolation based on the flux of the flow velocity. 
+The specification of these schemes requires the name of the flux field on which the interpolation is based; 
+#in most OpenFOAM applications this is phi, the name commonly adopted for the surfaceScalarField velocity flux ϕ 
+The 3 categories of convection-specific schemes are referred to in this text as:
+general convection; 
+normalised variable (NV); and, 
+total variation diminishing (TVD).
+The general convection and TVD schemes are specified by the scheme and flux, 
+e.g. an upwind scheme based on a flux phi is specified as default by: default upwind phi;
+
+interpolationSchemes
+{
+    default         linear;
+}
+
+
+
+
+
+Component of gradient normal to a cell face
+snGradSchemes
+{
+    default         corrected;
+}
+
+
+
+
+
+Fields which require the generation of a flux
+fluxRequired
+{
+    default         no;
+    p               ;
+}
+
+
+// ************************************************************************* //
