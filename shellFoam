@@ -48,6 +48,8 @@ checkMesh -time 1
 
 foamCalc components U -time 10000
 
+foamCalc mag U -time 10000
+
 gnuplot *.gplt
 
 #--how to pass parameter to a dictionary file--
