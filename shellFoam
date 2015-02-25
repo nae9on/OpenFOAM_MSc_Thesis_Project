@@ -73,10 +73,11 @@ echo WM_OPTIONS = $WM_OPTIONS
 echo WM_PRECISION_OPTION = $WM_PRECISION_OPTION
 echo WM_ARCH_OPTION = $WM_ARCH_OPTION
 
-
-
 echo -e "\n"
 fi
+
+
+: <<'MYCOMMENT'
 
 To know which variables exist on your current shell type
 env
@@ -89,8 +90,6 @@ sudo sh
 for unloading most of the OF environment variables.
 wmUNSET
 
-
-: <<'MYCOMMENT'
 
 #--search commands--
 grep -r --include "fvSchemes" Gauss .
