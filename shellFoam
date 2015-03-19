@@ -78,6 +78,15 @@ fi
 
 
 : <<'MYCOMMENT'
+for graphics transfer over the network use
+ssh -X TUD276420
+ssh -CY TUD276420 (C - compressed, Y - secure)
+
+for compressing/uncompressing
+gzip log
+gunzip log.gz
+
+gnome-system-monitor
 
 To know which variables exist on your current shell type
 env

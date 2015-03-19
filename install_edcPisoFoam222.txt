@@ -1,0 +1,89 @@
+OF222
+
+mkdir -p $WM_PROJECT_USER_DIR
+
+add applications, src to WM_PROJECT_USER_DIR
+
+Building LEMOS
+-------------------------------------------
+in files change FOAM_LIBBIN to FOAM_USER_LIBBIN
+
+./Allwmake involves also
+( cd applications ; wmake all solvers )
+( cd applications ; wmake all utilities )
+this results into some missing files
+
+Therefore to build only the LEMOS library do
+wmake libso
+
+=> builds libLEMOS.so in $FOAM_USER_LIBBIN
+------------------------------------------- 
+
+Building Radiation submodels
+-------------------------------------------
+in files change FOAM_LIBBIN to FOAM_USER_LIBBIN
+change name from radiationModels to my_radiationModels
+copy derivedFvPatchFields, radiationModel, submodels/scatterModel, submodels/absorptionEmissionModel/* from $FOAM_SRC
+wmake libso
+=> builds libmy_radiationModels.so in $FOAM_USER_LIBBIN    
+-------------------------------------------
+
+Building Chemistry Model
+-------------------------------------------
+in files change FOAM_LIBBIN to FOAM_USER_LIBBIN
+change name from chemistryModel to my_chemistryModel
+copy chemistrySolver from $FOAM_SRC
+wmake libso
+=> builds libmy_chemistryModel.so in $FOAM_USER_LIBBIN
+-------------------------------------------
+
+Supress warning messages in Janaf Thermo
+-------------------------------------------
+copy the complete specie folder from $FOAM_SRC and replace specie/thermo/janaf/* with files from edcPisoFoam)
+in files change FOAM_LIBBIN to FOAM_USER_LIBBIN
+change name from specie to my_specie
+wmake libso
+=> builds libmy_specie.so in $FOAM_USER_LIBBIN
+-------------------------------------------
+
+Building edcPSR Combustion Model
+-------------------------------------------
+in files change FOAM_LIBBIN to FOAM_USER_LIBBIN
+change name from combustionModels to my_combustionModels
+remove noCombustion/noCombustions.C from files
+check files and copy what is needed from $FOAM_SRC
+
+modify LIB_LIBS in options to
+LIB_LIBS = \
+    -lfiniteVolume \
+    -L$(FOAM_USER_LIBBIN) \
+    -lmy_chemistryModel
+
+wmake libso
+=> builds libmy_combustionModels.so in $FOAM_USER_LIBBIN 
+-------------------------------------------
+
+Making edcPisoFoam Application
+-------------------------------------------
+in files change FOAM_APPBIN to FOAM_USER_APPBIN
+
+modify EXE_LIBS in options to
+EXE_LIBS = \
+    -lcompressibleTurbulenceModel \
+    -lcompressibleRASModels \
+    -lcompressibleLESModels \
+    -lreactionThermophysicalModels \
+    -lengine \
+    -lbasicThermophysicalModels \
+    -L$(FOAM_USER_LIBBIN) \
+    -lmy_specie \ 
+    -lmy_chemistryModel \
+    -lmy_radiationModels \
+    -lODE \
+    -lfiniteVolume \
+    -lLEMOS \
+    -lmy_combustionModels
+
+wmake
+=> make edcPisoFoam application in $FOAM_USER_APPBIN 
+-------------------------------------------
