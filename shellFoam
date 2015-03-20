@@ -78,6 +78,15 @@ fi
 
 
 : <<'MYCOMMENT'
+
+for checking library dependencies
+ldd $FOAM_APPBIN/edcPisoFoam 
+
+foamLog log
+gnuplot
+set logscale y
+plot "CH_4"
+
 for graphics transfer over the network use
 ssh -X TUD276420
 ssh -CY TUD276420 (C - compressed, Y - secure)
