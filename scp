@@ -1,10 +1,13 @@
+for graphics transfer over the network use
+ssh -CX TUD276420
+ssh -CY TUD276420 (C - compressed, Y - secure)
 
-TUD276420
-TUD276529
-TUD276546
+A: TUD276420
+B: TUD276529
+C: TUD276546
 
-TUD205686
-TUD205696
+N: TUD205686
+O: TUD205696
 
 http://www.hypexr.org/linux_scp_help.php
 

@@ -1,7 +1,68 @@
 #!/bin/bash
 
-echo -e "\n\tOpenFOAM shell scripting "
+: <<'MYCOMMENT'
 
+ldd - print shared library dependencies
+ldd $FOAM_APPBIN/edcPisoFoam 
+
+foamLog log
+gnuplot
+set logscale y
+plot "CH_4"
+
+for graphics transfer over the network use
+ssh -CX TUD276420
+ssh -CY TUD276420 (C - compressed, Y - secure)
+
+for compressing/uncompressing
+gzip log
+gunzip log.gz
+
+gnome-system-monitor
+
+To know which variables exist on your current shell type
+env
+export
+
+to run shell/sh as a super user
+sudo bash
+sudo sh
+
+for unloading most of the OF environment variables.
+wmUNSET
+
+#--search commands--
+grep -r --include "fvSchemes" Gauss .
+grep -r --include "fvSchemes" -B 3 limitedLinear . //3 lines before match
+grep -r --include "fvSchemes" -A 3 limitedLinear . //3 lines after match
+
+#--basic OF--
+ps
+pidof pisoFoam
+foamEndJob -now 4021
+
+sample -time 0
+sample -latestTime
+
+checkMesh -latestTime
+checkMesh -constant
+checkMesh -time 1
+
+foamCalc components U -time 10000
+
+foamCalc mag U -time 10000
+
+gnuplot *.gplt
+
+#--how to pass parameter to a dictionary file--
+m4 blockMeshDict.m4 > blockMeshDict
+
+MYCOMMENT
+
+
+
+
+echo -e "\n\tOpenFOAM shell scripting "
 
 if [ 1 == 1 ]
 then
@@ -75,64 +136,3 @@ echo WM_ARCH_OPTION = $WM_ARCH_OPTION
 
 echo -e "\n"
 fi
-
-
-: <<'MYCOMMENT'
-
-for checking library dependencies
-ldd $FOAM_APPBIN/edcPisoFoam 
-
-foamLog log
-gnuplot
-set logscale y
-plot "CH_4"
-
-for graphics transfer over the network use
-ssh -X TUD276420
-ssh -CY TUD276420 (C - compressed, Y - secure)
-
-for compressing/uncompressing
-gzip log
-gunzip log.gz
-
-gnome-system-monitor
-
-To know which variables exist on your current shell type
-env
-export
-
-to run shell/sh as a super user
-sudo bash
-sudo sh
-
-for unloading most of the OF environment variables.
-wmUNSET
-
-
-#--search commands--
-grep -r --include "fvSchemes" Gauss .
-grep -r --include "fvSchemes" -B 3 limitedLinear . //3 lines before match
-grep -r --include "fvSchemes" -A 3 limitedLinear . //3 lines after match
-
-#--basic OF--
-ps
-pidof pisoFoam
-foamEndJob -now 4021
-
-sample -time 0
-sample -latestTime
-
-checkMesh -latestTime
-checkMesh -constant
-checkMesh -time 1
-
-foamCalc components U -time 10000
-
-foamCalc mag U -time 10000
-
-gnuplot *.gplt
-
-#--how to pass parameter to a dictionary file--
-m4 blockMeshDict.m4 > blockMeshDict
-
-MYCOMMENT
