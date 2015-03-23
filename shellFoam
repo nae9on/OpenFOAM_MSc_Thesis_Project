@@ -8,7 +8,9 @@ ldd $FOAM_APPBIN/edcPisoFoam
 foamLog log
 gnuplot
 set logscale y
-plot "CH_4"
+plot "CH4_0"
+unset logscale
+set yrange [0:2]
 
 for graphics transfer over the network use
 ssh -CX TUD276420
