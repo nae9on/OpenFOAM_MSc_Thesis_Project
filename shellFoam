@@ -2,6 +2,8 @@
 
 : <<'MYCOMMENT'
 
+simpleFoam | tee ofLog.txt
+
 ldd - print shared library dependencies
 ldd $FOAM_APPBIN/edcPisoFoam 
 

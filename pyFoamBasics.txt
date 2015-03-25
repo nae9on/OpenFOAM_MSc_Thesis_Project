@@ -1,0 +1,69 @@
+pyFoam Basics
+#################################################################
+
+# for help
+pyFoamPlotWatcher.py --help | less
+
+
+# to start a simulation with foamJob and display the residuals 
+# without interfering with the simulation.
+pyFoamPlotWatcher --silent log
+#################################################################
+More Options (multiple options can be used together)
+--silent                To suppress console output
+--progress              Only prints the progress of the simulation on console
+--start=0.3             To start the plotting from 0.3 sec onwards
+--end=0.8               To end the plot at 0.8 sec
+--persist               Gnuplot windows stay after interrupt
+--no-pickled-file log   To avoid writing pickled file
+--no-default            Switch off the default plots (linear, continuity and bound)
+--no-linear             Don't plot the linear solver convergence
+--no-continuity         Don't plot the continuity info
+--no-bound              Don't plot the bounding of variables
+--with-iterations       Plot the number of iterations of the linear solver
+--with-courant          Plot the courant-numbers of the flow
+--with-execution        Plot the execution time of each time-step
+--with-deltat           'Plot the timestep-size time-step
+--with-all              Switch all possible plots on
+
+# additional variables in the log file can be plotted using file customRegexp
+# example for plotting the min/max temperature the customRegexp file should look like
+ValueOfTemperature
+{
+  expr "min/max\(T\) = (%f%), (%f%)";
+  name Temperature1;
+  theTitle "Temperature";
+  titles
+   (
+     min
+     max
+   );
+  type regular;
+}
+
+# generating reports related to case
+pyFoamCaseReport.py --short-bc-report . | less
+#################################################################
+More Options (multiple options can be used together)
+--full-report           Print all available reports at once
+--short-bc-report       Gives a short overview of the boundary-conditions
+--long-bc-report        Gives a full overview of the boundary-conditions 
+--dimensions            Show the dimensions of the fields
+--internal-field        Show the internal value of the fields (the initial conditions)
+--linear-solvers        Print the linear solvers and their tolerance
+--relaxation-factors    Print the relaxation factors (if there are any)
+--case-size             Report the number of cells, points and faces in the case
+--decomposition         Reports the size of the parallel decomposition
+--processor-matrix      Prints the matrix how many faces from one processor interact with another
+
+# for listing all versions and paths
+pyFoamVersion.py
+
+# for compact "Fluentish" output (without graphs)
+python compactOutput.py pimpleFoam > logFile &
+
+# Analyzes a Log written by foamJob.
+pyFoamStandardLogAnalyzer.py
+
+
+

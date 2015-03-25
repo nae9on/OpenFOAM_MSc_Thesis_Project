@@ -12,11 +12,11 @@ O: TUD205696
 http://www.hypexr.org/linux_scp_help.php
 
 #from remote to shared
-ssh akadar@linux-bastion.tudelft.nl
+ssh -CY akadar@linux-bastion.tudelft.nl
 scp akadar@TUD205686:/data/akadar/CH4.png ./
 scp -r akadar@TUD205686:/data/akadar/brake ./
 
 #from shared to remote
-ssh akadar@linux-bastion.tudelft.nl
+ssh -CY akadar@linux-bastion.tudelft.nl
 scp kitabon.jpg akadar@TUD205686:/data/akadar
 scp -r docs akadar@TUD205686:/data/akadar
