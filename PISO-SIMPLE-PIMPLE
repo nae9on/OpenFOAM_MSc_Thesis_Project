@@ -1,0 +1,123 @@
+pressure-implicit split-operator (PISO)
+semi-implicit method for pressure-linked equations (SIMPLE)
+PISO being used for transient problems and SIMPLE for steady-state. 
+
+
+
+
+Both algorithms are based on evaluating some initial solutions and then correcting them.
+ 
+SIMPLE only makes 1 correction whereas PISO requires more than 1, but typically not more than 4.
+The user must therefore specify the number of correctors in the PISO dictionary by the nCorrectors (nCorrPISO).
+
+An additional correction to account for mesh non-orthogonality is available in both SIMPLE and PISO in the standard OpenFOAM solver applications. The number of non-orthogonal correctors is specified by the nNonOrthogonalCorrectors. The number of non-orthogonal correctors should correspond to the mesh for the case being solved, i.e. 0 for an orthogonal mesh and increasing with the degree of non-orthogonality up to, say, 20 for the most non-orthogonal meshes. 
+
+
+
+/*..................................................................*/
+PIMPLE Algorithm in OpenFOAM
+
+nCorrPIMPLE = No of pressure-momentum coupling per time step.
+nCorrPISO = No of pressure corrections per pressure-momentum coupling
+
+
+1 time step = nCorrPIMPLE loops.
+if nCorrPIMPLE <= 1 PIMPLE: Operating solver in PISO mode
+
+1 nCorrPIMPLE loop = nCorrPISO pressure corrections.
+
+
+Default values for pimple control
+/*..................................................................*/
+nOuterCorrectors (nCorrPIMPLE) is set by default to 1
+nCorrectors (nCorrPISO) is set by default to 1
+nNonOrthogonalCorrectors (corrPISO) is set by default to 0  (not shown here)
+turbOnFinalIterOnly(turbulence is calculated at the end of every pimple iteration) is set by default to true
+Residual control is set to false.
+
+We introduced the relaxation factors to obtain a smooth convergence. 
+The problem now is that we use the relaxation factors in the first pimple loop but after we reach the last one 
+(nCorrPIMPLE) the relaxation factor will be 1 again to ensure time consistence.
+Therefor nCorrPIMPLE-1 times with relaxation (like SIMPLE) and the last time without relaxation. 
+
+Observations
+/*..................................................................*/
+deltaT(could be set to very high) in controlDict has no impact on the simulations because it is 
+governed by maxCo when adjustableRunTime.
+
+Set nCorrPIMPLE up to a very high number (~ 50 to 200) and control your pimple loop with the residual control.
+At the beginning of an transient simulation it could happen that after 100 pimple loops the solution is still 
+not converged but this will change during the simulation time 
+
+Increasing the maxCo increases the no of nCorrPIMPLE.
+
+Increasing nCorrPISO(1 to 3 is the best) increases the error in k and epsilon(For high turbulent flow you should 
+add turbOnFinalIterOnly = false to your PIMPLE control)
+If you set nCorrPISO higher it could be possible to leave the pimple loop earlier and prevent extra calculation 
+but could also do the opposite.
+
+The optimum relaxation factors depend on the simulation case you are running.
+The converged solution is independed of the relaxation factors which are applied.
+
+Due to the fact that you have bigger time steps it could happen that some phsics are not resolved 
+(extrem fast pressure drop etc.) 
+
+
+Example
+    nNonOrthogonalCorrectors 2;
+    nCorrectors         4;
+    nOuterCorrectors    200;
+/*..................................................................*/
+PIMPLE: iteration 1
+.
+.
+.
+PIMPLE: iteration 3
+smoothSolver:  Solving for Ux, Initial residual = 8.25413e-06, Final residual = 8.25413e-06, No Iterations 0
+smoothSolver:  Solving for Uy, Initial residual = 0.000140663, Final residual = 1.37053e-06, No Iterations 1
+GAMG:  Solving for p, Initial residual = 0.149538, Final residual = 0.000555775, No Iterations 2
+GAMG:  Solving for p, Initial residual = 0.00122447, Final residual = 1.1619e-05, No Iterations 6
+GAMG:  Solving for p, Initial residual = 0.000120136, Final residual = 9.26922e-07, No Iterations 4
+time step continuity errors : sum local = 3.08687e-09, global = -3.15106e-10, cumulative = -9.93989e-09
+GAMG:  Solving for p, Initial residual = 0.100183, Final residual = 0.00036583, No Iterations 2
+GAMG:  Solving for p, Initial residual = 0.000843761, Final residual = 7.76257e-06, No Iterations 6
+GAMG:  Solving for p, Initial residual = 8.25385e-05, Final residual = 6.08004e-07, No Iterations 4
+time step continuity errors : sum local = 2.02234e-09, global = -2.05507e-10, cumulative = -1.01454e-08
+GAMG:  Solving for p, Initial residual = 0.100281, Final residual = 0.000367295, No Iterations 2
+GAMG:  Solving for p, Initial residual = 0.000846467, Final residual = 7.79512e-06, No Iterations 6
+GAMG:  Solving for p, Initial residual = 8.27594e-05, Final residual = 6.10367e-07, No Iterations 4
+time step continuity errors : sum local = 2.02982e-09, global = -2.05435e-10, cumulative = -1.03508e-08
+GAMG:  Solving for p, Initial residual = 0.100286, Final residual = 0.000367476, No Iterations 2
+GAMG:  Solving for p, Initial residual = 0.000846685, Final residual = 7.80175e-06, No Iterations 6
+GAMG:  Solving for p, Initial residual = 8.27854e-05, Final residual = 6.10995e-07, No Iterations 4
+time step continuity errors : sum local = 2.03182e-09, global = -2.05206e-10, cumulative = -1.0556e-08
+PIMPLE: iteration 23
+.
+.
+.
+GAMG:
+time step continuity errors :
+smoothSolver:  Solving for epsilon, Initial residual = 7.79974e-05, Final residual = 4.06576e-06, No Iterations 2
+smoothSolver:  Solving for k, Initial residual = 3.58729e-05, Final residual = 6.01955e-06, No Iterations 2
+PIMPLE: converged in 23 iterations
+ExecutionTime = 2.36 s  ClockTime = 2 s
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
