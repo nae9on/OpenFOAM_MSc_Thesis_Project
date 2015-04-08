@@ -1,18 +1,17 @@
-pressure-implicit split-operator (PISO)
-semi-implicit method for pressure-linked equations (SIMPLE)
+PISO - pressure-implicit split-operator
+SIMPLE - semi-implicit method for pressure-linked equations.
 PISO being used for transient problems and SIMPLE for steady-state. 
-
-
-
 
 Both algorithms are based on evaluating some initial solutions and then correcting them.
  
 SIMPLE only makes 1 correction whereas PISO requires more than 1, but typically not more than 4.
 The user must therefore specify the number of correctors in the PISO dictionary by the nCorrectors (nCorrPISO).
 
-An additional correction to account for mesh non-orthogonality is available in both SIMPLE and PISO in the standard OpenFOAM solver applications. The number of non-orthogonal correctors is specified by the nNonOrthogonalCorrectors. The number of non-orthogonal correctors should correspond to the mesh for the case being solved, i.e. 0 for an orthogonal mesh and increasing with the degree of non-orthogonality up to, say, 20 for the most non-orthogonal meshes. 
-
-
+An additional correction to account for mesh non-orthogonality is available in both SIMPLE and PISO in the standard 
+OpenFOAM solver applications. 
+The number of non-orthogonal correctors is specified by nNonOrthogonalCorrectors. 
+The number of non-orthogonal correctors should correspond to the mesh for the case being solved, i.e. 0 for an orthogonal 
+mesh and increasing with the degree of non-orthogonality up to, say, 20 for the most non-orthogonal meshes. 
 
 /*..................................................................*/
 PIMPLE Algorithm in OpenFOAM
@@ -20,12 +19,10 @@ PIMPLE Algorithm in OpenFOAM
 nCorrPIMPLE = No of pressure-momentum coupling per time step.
 nCorrPISO = No of pressure corrections per pressure-momentum coupling
 
-
 1 time step = nCorrPIMPLE loops.
 if nCorrPIMPLE <= 1 PIMPLE: Operating solver in PISO mode
 
 1 nCorrPIMPLE loop = nCorrPISO pressure corrections.
-
 
 Default values for pimple control
 /*..................................................................*/
@@ -60,8 +57,51 @@ The optimum relaxation factors depend on the simulation case you are running.
 The converged solution is independed of the relaxation factors which are applied.
 
 Due to the fact that you have bigger time steps it could happen that some phsics are not resolved 
-(extrem fast pressure drop etc.) 
+(extreme fast pressure drop etc.)
 
+
+
+
+/***********************************************************************/
+PIMPLE
+{
+    momentumPredictor no;
+    nOuterCorrectors    50;
+    nCorrectors          1;
+    nNonOrthogonalCorrectors 0;
+
+    residualControl
+    {
+        U
+        {
+                tolerance  1e-5;
+                relTol      0;
+        }
+        p
+        {
+                tolerance  5e-4;
+                relTol      0;
+        }
+     }
+}
+ 
+relaxationFactors
+{
+    fields
+    {
+        p      0.3;
+        pFinal   1;
+    }
+    equations
+    {
+        "U|k|epsilon"     0.3;
+        "(U|k|epsilon)Final"   1;
+        "h|Y"     0.3;
+        "(h|Y)Final"   1;
+        "(T|R)" 0.3;
+        "(T|R)Final" 1;
+    }
+}
 
 Example
     nNonOrthogonalCorrectors 2;
@@ -103,6 +143,46 @@ PIMPLE: converged in 23 iterations
 ExecutionTime = 2.36 s  ClockTime = 2 s
 
 
+
+
+/***********************************************************************/
+SIMPLE
+{
+    nNonOrthogonalCorrectors 0;
+    rhoMin          rhoMin [ 1 -3 0 0 0 ] 0.2;
+    rhoMax          rhoMax [ 1 -3 0 0 0 ] 1.5;
+
+    /*
+    residualControl
+    {
+        p               1e-4;
+        U               1e-4;
+        h               1e-5;
+        "(k|epsilon|omega)" 1e-4;
+        Y               1e-5;
+        G               1e-5;
+    }
+    */
+}
+
+relaxationFactors
+{
+    fields
+    {
+        p               0.3;
+        rho             0.05;
+    }
+    equations
+    {
+        U               0.7;
+        "(k|epsilon)"   0.7;
+        h               0.5;
+        Y               0.5;
+        T               0.5;
+        "ILambda.*"     0.7;
+        G               0.7;
+    }
+}
 
  
 
