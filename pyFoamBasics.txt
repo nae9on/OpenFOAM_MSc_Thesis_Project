@@ -1,13 +1,27 @@
 pyFoam Basics
 #################################################################
 
+pyFoamSamplePlot.py . --dir=postProcessing/sets --mode=timesInOne | gnuplot
+
 # for help
 pyFoamPlotWatcher.py --help | less
 
+# Creates a copy of a case with only the most essential files (0, constant, system)
+additional files can be specified
+pyFoamCloneCase.py ../projectOF/studyBFR/combustionAxi test
+
+# Removes all the timesteps except for the first from a case directory.
+pyFoamClearCase.py
+
+# alternative to ls
+pyFoamListCases.py --disk-usage
 
 # to start a simulation with foamJob and display the residuals 
 # without interfering with the simulation.
 pyFoamPlotWatcher --silent log
+pyFoamRedoPlot.py
+killall gnuplot_x11
+display *.png
 #################################################################
 More Options (multiple options can be used together)
 --silent                To suppress console output
@@ -43,6 +57,7 @@ ValueOfTemperature
 
 # generating reports related to case
 pyFoamCaseReport.py --short-bc-report . | less
+pipe with rst2pdf or rst2html or rst2odt
 #################################################################
 More Options (multiple options can be used together)
 --full-report           Print all available reports at once

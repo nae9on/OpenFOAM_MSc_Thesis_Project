@@ -1,6 +1,10 @@
 These are basically small pieces of code that are being executed at every time-step without 
 explizitly being linked to the application. 
 
+probes - values of certain fields at specified positions as a function of time.
+sets - values of the fields at a certain time on a 1-dimensional subset of space (usually a line).
+surfaces - same as sets but in 2 dimensions (usually a plane).
+
 A functionObject is added to a solver by adding a functions entry in system/controlDictls
 
 
