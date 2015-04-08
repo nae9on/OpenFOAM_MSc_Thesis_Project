@@ -1,8 +1,8 @@
 pyFoam Basics
 #################################################################
 
-pyFoamSamplePlot.py . --dir=postProcessing/sets --mode=timesInOne | gnuplot
-
+simple commands
+#################################################################
 # for help
 pyFoamPlotWatcher.py --help | less
 
@@ -13,16 +13,23 @@ pyFoamCloneCase.py ../projectOF/studyBFR/combustionAxi test
 # Removes all the timesteps except for the first from a case directory.
 pyFoamClearCase.py
 
-# alternative to ls
-pyFoamListCases.py --disk-usage
+pyFoam with function objects
+#################################################################
+foamCalc mag U
+pyFoamSamplePlot.py . --dir=postProcessing/sets --mode=timesInOne | gnuplot
 
+
+
+
+pyFoamPlotWatcher
+#################################################################
 # to start a simulation with foamJob and display the residuals 
 # without interfering with the simulation.
 pyFoamPlotWatcher --silent log
-pyFoamRedoPlot.py
+pyFoamRedoPlot.py --pickle-file logSaved.analyzed/pickledPlots
 killall gnuplot_x11
 display *.png
-#################################################################
+
 More Options (multiple options can be used together)
 --silent                To suppress console output
 --progress              Only prints the progress of the simulation on console
@@ -55,6 +62,10 @@ ValueOfTemperature
   type regular;
 }
 
+
+
+
+
 # generating reports related to case
 pyFoamCaseReport.py --short-bc-report . | less
 pipe with rst2pdf or rst2html or rst2odt
@@ -80,5 +91,6 @@ python compactOutput.py pimpleFoam > logFile &
 # Analyzes a Log written by foamJob.
 pyFoamStandardLogAnalyzer.py
 
-
+# alternative to ls
+pyFoamListCases.py --disk-usage
 
