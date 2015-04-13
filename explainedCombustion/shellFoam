@@ -1,0 +1,142 @@
+#!/bin/bash
+
+: <<'MYCOMMENT'
+
+simpleFoam | tee ofLog.txt
+
+ldd - print shared library dependencies
+ldd $FOAM_APPBIN/edcPisoFoam 
+
+foamLog log
+gnuplot
+set logscale y
+plot "CH4_0"
+unset logscale
+set yrange [0:2]
+
+for graphics transfer over the network use
+ssh -CX TUD276420
+ssh -CY TUD276420 (C - compressed, Y - secure)
+
+for compressing/uncompressing
+gzip log
+gunzip log.gz
+
+gnome-system-monitor
+
+To know which variables exist on your current shell type
+env
+export
+
+to run shell/sh as a super user
+sudo bash
+sudo sh
+
+for unloading most of the OF environment variables.
+wmUNSET
+
+#--search commands--
+grep -r --include "fvSchemes" Gauss .
+grep -r --include "fvSchemes" -B 3 limitedLinear . //3 lines before match
+grep -r --include "fvSchemes" -A 3 limitedLinear . //3 lines after match
+
+#--basic OF--
+ps
+pidof pisoFoam
+foamEndJob -now 4021
+
+sample -time 0
+sample -latestTime
+
+checkMesh -latestTime
+checkMesh -constant
+checkMesh -time 1
+
+foamCalc components U -time 10000
+
+foamCalc mag U -time 10000
+
+gnuplot *.gplt
+
+#--how to pass parameter to a dictionary file--
+m4 blockMeshDict.m4 > blockMeshDict
+
+MYCOMMENT
+
+
+
+
+echo -e "\n\tOpenFOAM shell scripting "
+
+if [ 1 == 1 ]
+then
+foamQuery=$(find $FOAM_TUTORIALS -name "sampleDict")
+echo -e "\n\tListing all files ...\n"
+ for i in $foamQuery; do
+   echo $i
+ done
+fi
+
+if [ 1 == 1 ]
+then
+echo -e "\n\tListing important environment variables ...\n"
+echo WM_PROJECT_VERSION = $WM_PROJECT_VERSION
+echo WM_PROJECT_DIR = $WM_PROJECT_DIR
+echo WM_PROJECT_USER_DIR = $WM_PROJECT_USER_DIR
+echo FOAM_SOLVERS = $FOAM_SOLVERS
+echo FOAM_TUTORIALS = $FOAM_TUTORIALS
+echo FOAM_USER_LIBBIN = $FOAM_USER_LIBBIN
+echo FOAM_USER_APPBIN = $FOAM_USER_APPBIN
+echo ParaView_VERSION = $ParaView_VERSION
+
+echo -e "\n\n\n\tListing All foam variables ...\n"
+
+echo FOAM_SOLVERS = $FOAM_SOLVERS
+echo FOAM_APPBIN = $FOAM_APPBIN
+echo FOAM_TUTORIALS = $FOAM_TUTORIALS
+echo FOAM_JOB_DIR = $FOAM_JOB_DIR
+echo FOAM_LIB = $FOAM_LIB
+echo FOAM_SITE_APPBIN = $FOAM_SITE_APPBIN
+echo FOAM_MPI_LIBBIN = $FOAM_MPI_LIBBIN
+echo FOAM_APP = $FOAM_APP
+echo FOAM_SITE_LIBBIN = $FOAM_SITE_LIBBIN
+echo FOAM_SRC = $FOAM_SRC
+echo FOAM_SIGFPE = $FOAM_SIGFPE
+echo FOAM_UTILITIES = $FOAM_UTILITIES
+echo FOAM_USER_LIBBIN = $FOAM_USER_LIBBIN
+echo FOAM_INST_DIR = $FOAM_INST_DIR
+echo FOAM_LIBBIN = $FOAM_LIBBIN
+echo FOAM_RUN = $FOAM_RUN
+echo FOAM_USER_APPBIN = $FOAM_USER_APPBIN
+
+
+echo -e "\n\n\n\tListing All environment variables ...\n"
+
+echo WM_THIRD_PARTY_DIR = $WM_THIRD_PARTY_DIR
+echo WM_PROJECT_INST_DIR = $WM_PROJECT_INST_DIR
+echo WM_PROJECT_DIR = $WM_PROJECT_DIR
+echo WM_DIR = $WM_DIR
+echo WM_PROJECT_USER_DIR = $WM_PROJECT_USER_DIR
+
+echo WM_PRECISION_OPTION = $WM_PRECISION_OPTION
+echo WM_ARCH_OPTION = $WM_ARCH_OPTION
+echo WM_LINK_LANGUAGE = $WM_LINK_LANGUAGE
+echo WM_ARCH = $WM_ARCH
+echo WM_CXXFLAGS = $WM_CXXFLAGS
+echo WM_CFLAGS = $WM_CFLAGS
+echo WM_PROJECT_VERSION = $WM_PROJECT_VERSION
+echo WM_COMPILER_LIB_ARCH = $WM_COMPILER_LIB_ARCH
+echo WM_CXX = $WM_CXX
+echo WM_COMPILER_ARCH = $WM_COMPILER_ARCH
+echo WM_PROJECT = $WM_PROJECT
+echo WM_LDFLAGS = $WM_LDFLAGS
+echo WM_COMPILER = $WM_COMPILER
+echo WM_MPLIB = $WM_MPLIB
+echo WM_CC = $WM_CC
+echo WM_COMPILE_OPTION = $WM_COMPILE_OPTION
+echo WM_OPTIONS = $WM_OPTIONS
+echo WM_PRECISION_OPTION = $WM_PRECISION_OPTION
+echo WM_ARCH_OPTION = $WM_ARCH_OPTION
+
+echo -e "\n"
+fi

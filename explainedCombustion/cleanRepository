@@ -1,0 +1,120 @@
+#!/bin/bash
+
+echo -e "\nEnter "
+echo -e "\n1. for cleaning time steps> "
+echo -e "\n2. for cleaning tilde files> "
+echo -e "\n3. for cleaning log files> "
+echo -e "\n4. for listing last updated> "
+echo -e "\n5. for listing repository information>"
+echo -e "\n6. for cleaning mesh files>"
+echo -e "\n7. for removing empty folders>\n"
+
+read flag
+
+#timeSteps=$(find . -type d -name [1-9]\* -exec ls -S1 {} +)
+timeSteps=$({ find . -type d -name [1-9] -not -path "./.git/*"; find . -type d -name [0-9]*[0-9] -not -path "./.git/*"; })
+tildeFiles=$(find -type f -iname '*~' -exec ls -S1 {} +)
+logFiles=$(find . -name log -exec ls -S1 {} +)
+meshFiles=$({ find . -name faces | grep "/polyMesh/faces" ;
+              find . -name neighbour | grep "/polyMesh/neighbour" ; 
+              find . -name owner | grep "/polyMesh/owner" ;
+              find . -name points | grep "/polyMesh/points" ; })
+emptyFolders=$(find . -type d -empty -not -path "./.git/*")
+
+boolFlag=1
+
+if [ $flag == 1 ]
+then
+ actionFiles=$timeSteps
+ echo -e "\n\ttimeStep Files ...\n"
+elif [ $flag == 2 ]
+then
+ actionFiles=$tildeFiles
+ echo -e "\n\t~ Files ...\n"
+elif [ $flag == 3 ]
+then
+ actionFiles=$logFiles
+ echo -e "\n\tlog Files ...\n"
+elif [ $flag == 6 ]
+then
+ actionFiles=$meshFiles
+ echo -e "\n\tmesh Files ...\n"
+elif [ $flag == 7 ]
+then
+ actionFiles=$emptyFolders
+ echo -e "\n\tempty Folders ...\n"
+else
+ echo -e "\n\tNo cleaning\n"
+ boolFlag=0
+fi
+
+if [ $boolFlag == 1 ]
+then
+ echo -e "\n\tListing all files ...\n"
+ for i in $actionFiles; do
+    if [ $flag -ne 1 ]
+    then
+     du -h $i
+    else
+     du -sh $i #echo $i
+    fi
+ done
+ echo -e "\n\tPlease enter the password for deleting the above list...\n"
+ read PASSWORD
+ if [ "$PASSWORD" == "YESDEL" ]
+  then
+  echo -e "\n\tDeleting all files ...\n"
+  for i in $actionFiles; do
+     rm -rf $i
+  done
+ fi
+fi
+
+if [ $flag == 4 ]
+then
+ #recentChanges=$(find . -type f -mmin -240 -not -path "./.git/*" -exec ls -S1 {} +) #less than # minutes ago
+ recentChanges=$(find . -type f -mtime -1 -not -path "./.git/*" -exec ls -S1 {} +) #less than # day ago
+ echo -e "\n\tListing all recently changed regular files ...\n"
+ for i in $recentChanges; do
+    du -h $i
+ done
+fi
+
+if [ $flag == 5 ]
+ then
+ 
+ echo -e "\n\tListing Repository info ...\n"
+
+ smallFiles=$(find . -type f -size -1k -exec ls -S1 -r {} +)
+ echo -e "\n\tListing all small regular files(less than 1KB) ...\n"
+ for i in $smallFiles; do
+    du -h $i
+ done
+
+ largeFiles=$(find . -type f -size +10M -exec ls -S1 {} +)
+ echo -e "\n\tListing all large regular files(greater than 10MB) ...\n"
+ for i in $largeFiles; do
+    du -h $i
+ done
+
+ echo -e "\n\tListing usage ...\n"
+ du -sh * | sort -h
+ du -sh
+
+fi
+
+
+
+: <<'MYCOMMENT'
+#du --block-size=MiB --max-depth=2 . | sort -n
+
+TIME_STEPS=$(ls -d [0-9]*)
+
+echo -e "\n\tRemoving time steps ...\n"
+
+for i in $TIME_STEPS; do
+  if [ "$i" != "0" ]; then
+    rm -rf $i
+  fi
+done 
+MYCOMMENT

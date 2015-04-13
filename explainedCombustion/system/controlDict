@@ -1,0 +1,156 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2.3.0                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      controlDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+application     reactingFoam;
+
+startFrom       latestTime;
+
+startTime       0;
+
+stopAt          endTime;
+
+endTime         10;
+
+deltaT          1e-02;
+
+writeControl    adjustableRunTime;
+
+writeInterval   1e-01;
+
+purgeWrite      0;
+
+writeFormat     ascii;
+
+writePrecision  6;
+
+writeCompression off;
+
+timeFormat      general;
+
+timePrecision   6;
+
+runTimeModifiable true;
+
+adjustTimeStep  yes;
+
+maxCo           0.2;
+
+libs (
+    "libgroovyBC.so"
+    "libfieldFunctionObjects.so"
+    "libOpenFOAM.so"
+);
+
+functions
+{
+    fieldAverage
+    {
+        type                fieldAverage;
+        functionObjectLibs  ("libfieldFunctionObjects.so");
+        //region              defaultRegion; //name of region for multi-region cases
+        enabled             no; //on/off switch
+        //timeStart           0; //start time
+        //timeEnd             10; //end time
+        outputControl       timeStep; //when to output: either 'outputTime' or 'timeStep'
+        outputInterval      1; //steps between output when outputControl=timeStep
+
+        //resetOnRestart true; //restart the averaging process with the new time
+        //resetOnOutput false; //restart the averaging process after each calculation output time
+
+        fields
+        (
+            T
+            {
+                mean        on;   //arithmetic mean
+                prime2Mean  on;   //prime-squared mean
+                base        time; //average over 'time', or 'iteration'
+            }
+        );
+    }
+    
+    minMax
+    {
+        type            fieldMinMax;
+        functionObjectLibs ( "libfieldFunctionObjects.so" );
+        //region              defaultRegion; //name of region for multi-region cases
+        enabled             no; //on/off switch
+        //timeStart           0; //start time
+        //timeEnd             10; //end time
+        outputControl       timeStep; //when to output: either 'outputTime' or 'timeStep'
+        outputInterval      1; //steps between output when outputControl=timeStep
+
+        write no; //write min/max data to file
+        log yes; //write min/max data to standard output
+        mode magnitude; //magnitude or component
+
+        fields
+        (
+            
+            T
+            U
+        );
+    }
+
+    volumeTemperature
+    {
+        type            cellSource;
+        functionObjectLibs ("libfieldFunctionObjects.so");
+        //region              defaultRegion; //name of region for multi-region cases
+        enabled             yes; //on/off switch
+        //timeStart           0; //start time
+        //timeEnd             10; //end time
+        outputControl       timeStep; //when to output: either 'outputTime' or 'timeStep'
+        outputInterval      1; //steps between output when outputControl=timeStep
+
+        log             yes;  //write data to standard output
+        valueOutput     no; //write the raw output values
+        source          all; //all cellZone;
+        //sourceName      c0;
+        operation       average; //average volAverage weightedAverage
+        //weightField     alpha1;
+        fields
+        (
+            T
+        );
+    }
+
+    faceTemperature
+    {
+        type            faceSource;
+        functionObjectLibs ("libfieldFunctionObjects.so");
+        //region              defaultRegion; //name of region for multi-region cases
+        enabled             yes; //on/off switch
+        //timeStart           0; //start time
+        //timeEnd             10; //end time
+        outputControl       timeStep; //when to output: either 'outputTime' or 'timeStep'
+        outputInterval      1; //steps between output when outputControl=timeStep
+
+        log             yes;  //write data to standard output
+        valueOutput     no; //write the raw output values
+        surfaceFormat   none;
+        source          patch; //faceZone patch sampledSurface;
+        sourceName      outlet; //inlet outlet fixedWalls;
+        operation       average; //areaAverage weightedAverage 
+        //weightField     alpha1;
+        fields
+        (
+            T
+        );
+    }
+
+}
+// ************************************************************************* //

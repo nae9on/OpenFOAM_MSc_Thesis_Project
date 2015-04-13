@@ -1,0 +1,62 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2.3.0                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "constant";
+    object      combustionProperties;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+combustionModel  PaSR<psiChemistryCombustion>;
+//combustionModel  infinitelyFastChemistry<psiThermoCombustion,gasHThermoPhysics>;
+//combustionModel  diffusion<psiThermoCombustion,gasHThermoPhysics>
+
+active  true; //default is true
+
+PaSRCoeffs
+{
+    Cmix                0.1;
+    turbulentReaction   on;
+    //useReactionRate     true; not used anymore
+}
+
+infinitelyFastChemistryCoeffs
+{
+    semiImplicit    no;
+    C               10;
+}
+
+diffusionCoeffs
+{
+    semiImplicit    no;
+    C               10;
+    oxidant         O2;
+}
+
+/*
+noCombustion<psiThermoCombustion>
+infinitelyFastChemistry<psiThermoCombustion,gasHThermoPhysics>
+diffusion<psiThermoCombustion,constGasEThermoPhysics>
+infinitelyFastChemistry<psiThermoCombustion,constGasEThermoPhysics>
+PaSR<psiChemistryCombustion>
+laminar<psiChemistryCombustion>
+FSD<psiThermoCombustion,constGasHThermoPhysics>
+infinitelyFastChemistry<psiThermoCombustion,constGasHThermoPhysics>
+diffusion<psiThermoCombustion,gasEThermoPhysics>
+diffusion<psiThermoCombustion,constGasHThermoPhysics>
+diffusion<psiThermoCombustion,gasHThermoPhysics>
+infinitelyFastChemistry<psiThermoCombustion,gasEThermoPhysics>
+FSD<psiThermoCombustion,gasEThermoPhysics>
+FSD<psiThermoCombustion,constGasEThermoPhysics>
+FSD<psiThermoCombustion,gasHThermoPhysics>
+*/
+
+// ************************************************************************* //

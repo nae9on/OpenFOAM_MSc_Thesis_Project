@@ -1,0 +1,34 @@
+Temperature
+{
+  expr "min/max\(T\) = (%f%), (%f%)";
+  name Temperature1;
+  theTitle "Temperature";
+  titles
+   (
+     min
+     max
+   );
+  type regular;
+}
+
+addVolAvgToTemperature
+{
+  expr "average\(sampledSurface\) for T = (%f%)";
+  titles
+   (
+     volAvg
+   );
+  type slave;
+  master Temperature;
+}
+
+addOutletAvgToTemperature
+{
+  expr "average\(outlet\) for T = (%f%)";
+  titles
+   (
+     outletAvg
+   );
+  type slave;
+  master Temperature;
+}

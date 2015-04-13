@@ -1,0 +1,46 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2.3.0                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "constant";
+    object      thermophysicalProperties;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+thermoType
+{
+    type            hePsiThermo;
+    mixture         reactingMixture;
+    //mixture         singleStepReactingMixture;
+    transport       sutherland;
+    thermo          janaf;
+    energy          sensibleEnthalpy;
+    equationOfState perfectGas;
+    specie          specie;
+}
+
+fuel CH4; // required when singleStepReactingMixture
+inertSpecie N2; // required when singleStepReactingMixture
+
+chemistryReader foamChemistryReader;
+
+foamChemistryFile "$FOAM_CASE/constant/reactions";
+
+foamChemistryThermoFile "$FOAM_CASE/constant/thermo.compressibleGas";
+
+
+// ************************************************************************* //
+/*
+reactingMixture = Combustion mixture using thermodynamics and reaction schemes
+
+singleStepReactingMixture = Single step reacting mixture
+required for diffusion and infinitelyFastChemistry 
+*/
