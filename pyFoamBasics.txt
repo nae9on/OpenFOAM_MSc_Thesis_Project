@@ -13,13 +13,24 @@ pyFoamCloneCase.py ../projectOF/studyBFR/combustionAxi test
 # Removes all the timesteps except for the first from a case directory.
 pyFoamClearCase.py
 
+pyFoam for parrallel run
+#################################################################
+pyFoamDecompose.py . 4 --clear --method=simple --delta=0.001 --n=1,4,1
+foamJob mpirun -np 4 reactingFoam -parallel
+mpirun -np 4 reactingFoam -parallel > log &
+pyFoamCaseReport.py --decomposition .
+pyFoamCaseReport.py --processor-matrix .
+pyFoamRunner.py --autosense-parallel reactingFoam
+mpirun –hostfile machines -np 4 reactingFoam -parallel > log &
+
 pyFoam with function objects
 #################################################################
 foamCalc mag U
 pyFoamSamplePlot.py . --dir=postProcessing/sets --mode=timesInOne | gnuplot
 
-
-
+parallel processing
+#################################################################
+pyFoamCaseReport.py --decomposition
 
 pyFoamPlotWatcher
 #################################################################

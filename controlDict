@@ -114,7 +114,7 @@ functions
         //timeStart           0; //start time
         //timeEnd             10; //end time
         outputControl       timeStep; //when to output: either 'outputTime' or 'timeStep'
-        outputInterval      1; //steps between output when outputControl=timeStep
+        outputInterval      10; //steps between output when outputControl=timeStep
 
         log             yes;  //write data to standard output
         valueOutput     no; //write the raw output values
@@ -137,7 +137,7 @@ functions
         //timeStart           0; //start time
         //timeEnd             10; //end time
         outputControl       timeStep; //when to output: either 'outputTime' or 'timeStep'
-        outputInterval      1; //steps between output when outputControl=timeStep
+        outputInterval      10; //steps between output when outputControl=timeStep
 
         log             yes;  //write data to standard output
         valueOutput     no; //write the raw output values
