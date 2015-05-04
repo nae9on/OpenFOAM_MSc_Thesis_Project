@@ -22,3 +22,5 @@ reactions
     }
 }
 
+// irreversibleinfiniteReaction is used with infinitelyFastChemistry<psiThermoCombustion,gasHThermoPhysics>
+// irreversibleinfiniteReaction when used with PaSR<psiChemistryCombustion> is equivalent to chemistry off

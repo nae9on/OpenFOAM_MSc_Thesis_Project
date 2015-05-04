@@ -1,3 +1,0 @@
-transport_simpleFoam.C
-
-EXE = $(FOAM_USER_APPBIN)/transport_simpleFoam
