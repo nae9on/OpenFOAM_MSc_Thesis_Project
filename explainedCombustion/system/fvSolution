@@ -17,6 +17,21 @@ FoamFile
 
 solvers
 {
+    G
+    {
+        solver           PCG;
+        preconditioner   DIC;
+        tolerance        1e-6;
+        relTol           0.1;
+    }
+
+    GFinal
+    {
+        $G;
+        tolerance        1e-6;
+        relTol           0.0;
+    }
+
     "rho.*"
     {
         solver          diagonal;
