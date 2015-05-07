@@ -26,7 +26,12 @@ mpirun –hostfile machines -np 4 reactingFoam -parallel > log &
 pyFoam with function objects
 #################################################################
 foamCalc mag U
+
 pyFoamSamplePlot.py . --dir=postProcessing/sets --mode=timesInOne | gnuplot
+find . -type f -name 'postProcessing_sets_*' | while read FILE ; do
+  newfile="$(echo ${FILE} |sed -e 's/postProcessing_sets_//')" ;
+  mv "${FILE}" "${newfile}" ;
+done
 
 parallel processing
 #################################################################
