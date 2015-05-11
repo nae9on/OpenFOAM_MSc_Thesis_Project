@@ -6,6 +6,7 @@ close all
 % foamCalc mag U
 
 %parameters
+preInlet = 14.58;
 diameter = 7.2e-03;
 
 %formating and paths
@@ -86,21 +87,44 @@ Qty_NoRadGLB = load(strcat(pathOF_NoRadGLB,'axial_CH4_CO2_H2O_N2_O2_T_Ux_Uy_Uz_m
 pathOF_RadGLB = '../refined_myFlameD_GLB/postProcessing/sets/0.6/';
 Qty_RadGLB = load(strcat(pathOF_RadGLB,'axial_CH4_CO2_H2O_N2_O2_T_Ux_Uy_Uz_magU.xy'));
 
-pathOF_RadGRI3 = '../myFlameD_GRI3/postProcessing/sets/0.12/';
+pathOF_RadGRI3 = '../myFlameD_GRI3/postProcessing/sets/0.2/';
 Qty_RadGRI3 = load(strcat(pathOF_RadGRI3,'axial_CH4_CO2_H2O_N2_O2_T_Ux_Uy_Uz_magU.xy'));
 
-figure();
+figure(1);
 hold on
 coarse = 10;
 
-plot(14.58*diameter+dataQaxis(:,1)*diameter, dataQaxis(:,3),'ok','MarkerEdgeColor','k','MarkerFaceColor',[.49 1 .63],'MarkerSize',10);
-plot(Qty_NoRadGLB(1:coarse:end,1),Qty_NoRadGLB(1:coarse:end,QtyOF),'-.sb','MarkerSize',5);
-plot(Qty_RadGLB(1:coarse:end,1),Qty_RadGLB(1:coarse:end,QtyOF),'-.vr','MarkerSize',5);
-plot(Qty_RadGRI3(1:coarse:end,1),Qty_RadGRI3(1:coarse:end,QtyOF),'-.ok','MarkerSize',5);
+plot(dataQaxis(:,1), dataQaxis(:,3),'ok','MarkerEdgeColor','k','MarkerFaceColor',[.49 1 .63],'MarkerSize',10);
+plot(Qty_NoRadGLB(1:coarse:end,1)/diameter-preInlet,Qty_NoRadGLB(1:coarse:end,QtyOF),'-.sb','MarkerSize',5);
+plot(Qty_RadGLB(1:coarse:end,1)/diameter-preInlet,Qty_RadGLB(1:coarse:end,QtyOF),'-.vr','MarkerSize',5);
+plot(Qty_RadGRI3(1:coarse:end,1)/diameter-preInlet,Qty_RadGRI3(1:coarse:end,QtyOF),'-.ok','LineWidth',1,'MarkerSize',5);
 
-xlabel('Axial coordinate (m)','FontSize', 15,'Color','k');
-ylabel(D01.textdata(4,QtyExp),'FontSize', 15,'Color','k');
-h_legend = legend('Exp','EDC-GLB-NoRadiation','EDC-GLB-Radiation','EDC-GRI3');
+xlabel('x/d','FontSize', 20,'Color','k');
+ylabel(D01.textdata(4,QtyExp),'FontSize', 20,'Color','k');
+h_legend = legend('Exp','ke-GLB','ke-GLB-P1','ke-GRI3-P1');
+%h_legend = legend('Exp','EDC-GRI3');
+set(h_legend,'FontSize',12,'fontweight','bold');
+title('Sandia Flame D','FontSize', 15,'Color','k');
+
+
+%%
+%Radial Plots
+Qty_NoRadGLB = load(strcat(pathOF_NoRadGLB,'radial_CH4_CO2_H2O_N2_O2_T_Ux_Uy_Uz_magU.xy'));
+Qty_RadGLB = load(strcat(pathOF_RadGLB,'radial_CH4_CO2_H2O_N2_O2_T_Ux_Uy_Uz_magU.xy'));
+Qty_RadGRI3 = load(strcat(pathOF_RadGRI3,'radial_CH4_CO2_H2O_N2_O2_T_Ux_Uy_Uz_magU.xy'));
+
+coarse = 10;
+
+figure(2);
+hold on
+plot(D45.data(:,1), D45.data(:,QtyExp),'ok','MarkerEdgeColor','k','MarkerFaceColor',[.49 1 .63],'MarkerSize',10);
+plot(Qty_NoRadGLB(1:coarse:end,1)/diameter,Qty_NoRadGLB(1:coarse:end,QtyOF),'-.sb','MarkerSize',5);
+plot(Qty_RadGLB(1:coarse:end,1)/diameter,Qty_RadGLB(1:coarse:end,QtyOF),'-.vr','MarkerSize',5);
+plot(Qty_RadGRI3(1:coarse:end,1)/diameter,Qty_RadGRI3(1:coarse:end,QtyOF),'-.ok','LineWidth',1,'MarkerSize',5);
+
+xlabel('r/d','FontSize', 20,'Color','k');
+ylabel(D45.textdata(4,QtyExp),'FontSize', 20,'Color','k');
+h_legend = legend('Exp','ke-GLB','ke-GLB-P1','ke-GRI3-P1');
 %h_legend = legend('Exp','EDC-GRI3');
 set(h_legend,'FontSize',12,'fontweight','bold');
 title('Sandia Flame D','FontSize', 15,'Color','k');
