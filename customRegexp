@@ -22,6 +22,17 @@ addVolAvgToTemperature
   master Temperature;
 }
 
+addWallAvgToTemperature
+{
+  expr "average\(fixedWalls\) for T = (%f%)";
+  titles
+   (
+     wallAvg
+   );
+  type slave;
+  master Temperature;
+}
+
 addOutletAvgToTemperature
 {
   expr "average\(outlet\) for T = (%f%)";

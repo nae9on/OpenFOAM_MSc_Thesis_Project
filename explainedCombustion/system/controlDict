@@ -128,6 +128,30 @@ functions
         );
     }
 
+    surfaceTemperature
+    {
+        type            faceSource;
+        functionObjectLibs ("libfieldFunctionObjects.so");
+        //region              defaultRegion; //name of region for multi-region cases
+        enabled             yes; //on/off switch
+        //timeStart           0; //start time
+        //timeEnd             10; //end time
+        outputControl       timeStep; //when to output: either 'outputTime' or 'timeStep'
+        outputInterval      1; //steps between output when outputControl=timeStep
+
+        log             yes;  //write data to standard output
+        valueOutput     no; //write the raw output values
+        surfaceFormat   none;
+        source          patch; //faceZone patch sampledSurface;
+        sourceName      fixedWalls; //inlet outlet fixedWalls;
+        operation       average; //areaAverage weightedAverage 
+        //weightField     alpha1;
+        fields
+        (
+            T
+        );
+    }
+
     faceTemperature
     {
         type            faceSource;
