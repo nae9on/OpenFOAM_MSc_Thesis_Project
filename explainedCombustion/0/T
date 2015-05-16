@@ -52,6 +52,72 @@ boundaryField
         type            fixedValue;
         value           uniform 550;
     }
+    
+    fixedWalls
+    {
+        // This boundary condition supplies a heat flux condition for temperature
+	// on an external wall. Optional thin thermal layer resistances can be
+	// specified through thicknessLayers and kappaLayers entries for the
+	// fixed heat transfer coefficient mode.
+         
+        // Modes
+        // - fixed heat transfer coefficient: supply h[W/m^2/K] and Ta[K]
+        // - fixed heat flux: supply q[W/m^2]
+
+        type         externalWallHeatFluxTemperature;
+
+
+        // The thermal conductivity, kappa, can either be retrieved from the
+	// mesh database using the lookup option, or from a solidThermo
+	// thermophysical package.
+        // when solidThermoo is used -> but it is not a solidThermo, 
+        // it is a hePsiThermo<reactingMixture<sutherland<janaf<perfectGas<specie>>,sensibleEnthalpy>>>
+        
+        kappa        fluidThermo;       // directionalSolidThermo fluidThermo lookup solidThermo
+        kappaName    none;              // name of thermal conductivity field
+        Ta           uniform 298.15;    // ambient temperature
+
+
+
+        // convective heat transfer q = h A dT, where h is the convective heat transfer coefficient of the 
+        // process [W/m^2K].
+        // h is dependent on the type of media, gas or liquid, the flow properties such as velocity, viscosity
+        // and other flow and temperature dependent properties.
+        // Free Convection - air, gases and dry vapors : 0.5 - 1000 [W/m^2/K]
+        // Forced Convection - air, gases and dry vapors:  10 - 1000 [W/m^2/K]
+        // The convective heat transfer coefficient of air is approximately equal to h = 10.45 - U + 10 U^0.5.
+        // where U is the relative speed of the object through the air [m/s]
+        
+        h             uniform 10.45;   // convective heat transfer coefficient of air [W/m^2/K]
+        value         uniform 2000.0;  // Initial temperature
+
+
+        // http://www.zircarceramics.com/pages/microporusinsulation/microporous.htm
+        thicknessLayers (0.1);         // (0.1 0.2 0.3 0.4); list of thicknesses per layer [m]
+        kappaLayers     (0.03);        // (1 2 3 4); list of thermal conductivites per layer [W/m/K]
+        QrName          none;          // name of the radiative field
+    }
+
+    frontAndBack_pos
+    {
+        type            wedge;
+    } 
+    
+    frontAndBack_neg
+    {
+        type            wedge;
+    }
+    
+    bottom
+    {
+        type            empty;
+    }
+    
+    frontAndBack
+    {
+        type            empty;
+    }
+}
 
     frontAndBack_pos
     {
