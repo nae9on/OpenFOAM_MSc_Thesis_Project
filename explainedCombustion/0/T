@@ -47,11 +47,11 @@ boundaryField
         type            zeroGradient;
     }
 
-    fixedWalls
+    /*fixedWalls
     {
         type            fixedValue;
         value           uniform 550;
-    }
+    }*/
     
     fixedWalls
     {
