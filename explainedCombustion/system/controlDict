@@ -15,7 +15,7 @@ FoamFile
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-application     reactingFoam;
+application     reactingRadiationFoam;
 
 startFrom       latestTime;
 
@@ -23,7 +23,7 @@ startTime       0;
 
 stopAt          endTime;
 
-endTime         10;
+endTime         25;
 
 deltaT          1e-02;
 
