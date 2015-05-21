@@ -1,3 +1,6 @@
+http://www.cfd-online.com/Forums/openfoam-solving/134739-externalwallheatfluxtemperature.html
+http://www.cfd-online.com/Forums/openfoam-solving/147595-convection-boundary-condition.html#post538568
+
 http://web.mit.edu/16.unified/www/FALL/thermodynamics/notes/node5.html
 
 http://lisafea.com/pdf/Convection_heat_transfer_coefficient.pdf
@@ -9,3 +12,6 @@ http://www.zircarceramics.com/pages/microporusinsulation/microporous.htm
 http://www.enggcyclopedia.com/2011/11/sample-problem-heat-transfer-conduction-composite-wall/
 
 https://www.sharcnet.ca/Software/Fluent6/html/ug/node256.htm
+
+derivedFvPatchFields/externalCoupledTemperatureMixed/externalCoupledTemperatureMixedFvPatchScalarField.C:204: error: expected initializer before ‘&’ token
+derivedFvPatchFields/externalCoupledTemperatureMixed/externalCoupledTemperatureMixedFvPatchScalarField.C

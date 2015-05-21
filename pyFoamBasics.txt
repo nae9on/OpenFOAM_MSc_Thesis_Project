@@ -16,8 +16,8 @@ pyFoamClearCase.py
 pyFoam for parrallel run
 #################################################################
 pyFoamDecompose.py . 4 --clear --method=simple --delta=0.001 --n=1,4,1
-foamJob mpirun -np 4 reactingFoam -parallel
-mpirun -np 4 reactingFoam -parallel > log &
+foamJob mpirun -np 4 Foam -parallel
+mpirun -np 4 Foam -parallel > log &
 pyFoamCaseReport.py --decomposition .
 pyFoamCaseReport.py --processor-matrix .
 pyFoamRunner.py --autosense-parallel reactingFoam
