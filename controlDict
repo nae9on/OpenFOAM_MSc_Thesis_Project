@@ -15,7 +15,7 @@ FoamFile
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-application     reactingFoam;
+application     reactingRadiationFoam;
 
 startFrom       latestTime;
 
@@ -23,7 +23,7 @@ startTime       0;
 
 stopAt          endTime;
 
-endTime         10;
+endTime         25;
 
 deltaT          1e-02;
 
@@ -47,7 +47,7 @@ runTimeModifiable true;
 
 adjustTimeStep  yes;
 
-maxCo           0.2;
+maxCo           0.5;
 
 libs (
     "libgroovyBC.so"
@@ -114,13 +114,37 @@ functions
         //timeStart           0; //start time
         //timeEnd             10; //end time
         outputControl       timeStep; //when to output: either 'outputTime' or 'timeStep'
-        outputInterval      10; //steps between output when outputControl=timeStep
+        outputInterval      1; //steps between output when outputControl=timeStep
 
         log             yes;  //write data to standard output
         valueOutput     no; //write the raw output values
         source          all; //all cellZone;
         //sourceName      c0;
         operation       average; //average volAverage weightedAverage
+        //weightField     alpha1;
+        fields
+        (
+            T
+        );
+    }
+
+    surfaceTemperature
+    {
+        type            faceSource;
+        functionObjectLibs ("libfieldFunctionObjects.so");
+        //region              defaultRegion; //name of region for multi-region cases
+        enabled             yes; //on/off switch
+        //timeStart           0; //start time
+        //timeEnd             10; //end time
+        outputControl       timeStep; //when to output: either 'outputTime' or 'timeStep'
+        outputInterval      1; //steps between output when outputControl=timeStep
+
+        log             yes;  //write data to standard output
+        valueOutput     no; //write the raw output values
+        surfaceFormat   none;
+        source          patch; //faceZone patch sampledSurface;
+        sourceName      fixedWalls; //inlet outlet fixedWalls;
+        operation       average; //areaAverage weightedAverage 
         //weightField     alpha1;
         fields
         (
@@ -137,7 +161,7 @@ functions
         //timeStart           0; //start time
         //timeEnd             10; //end time
         outputControl       timeStep; //when to output: either 'outputTime' or 'timeStep'
-        outputInterval      10; //steps between output when outputControl=timeStep
+        outputInterval      1; //steps between output when outputControl=timeStep
 
         log             yes;  //write data to standard output
         valueOutput     no; //write the raw output values

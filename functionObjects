@@ -1,5 +1,5 @@
 These are basically small pieces of code that are being executed at every time-step without 
-explizitly being linked to the application. 
+explicitly being linked to the application. 
 
 probes - values of certain fields at specified positions as a function of time.
 sets - values of the fields at a certain time on a 1-dimensional subset of space (usually a line).
@@ -38,7 +38,7 @@ functions
         type                fieldAverage;
         functionObjectLibs  ("libfieldFunctionObjects.so");
         //region              defaultRegion; //name of region for multi-region cases
-        enabled             yes; //on/off switch
+        enabled             no; //on/off switch
         //timeStart           0; //start time
         //timeEnd             10; //end time
         outputControl       timeStep; //when to output: either 'outputTime' or 'timeStep'
@@ -63,7 +63,7 @@ functions
         type            fieldMinMax;
         functionObjectLibs ( "libfieldFunctionObjects.so" );
         //region              defaultRegion; //name of region for multi-region cases
-        enabled             yes; //on/off switch
+        enabled             no; //on/off switch
         //timeStart           0; //start time
         //timeEnd             10; //end time
         outputControl       timeStep; //when to output: either 'outputTime' or 'timeStep'
@@ -96,7 +96,31 @@ functions
         valueOutput     no; //write the raw output values
         source          all; //all cellZone;
         //sourceName      c0;
-        operation       average; //volAverage weightedAverage
+        operation       average; //average volAverage weightedAverage
+        //weightField     alpha1;
+        fields
+        (
+            T
+        );
+    }
+
+    surfaceTemperature
+    {
+        type            faceSource;
+        functionObjectLibs ("libfieldFunctionObjects.so");
+        //region              defaultRegion; //name of region for multi-region cases
+        enabled             yes; //on/off switch
+        //timeStart           0; //start time
+        //timeEnd             10; //end time
+        outputControl       timeStep; //when to output: either 'outputTime' or 'timeStep'
+        outputInterval      1; //steps between output when outputControl=timeStep
+
+        log             yes;  //write data to standard output
+        valueOutput     no; //write the raw output values
+        surfaceFormat   none;
+        source          patch; //faceZone patch sampledSurface;
+        sourceName      fixedWalls; //inlet outlet fixedWalls;
+        operation       average; //areaAverage weightedAverage 
         //weightField     alpha1;
         fields
         (
@@ -129,6 +153,7 @@ functions
     }
 
 }
+
 
 functions
 {

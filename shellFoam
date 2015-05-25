@@ -2,45 +2,14 @@
 
 : <<'MYCOMMENT'
 
-simpleFoam | tee ofLog.txt
+############### OpenFOAM ###############
 
-ldd - print shared library dependencies
-ldd $FOAM_APPBIN/edcPisoFoam 
+# Using mapFields
+mapFields -sourceTime latestTime -consistent ../cGRI3
 
-foamLog log
-gnuplot
-set logscale y
-plot "CH4_0"
-unset logscale
-set yrange [0:2]
-
-for graphics transfer over the network use
-ssh -CX TUD276420
-ssh -CY TUD276420 (C - compressed, Y - secure)
-
-for compressing/uncompressing
-gzip log
-gunzip log.gz
-
-gnome-system-monitor
-
-To know which variables exist on your current shell type
-env
-export
-
-to run shell/sh as a super user
-sudo bash
-sudo sh
-
-for unloading most of the OF environment variables.
+# for unloading most of the OF environment variables.
 wmUNSET
 
-#--search commands--
-grep -r --include "fvSchemes" Gauss .
-grep -r --include "fvSchemes" -B 3 limitedLinear . //3 lines before match
-grep -r --include "fvSchemes" -A 3 limitedLinear . //3 lines after match
-
-#--basic OF--
 ps
 pidof pisoFoam
 foamEndJob -now 4021
@@ -56,10 +25,72 @@ foamCalc components U -time 10000
 
 foamCalc mag U -time 10000
 
+foamLog log
+gnuplot
+set logscale y
+plot "CH4_0"
+unset logscale
+set yrange [0:2]
+
+############### Parallel ###############
+
+foamJob mpirun -np 4 Foam -parallel
+mpirun -np 4 Foam -parallel > log &
+mpirun –hostfile machines -np 4 reactingFoam -parallel > log &
+
+############### File Transfer ###############
+for graphics transfer over the network use
+ssh -CX TUD276420
+ssh -CY TUD276420 (C - compressed, Y - secure)
+
+
+############### Search/Locate/Replace ###############
+
+# find all files with name controlDict that contains the word 'functions'
+find $FOAM_TUTORIALS -name controlDict | xargs grep 'functions' -sl
+
+# search commands
+grep -r functionObjectLibs $FOAM_TUTORIALS
+grep -r --include "fvSchemes" Gauss .
+grep -r --include "fvSchemes" -B 3 limitedLinear . //3 lines before match
+grep -r --include "fvSchemes" -A 3 limitedLinear . //3 lines after match
+
+
+# replace postProcessing_sets_ with nothing
+find . -type f -name 'postProcessing_sets_*' | while read FILE ; do
+  newfile="$(echo ${FILE} |sed -e 's/postProcessing_sets_//')" ;
+  mv "${FILE}" "${newfile}" ;
+done
+
+############### Miscellaneous ###############
+
+Print shared library dependencies
+ldd $FOAM_APPBIN/edcPisoFoam 
+
+To view and save the output from a command (simpleFoam) at the same time:
+simpleFoam | tee ofLog.txt
+
+for compressing/uncompressing
+gzip log
+gunzip log.gz
+
+gnome-system-monitor
+
+To know which variables exist on your current shell type
+env
+export
+
+to run shell/sh as a super user
+sudo bash
+sudo sh
+
+killall gnuplot_x11
+display *.png
 gnuplot *.gplt
 
 #--how to pass parameter to a dictionary file--
 m4 blockMeshDict.m4 > blockMeshDict
+
 
 MYCOMMENT
 
