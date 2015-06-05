@@ -3,6 +3,7 @@
 : <<'MYCOMMENT'
 
 ############### OpenFOAM ###############
+makeAxialMesh -axis axis -wedge frontAndBack
 
 # Using mapFields
 mapFields -sourceTime latestTime -consistent ../cGRI3
