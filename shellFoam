@@ -55,7 +55,7 @@ grep -r functionObjectLibs $FOAM_TUTORIALS
 grep -r --include "fvSchemes" Gauss .
 grep -r --include "fvSchemes" -B 3 limitedLinear . //3 lines before match
 grep -r --include "fvSchemes" -A 3 limitedLinear . //3 lines after match
-
+use -h to hide filenames with grep
 
 # replace postProcessing_sets_ with nothing
 find . -type f -name 'postProcessing_sets_*' | while read FILE ; do
