@@ -2,6 +2,26 @@
 
 : <<'MYCOMMENT'
 
+############### .bashrc .profile ###############
+# Contents of .bashrc, .bashrc will be executed when the user opens a terminal
+# NOTE : a non-login shell will only source .bashrc and NOTHING else !
+test -r /opt/proto/profile && . /opt/proto/profile
+test -r $HOME/.profile && . $HOME/.profile
+
+# source /opt64/OpenFOAM/scripts/openfoam.bashrc
+source $HOME/OpenFOAM/OpenFOAM-2.3.0/etc/bashrc WM_NCOMPPROCS=4 WM_MPLIB=SYSTEMOPENMPI
+
+# Contents of .profile, .profile will be executed when the user login
+# NOTE: a login shell will source /etc/profile and then ~/.profile or it's
+# equivalents, but NOT .bashrc !
+
+alias OF230='wmUNSET; source /opt64/OpenFOAM/scripts/openfoam.bashrc'
+alias myOF230='wmUNSET; source $HOME/OpenFOAM/OpenFOAM-2.3.0/etc/bashrc WM_NCOMPPROCS=4 WM_MPLIB=SYSTEMOPENMPI'
+
+
+
+
+
 ############### OpenFOAM ############################################################
 makeAxialMesh -axis axis -wedge frontAndBack
 
