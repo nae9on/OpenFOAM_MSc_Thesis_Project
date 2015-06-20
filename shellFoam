@@ -2,7 +2,7 @@
 
 : <<'MYCOMMENT'
 
-############### OpenFOAM ###############
+############### OpenFOAM ############################################################
 makeAxialMesh -axis axis -wedge frontAndBack
 
 # Using mapFields
@@ -33,11 +33,18 @@ plot "CH4_0"
 unset logscale
 set yrange [0:2]
 
-############### Parallel ###############
 
+
+
+
+############### Parallel ############################################################
 foamJob mpirun -np 4 Foam -parallel
 mpirun -np 4 Foam -parallel > log &
 mpirun –hostfile machines -np 4 reactingFoam -parallel > log &
+
+
+
+
 
 ############### File Transfer ###############
 for graphics transfer over the network use
@@ -45,8 +52,10 @@ ssh -CX TUD276420
 ssh -CY TUD276420 (C - compressed, Y - secure)
 
 
-############### Search/Locate/Replace ###############
 
+
+
+############### Search/Locate/Replace ###############################################
 # find all files with name controlDict that contains the word 'functions'
 find $FOAM_TUTORIALS -name controlDict | xargs grep 'functions' -sl
 
@@ -63,7 +72,89 @@ find . -type f -name 'postProcessing_sets_*' | while read FILE ; do
   mv "${FILE}" "${newfile}" ;
 done
 
-############### Miscellaneous ###############
+
+
+
+
+############### sed command ########################################################
+http://www.grymoire.com/Unix/Sed.html#uh-30
+
+$ sed 's/find/replace/' <file1 >file2 (s stands for substitute, will substitute only 
+the first occurence on each line because sed is line oriented)
+note when there is a special character in the pattern string use \
+example /usr/local/bin shoule be \/usr\/local\/bin
+
+To substitute all occurences use g flag
+echo "123 456 abc" | sed 's/[0-9][0-9]*/& &/' returns 123 123 456 abc
+echo "123 456 abc" | sed 's/[0-9][0-9]*/& &/g' returns 123 123 456 456 abc
+
+& corressponds to the pattern found and could be used wonderfully
+echo "123 abc" | sed 's/[0-9]*/& &/'  returns "123 123 abc"
+echo "123 abc" | sed 's/[0-9]*/&&/'  returns "123123 abc"
+echo "abc 123" | sed 's/[0-9]*/&&/' returns "abc 123"
+echo "abc 123" | sed 's/[0-9][0-9]*/&&/' returns "abc 123123"
+echo "123 456 abc" | sed 's/[0-9]*/& &/' returns "123 123 456 abc" proves sed substitutes 
+only the first occurence on each line
+Note:  "[0-9]*" matches zero or more numbers. "[0-9][0-9]*" matches one or more numbers.
+
+If you wanted to keep the first word of a line, and delete the rest of the line, 
+mark the important part with the parenthesis \([a-z]*\) followed by ".*" that matches 
+contiguous zero or more characters after the first match. 
+echo abcd123 | sed 's/\([a-z]*\).*/\1/' returns abcd
+echo abcd xyz | sed 's/\([a-z]*\) \([a-z]*\)/\2 \1/'
+
+//https://nixtricks.wordpress.com/2013/01/09/sed-delete-the-lines-lying-in-between-two-patterns/
+
+to modify the file itself include the “-i” flag.
+sed -i '/Warning/d' log
+
+deletes the line containg --> FOAM Warning
+sed '/--> FOAM Warning/d' log > logNoWarning
+
+deletes the line between --> FOAM Warning and out of temperature range including them
+sed '/--> FOAM Warning/,/out of temperature range/d' log > logNoWarning
+
+deletes the line between --> FOAM Warning and out of temperature range excluding them
+sed '/--> FOAM Warning/,/out of temperature range/{//!d}' log > logNoWarning
+
+.(dot) tries to match a single character. 
+The ^ tries to match a pattern(any character) in the beginning of the line.
+The $ tries to match a pattern in the end of the line.
+
+To remove 1st character in every line:
+sed 's/^.//' file
+
+To remove last character of every line:
+sed 's/.$//' file
+
+To remove first character only if it is a specific character:
+sed 's/^F//' file
+
+To remove last character only if it is a specific character:
+sed 's/x$//' file
+
+To remove 1st 4 characters of every line
+sed -r 's/.{4}//' file
+sed -r 's/.{3}$//' file (last 4 characters)
+
+To remove everything except the 1st 3 characters in every line:
+sed -r 's/(.{3}).*/\1/' file
+sed -r 's/.*(.{3})/\1/' file (last 3 characters)
+.* matches any number of characters, and the first 3 characters matched are grouped using parantheses. 
+In the replacement, by having \1 only the group is retained, leaving out the remaining part. 
+
+To delete everything in a line followed by a character:
+sed 's/a.*//' file
+
+
+
+
+
+############### Miscellaneous ########################################################
+touch file1
+touch -- -i #to prevent accident deletion rm -rf * will prompt warning
+
+du --block-size=MiB --max-depth=2 . | sort -n
 
 Print shared library dependencies
 ldd $FOAM_APPBIN/edcPisoFoam 
@@ -92,15 +183,23 @@ gnuplot *.gplt
 #--how to pass parameter to a dictionary file--
 m4 blockMeshDict.m4 > blockMeshDict
 
-
 MYCOMMENT
+
+
+
+
+
+
+
+
+
 
 
 
 
 echo -e "\n\tOpenFOAM shell scripting "
 
-if [ 1 == 1 ]
+if [ 1 == 0 ]
 then
 foamQuery=$(find $FOAM_TUTORIALS -name "sampleDict")
 echo -e "\n\tListing all files ...\n"

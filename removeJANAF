@@ -1,0 +1,10 @@
+#!/bin/sh
+echo "The JANAF THERMO warnings will be removed from the following file $1"
+oldLineCount=$(sed -n '$=' $1)
+oldFileSize=$(du -h $1 | cut -f -1)
+sed -i '/--> FOAM Warning/,/out of temperature range/d' $1
+echo -e "\nThe JANAF THERMO warnings have been removed" >> $1
+newLineCount=$(sed -n '$=' $1)
+newFileSize=$(du -h $1 | cut -f -1)
+echo "The line count before = $oldLineCount and size = $oldFileSize" >> $1
+echo "The line count after = $newLineCount and size = $newFileSize" >> $1

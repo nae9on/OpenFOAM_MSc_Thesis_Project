@@ -106,8 +106,6 @@ fi
 
 
 : <<'MYCOMMENT'
-#du --block-size=MiB --max-depth=2 . | sort -n
-
 TIME_STEPS=$(ls -d [0-9]*)
 
 echo -e "\n\tRemoving time steps ...\n"
