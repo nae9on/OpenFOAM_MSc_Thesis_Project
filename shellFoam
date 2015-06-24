@@ -166,7 +166,11 @@ In the replacement, by having \1 only the group is retained, leaving out the rem
 To delete everything in a line followed by a character:
 sed 's/a.*//' file
 
+delete first three lines of file
+sed -i '1,3d' *
 
+delete last line
+sed -i '$d' *
 
 
 
