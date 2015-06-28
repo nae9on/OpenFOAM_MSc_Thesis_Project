@@ -19,11 +19,31 @@ ddtSchemes
 {
     default         Euler;
 }
+/*
+Valid Schemes
+8
+(
+CoEuler
+CrankNicolson   Second order, bounded, implicit Note: CrankNicolson 0 corresponds to Euler
+Euler           First order, bounded, implicit
+SLTS
+backward        Second order, implicit
+bounded
+localEuler      Local-time step, first order, bounded, implicit
+steadyState
+)
+*/
 
 gradSchemes
 {
     default         Gauss linear;
 }
+
+/*
+It would be extremely unusual to select anything other than general interpolation 
+schemes and in most cases the linear scheme is an effective choice,
+*/
+
 
 divSchemes
 {
@@ -38,20 +58,129 @@ divSchemes
     div((muEff*dev2(T(grad(U))))) Gauss linear;
 }
 
+/*
+The Gauss scheme is the only choice of discretisation and requires a selection of the 
+interpolation scheme for the dependent field, i.e.  U in our example. 
+Syntax:
+Gauss <interpolationScheme>  
+ex: div(phi,U) Gauss upwind;
+Note: phi = rho*U
+*/
+
+
 laplacianSchemes
 {
     default         Gauss linear orthogonal;
 }
 
+/*
+for laplacian(nu,U) interpolation scheme for the diffusion coefficient, i.e. nu is needed
+and a surface normal gradient scheme for ∇U is needed.
+Syntax: 
+Gauss <interpolationScheme> <snGradScheme>
+*/
+
 interpolationSchemes
 {
     default         linear;
 }
+/*
+interpolations of values typically from cell centres to face centres.
+Syntax: 
+ex: default linear;  //General Scheme>
+ex: default upwind phi; //Convection-specific Scheme
+
+The convection-specific schemes calculate the interpolation based on the flux of the flow velocity. 
+The specification of these schemes requires the name of the flux field on which the interpolation is based; 
+in most OpenFOAM applications this is phi, the name commonly adopted for the surfaceScalarField velocity flux ϕ.
+
+Valid Schemes
+60
+(
+CoBlended
+Gamma
+GammaV
+LUST
+MUSCL
+MUSCLV
+Minmod
+MinmodV
+OSPRE
+OSPREV
+Phi
+QUICK
+QUICKV
+SFCD
+SFCDV
+SuperBee
+SuperBeeV
+UMIST
+UMISTV
+biLinearFit
+blended
+clippedLinear
+cubic                     
+cubicUpwindFit
+downwind
+filteredLinear
+filteredLinear2
+filteredLinear2V
+filteredLinear3
+filteredLinear3V
+fixedBlended
+limitWith
+limitedCubic
+limitedCubicV
+limitedLinear              limited linear differencing
+limitedLinearV             improved version of limitedLinear to take into account the direction of the field.
+limiterBlended
+linear                     Linear interpolation (central differencing) 
+linearFit
+linearPureUpwindFit
+linearUpwind
+linearUpwindV
+localBlended
+localMax
+localMin
+midPoint                   Linear interpolation with symmetric weighting
+outletStabilised
+pointLinear
+quadraticFit
+quadraticLinearFit
+quadraticLinearUpwindFit
+quadraticUpwindFit
+reverseLinear
+skewCorrected
+upwind
+vanAlbada
+vanAlbadaV
+vanLeer
+vanLeerV
+weighted
+)
+*/
 
 snGradSchemes
 {
     default         orthogonal;
 }
+
+/*
+A surface normal gradient is evaluated at a cell face; it is the component, normal to the face, of the gradient of values at the centres of the 2 cells that the face connects.
+
+7
+(
+corrected
+faceCorrected
+limited
+linearFit
+orthogonal
+quadraticFit
+uncorrected
+)
+
+*/
+
 
 fluxRequired
 {
