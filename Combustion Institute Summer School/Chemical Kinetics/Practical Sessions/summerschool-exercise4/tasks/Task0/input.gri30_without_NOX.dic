@@ -1,0 +1,22 @@
+//-----------------------------------------------------------------//
+//     ____                    ______ __  __  ____  _  ________    //
+//    / __ \                  /  ___ |  \/  |/ __ \| |/ /  ____|   //
+//   | |  | |_ __   ___ _ __ |  (___ | \  / | |  | | ' /| |__      //
+//   | |  | | '_ \ / _ \ '_ \ \___  \| |\/| | |  | |  < |  __|     //
+//   | |__| | |_) |  __/ | | |____)  | |  | | |__| | . \| |____    //
+//    \____/| .__/ \___|_| |_|______/|_|  |_|\____/|_|\_\______|   //
+//         | |                                                     //
+//         |_|                                                     //
+//                                                                 //
+//                http://www.opensmoke.polimi.it/                  //
+//             http://creckmodeling.chem.polimi.it/                //
+//-----------------------------------------------------------------//
+
+Dictionary CHEMKIN_PreProcessor
+{
+		@Kinetics		../../Kinetics/GRI30_without_NOX/grimech30_without_NOX.dat;
+		@Thermodynamics	../../Kinetics/GRI30_without_NOX/thermo30_without_NOX.dat;
+		@Transport		../../Kinetics/GRI30_without_NOX/transport_without_NOX.dat;
+		
+		@Output			kinetics-GRI30_without_NOX;
+}

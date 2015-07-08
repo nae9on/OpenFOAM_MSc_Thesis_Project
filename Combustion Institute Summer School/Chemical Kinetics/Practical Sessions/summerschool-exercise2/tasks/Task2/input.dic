@@ -1,0 +1,50 @@
+//-----------------------------------------------------------------//
+//     ____                    ______ __  __  ____  _  ________    //
+//    / __ \                  /  ___ |  \/  |/ __ \| |/ /  ____|   //
+//   | |  | |_ __   ___ _ __ |  (___ | \  / | |  | | ' /| |__      //
+//   | |  | | '_ \ / _ \ '_ \ \___  \| |\/| | |  | |  < |  __|     //
+//   | |__| | |_) |  __/ | | |____)  | |  | | |__| | . \| |____    //
+//    \____/| .__/ \___|_| |_|______/|_|  |_|\____/|_|\_\______|   //
+//         | |                                                     //
+//         |_|                                                     //
+//                                                                 //
+//                http://www.opensmoke.polimi.it/                  //
+//             http://creckmodeling.chem.polimi.it/                //
+//-----------------------------------------------------------------//
+
+Dictionary PerfectlyStirredReactor
+{
+		@KineticsFolder			../Task0/kinetics-POLIMI_PRF_PAH_LT_1412;
+		
+		@Type					Isothermal-ConstantPressure;
+		
+		@InletStatus            inlet-mixture;
+		
+		@ResidenceTime			1 s;
+
+		@Volume                 88 cm3;
+		
+		@ParametricAnalysis     parametric-analysis;
+}
+
+Dictionary inlet-mixture
+{
+		@Temperature   	923.   K ; 
+		@Pressure      	1      atm ;
+
+		@Moles 			C6H6 	4 
+						O2 		15.5 
+						HE 		80.5;
+}
+
+Dictionary parametric-analysis
+{	
+	@Type 				residence-time; 
+
+	@NumberOfPoints     40;
+	@MinimumValue       1  s;
+	@MaximumValue       10 s;
+
+	@NumberOfThreads	1;
+}
+

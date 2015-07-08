@@ -1,0 +1,46 @@
+Dictionary PremixedLaminarFlame1D
+{
+	@KineticsFolder	..\..\Task0\kinetics-GRI30_without_NOX_FeC5O5;
+	
+	@InletStream 	inlet-stream;
+	@OutletStream	outlet-stream;
+	
+	@InletVelocity	38 cm/s;
+	
+	@Grid			grid;
+		
+	@Output			Output;
+	
+	@UseDaeSolver	false;
+}
+
+Dictionary inlet-stream
+{
+	@Moles				CH4 	1
+						FEC5O5	0.0003
+						O2		2
+						N2		7.52;
+						
+	@Temperature	298 K;
+	@Pressure		1 atm;
+}
+
+Dictionary outlet-stream
+{
+	@Moles			CO2 1.5 H2O 1.5 N2 7.52;
+	@Temperature	2300 K;
+	@Pressure		1 atm;
+}
+
+Dictionary grid
+{
+	@Length					3 cm;
+	@InitialPoints			12;
+	@Type					database;
+	
+	@MaxPoints				1000;
+	@MaxAdaptivePoints		15;
+	@GradientCoefficient	0.05;
+	@CurvatureCoefficient	0.25;
+	@Threshold				1e-5;
+}

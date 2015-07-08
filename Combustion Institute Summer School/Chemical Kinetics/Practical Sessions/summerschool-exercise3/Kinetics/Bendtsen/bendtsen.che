@@ -1,0 +1,758 @@
+ELEMENTS
+H O C N AR
+END
+
+SPECIES
+H
+H2
+O
+O2
+O3
+OH
+H2O
+HO2
+H2O2
+CH
+CH2
+CH2(S)
+CH3
+CH4
+CO
+CO2
+HCO
+HCOO
+CH2O
+CH2OH
+CH2OOH
+CH3O
+CH3OH
+CH3CO
+CH3HCO
+CH3O2
+CH3OOH
+CH3NO
+CH3NO2
+CH3ONO
+CH3ONO2
+H2CNO2
+HCN
+C2H2
+C2H3
+C2H4
+C2H5
+C2H6
+HCCO
+HCCOH
+CH2CO
+N
+N2
+NO
+NO2
+NO3
+HNO
+HONO
+HONO2
+N2O
+AR
+C
+C2
+C2H
+C2O
+CH2HCO
+!CH2OH
+C2H2OH
+OCHCHO
+C2H5CHO
+C2H5CO
+NH
+NH2
+NH3
+NNH
+N2H2
+H2NO
+CN
+C2N2
+NCN
+CH3CN
+CH2CN
+H2CN
+NCO
+HOCN
+HNCO
+HCNO
+END
+
+REACTIONS
+
+  !
+  ! ********************************************
+  ! *   H2/O2 Subset                           *
+  ! *   ref: nh2+no2 paper (IJCK), except      *
+  ! *        where noted                       *
+  ! ********************************************
+  !
+
+O+OH=O2+H                      2.0E14 -0.40      0
+O+H2=OH+H                      5.0E04  2.67   6290
+OH+H2=H2O+H                    2.1E08  1.52   3450
+2OH=O+H2O                      4.3E03  2.70  -2486
+H+H+M=H2+M                     1.0E18 -1.00      0
+    H2O/0/
+H+H+H2O=H2+H2O                 6.0E19 -1.25      0
+H+O+M=OH+M                     6.2E16 -0.60      0
+    H2O/5/
+H+OH+M=H2O+M                   1.6E22 -2.00      0
+    H2O/5/
+O+O+M=O2+M                     1.9E13  0.00  -1788
+    H2O/5/
+H+O2+M=HO2+M                   2.1E18 -1.00      0 ! *
+    H2O/10/  N2/0/
+H+O2+N2 = HO2+N2               6.7E19 -1.42      0 ! *
+H+HO2=H2+O2                    4.3E13  0.00   1411
+H+HO2=2OH                      1.7E14  0.00    874
+H+HO2=O+H2O                    3.0E13  0.0    1721
+O+HO2=O2+OH                    3.3E13  0.0       0
+OH+HO2=H2O+O2                  1.9E16 -1.0       0
+HO2+HO2=H2O2+O2                4.2E14  0.0   11982
+ DUP
+HO2+HO2=H2O2+O2                1.3E11  0.0   -1629
+ DUP
+H2O2+M=OH+OH+M                 1.3E17  0.0   45500
+   H2O/5/
+H2O2+H=HO2+H2                  1.7E12  0.0    3755
+H2O2+H=OH+H2O                  1.0E13  0.0    3576
+H2O2+O=OH+HO2                  6.6E11  0.0    3974
+H2O2+OH=H2O+HO2                7.8E12  0.0    1330
+ DUP
+H2O2+OH=H2O+HO2                5.8E14  0.0    9560 ! +
+ DUP
+  !
+  ! *******************************************
+  ! *   CO Subset                             *
+  ! *******************************************
+  !
+CO+O+M=CO2+M                   6.2E14  0.0    3000 ! nbs86
+     H2O/5/
+CO+OH=CO2+H                    1.5E07  1.3    -758 ! gla86
+CO+O2=CO2+O                    2.5E12  0.0   47700 ! nbs86
+HO2+CO=CO2+OH                  5.8E13  0.0   22934 ! gla86
+  !
+  ! ********************************************
+  ! *   CH2O/HCO Subset                        *
+  ! ********************************************
+  !
+CH2O+M=HCO+H+M                 3.3E16  0.0   81000 ! gla86
+     H2O/5/
+CH2O+H = HCO+H2                1.3E08  1.62   2166 ! CEC94
+CH2O+O=HCO+OH                  1.8E13  0.00   3080 ! nbs86
+CH2O+OH=HCO+H2O                3.4E09  1.18   -447 ! nbs86
+CH2O+HO2 = HCO+H2O2            3.0E12  0.00  13000 ! cec92
+CH2O+O2 = HCO+HO2              6.0E13  0.00  40660 ! cec92
+HCO+M=H+CO+M                   1.9E17 -1.0   17000 ! tim87
+    H2O/5/
+HCO+H=CO+H2                    1.2E13  0.25      0 ! lrev (harding,21st)
+HCO+O=CO+OH                    3.0E13  0.000     0 ! cec92
+HCO+O=CO2+H                    3.0E13  0.000     0 ! cec92
+HCO+OH=H2O+CO                  1.0E14  0.00      0 ! cec92
+HCO+O2=HO2+CO                  7.6E12  0.0     400 ! tim88
+  !
+  ! ********************************************
+  ! *   CH4/CH3/CH2/CH/C Subset                *
+  ! ********************************************
+  !
+CH3+H(+M)=CH4(+M)              1.3E16 -0.63    383 ! GRI-MECH2.11
+  LOW/1.75E33  -4.76 2440.0/
+  TROE/0.783  74.0 2941.0 6964.0/
+ H2O/8.57/ N2/1.43/
+CH4+H=CH3+H2                   1.3E04  3.00   8040 ! cec92
+CH4+O=CH3+OH                   1.0E09  1.5    8600 ! nbs86
+CH4+OH=CH3+H2O                 1.6E06  2.10   2460 ! war84
+CH4+HO2=CH3+H2O2               1.8E11  0.00  18700 ! nbs86
+CH4+O2=CH3+HO2                 7.9E13  0.00  56000 ! ski72
+CH3+H=CH2+H2                   9.0E13  0.00  15100 ! gla86
+CH2(S)+H2=CH3+H                7.2E13  0.0       0 ! cec92
+CH3+O=CH2O+H                   8.4E13  0.0       0 ! cec92
+CH3+OH=CH2+H2O                 7.5E06  2.0    5000 ! m
+CH2(S)+H2O=CH3+OH              3.0E15 -0.6       0 ! car/wag95,hack/hggw 88
+CH2OH+H=CH3+OH                 1.0E14  0.0       0 ! m
+CH3O+H=CH3+OH                  1.0E14  0.0       0 ! m
+CH3+OH(+M)=CH3OH(+M)           6.3E13  0.0       0 ! GRI2.11
+  LOW/1.89E38  -6.3   3100/
+  TROE/0.2105 83.5 5398 8370/
+  N2/1.43/ H2O/8.58/
+CH3+HO2 = CH3O+OH              8.0E12  0.00      0 ! Tro92
+CH3+O2=CH3O+O                  2.9E13  0.0   30480 ! yu/fre95
+CH3+O2=CH2O+OH               3.6E+10     0            8940     !GRI 2.11
+CH3+CH3(+M)=C2H6(+M)           2.1E16 -0.97    620 ! GRI2.11
+  LOW /1.26E50 -9.67 6220/
+  TROE/ 0.5325 151 1038 4970 /
+  N2/1.43/ H2O/8.59/ H2/2/ CO/2/ CO2/3/
+CH3+CH2O = CH4+HCO             7.8E-8  6.10   1967 !+cec94
+CH3+HCO = CH4+CO               1.2E14  0.00      0 !+nbs86
+CH2+H=CH+H2                    1.0E18 -1.56      0 ! gla86
+CH2+O=CO+H+H                   5.0E13  0.0       0 ! lrev
+CH2+O=CO+H2                    3.0E13  0.0       0 ! lrev
+CH2+OH=CH+H2O                  1.1E07  2.0    3000 ! m
+CH2+OH=CH2O+H                  2.5E13  0.0       0 ! m
+CH2+O2=CO+H2O                  2.2E22 -3.3    2867 ! dom92,m
+CH2+O2=CO2+H+H                 3.3E21 -3.3    2867 ! dom92,m
+CH2+O2=CH2O+O                  3.3E21 -3.3    2867 ! dom92,m
+CH2+O2=CO2+H2                  2.6E21 -3.3    2867 ! dom92,m
+CH2+O2=CO+OH+H                 1.6E21 -3.3    2867 ! dom92,m
+CH2+CO2=CH2O+CO                1.1E11  0.0    1000 ! gla86
+CH2+CH4 = CH3+CH3              4.3E12  0.0   10030 ! boh85
+CH2+CH3=C2H4+H                 4.2E13  0.0       0 ! cec92
+CH2+CH2=C2H2+H+H               4.0E13  0.0       0 ! BRAUN,ET AL
+CH2+HCCO=C2H3+CO               3.0E13  0.00      0 ! m
+CH2(S)+M=CH2+M                 1.0E13  0.0       0 ! m
+   H/0/ H2O/0/ N2/0/ AR/0/
+CH2(S)+N2=CH2+N2               1.3E13  0.0     430 ! Hayes, 1996
+CH2(S)+AR=CH2+AR               1.5E13  0.0     884 ! Hayes, 1996
+CH2(S)+H=CH2+H                 2.0E14  0.0       0 ! m
+CH2(S)+H2O=CH2+H2O             3.0E13  0.0       0 ! WAGNER
+CH2(S)+H=CH+H2                 3.0E13  0.0       0 ! nbs86
+CH2(S)+O=CO+H+H                3.0E13  0.0       0 ! nbs86
+CH2(S)+OH=CH2O+H               3.0E13  0.0       0 ! nbs86
+CH2(S)+O2=CO+OH+H              7.0E13  0.0       0 ! m
+CH2(S)+CO2=CH2O+CO             3.0E12  0.0       0 ! nbs86
+CH2(S)+CH4=CH3+CH3             4.3E13  0.0       0 ! nbs86
+CH2(S)+CH3=C2H4+H              2.0E13  0.0       0 ! nbs86
+CH2(S)+CH2CO=C2H4+CO           1.6E14  0.0       0 ! WAGNER
+CH2(S)+C2H6=CH3+C2H5           1.2E+14 0.0       0 ! nbs86
+CH+H=C+H2                      1.5E14  0.0       0 ! m
+CH+O=CO+H                      5.7E13  0.0       0 ! gla86
+CH+OH=HCO+H                    3.0E13  0.0       0 ! m
+CH+OH=C+H2O                    4.0E7   2.0    3000 ! m
+CH+O2=HCO+O                    3.3E13  0.0       0 ! cec92
+CH+H2O=CH2O+H                  5.7E12  0.0    -751 ! cec92
+CH+CO2=HCO+CO                  3.4E12  0.0     690 ! cec92
+CH+CH4=C2H4+H                  6.0E13  0.0       0 ! gla86
+CH+CH3=C2H3+H                  3.0E13  0.0       0 ! m
+CH+CH2=C2H2+H                  4.0E13  0.0       0 ! m
+CH+CH2O=CH2CO+H                9.5E13  0.00   -515 ! cec92
+CH+HCCO=C2H2+CO                5.0E13  0.00      0 ! m
+C+OH=CO+H                      5.0E13  0.00      0 ! m
+C+O2=CO+O                      2.0E13  0.00      0 ! gla86
+C+CH3=C2H2+H                   5.0E13  0.00      0 ! m
+C+CH2=C2H+H                    5.0E13  0.00      0 ! m
+  !
+  ! ********************************************
+  ! *   CH3OH/CH2OH/CH2O subset                *
+  ! ********************************************
+  !
+CH3OH+H=CH2OH+H2               1.7E7   2.1    4868 ! nbs87
+CH3OH+H=CH3O+H2                4.2E6   2.1    4868 ! nbs87
+CH3OH+O=CH2OH+OH               3.9E5   2.5    3080 ! nbs87
+CH3OH+OH=CH2OH+H2O             5.30E4  2.53    960 ! nbs87
+CH3OH+OH=CH3O+H2O              1.32E4  2.53    960 ! nbs87
+! A factor fit to CH3OH oxidation data; nbs87: 9.6E10 0.0 12578
+CH3OH+HO2=CH2OH+H2O2           9.6E10  0.0   12578 ! nbs87
+CH2O+H(+M)=CH3O(+M)            5.4E11  0.454  2600 ! GRI2.11
+  LOW/1.54E30  -4.8  5560 /
+  TROE/ 0.758 94 1555 4200/
+  N2/1.43/  H2O/8.58/
+CH3O+H=CH2O+H2                 2.0E13  0.00      0 ! nbs86
+CH3O+O=CH2O+OH                 1.0E13  0.00      0 ! m
+CH3O+OH=CH2O+H2O               1.0E13  0.00      0 ! m
+CH3O+O2=CH2O+HO2               6.3E10  0.00   2600 ! nbs86
+H+CH2O(+M)=CH2OH(+M)           5.4E11  0.454  3600 ! GRI2.11
+    LOW/.91E32 -4.82 6530/
+    TROE/0.7187 103 1291 4160/
+  N2/1.43/ H2O/8.58/ CO/2/ CO2/3/ H2/2/
+CH2OH+H=CH2O+H2                2.0E13  0.00      0 ! m
+CH2OH+O=CH2O+OH                1.0E13  0.00      0 ! m
+CH2OH+OH=CH2O+H2O              1.0E13  0.00      0 ! m
+CH2OH+O2=CH2O+HO2              1.6E15 -1.0       0 ! cec92
+ DUP
+CH2OH+O2=CH2O+HO2              7.2E13  0.0    3577 !
+ DUP
+  !
+  ! ********************************************
+  ! *   C2H6/C2H5/C2H4/C2H3/C2H2/C2H/C2 subset *
+  ! ********************************************
+  !
+C2H6+H=C2H5+H2                 5.4E02  3.50   5210 ! nbs86
+C2H6+O=C2H5+OH                 3.0E07  2.00   5115 ! war84
+C2H6+OH=C2H5+H2O               7.2E6   2.0     864 ! cec92
+C2H6+HO2 = C2H5+H2O2           1.3E13  0.00  20460 ! cec92
+C2H6+O2=C2H5+HO2               5.0E13  0.0   55000 ! m,ben96
+C2H6+CH3=C2H5+CH4              5.5E-1  4.00   8300 ! nbs86
+C2H4+H(+M)=C2H5(+M)            1.1E12  0.454  1822 ! mar95
+   LOW/1.112E34  -5.0   4448.0/
+   TROE/0.5 95.0  95.0    200./
+    H2O/5/
+C2H5+H(+M) = C2H6(+M)      5.2E17 -0.99   1580 ! GRI2.11
+  LOW  /  2.0E41 -7.08 6685/
+  TROE/  0.8422 125 2219 6882 /
+  N2/1.0/ H2O/6/  AR/0.7/
+C2H5+H=CH3+CH3                 4.9E12  0.35      0 ! lrev
+C2H5+O = CH3+CH2O          4.2E13  0.00      0 ! SLA/GUT/MIL88
+C2H5+O = CH3HCO+H          5.3E13  0.00      0 ! SLA/GUT/MIL88
+C2H5+O = C2H4+OH           3.0E13  0.00      0 ! SLA/GUT/MIL88
+C2H5+OH = C2H4+H2O         2.4E13  0.00      0 ! NBS86
+C2H5+O2 = C2H4+HO2         1.0E10  0.00  -2190 ! CEC92
+C2H5+CH2O = C2H6+HCO       5.5E03  2.81   5860 ! NBS86
+C2H5+HCO = C2H6+CO         1.2E14  0.00      0 ! NBS86
+C2H5+CH3 = C2H4+CH4        1.1E12  0.00      0 ! CEC94
+C2H5+C2H5 = C2H6+C2H4      1.5E12  0.00      0 ! cec92
+C2H3+H(+M)=C2H4(+M)            6.1E12  0.27    280 ! GRI2.11
+      LOW /0.98E30 -3.86 3320./
+      TROE /0.7820 207.50 2663.00 6095.00/
+  H2/2.85/ CO/2.1/ CO2/2.85/  H2O/7.14/ CH4/2.85/ C2H6/4.29/  N2/1.43/
+C2H4+M=C2H2+H2+M               3.5E16  0.0   71500 ! cec92
+     N2/1.5/  H2O/10/
+C2H4+H=C2H3+H2                 5.4E14  0.0   14900 ! cec92
+C2H4+O = CH2HCO+H              4.7E06  1.88    180 ! cec94
+C2H4+O = CH3+HCO               8.1E06  1.88    180 ! cec94
+C2H4+O = CH2CO+H2              6.8E05  1.88    180 ! cec94
+C2H4+OH=C2H3+H2O               2.0E13  0.00   5940 ! cec92
+C2H4+HO2=CH3HCO+OH             2.2E12  0.0   17200 ! cec94,PRD JAM
+C2H4+O2=CH2HCO+OH              2.0E8   1.5   39000 ! m,ben96
+C2H4+CH3 = C2H3+CH4            5.0E11  0.00  15000 ! zha90
+H+C2H2(+M)=C2H3(+M)            3.1E11  0.58   2590 ! mar96
+  LOW/2.254E40  -7.269 6577./
+  TROE/0.5 675. 675./
+    H2/2/ CO/2/ CO2/3/ H2O/5/
+C2H3+H=C2H2+H2                 4.0E13  0.00      0 ! mrev
+C2H3+O=CH2CO+H                 3.0E13  0.000     0 ! cec92
+C2H3+OH=C2H2+H2O               2.0E13  0.0       0 ! m
+C2H3+O2 = CH2O+HCO             1.1E23 -3.29   3890 ! boz93
+C2H3+O2 = CH2HCO+O             2.5E15 -0.78   3135 ! boz93
+C2H3+O2=C2H2+HO2               5.2E15 -1.26   3310 ! boz93
+C2H3+CH2O = C2H4+HCO           5.4E03  2.81   5860 ! nbs86
+C2H3+HCO = C2H4+CO             9.0E13  0.00      0 ! nbs86
+C2H3+CH3 = C2H2+CH4            2.1E13  0.00      0 ! Fahr 91
+C2H3+C2H3 = C2H4+C2H2          1.5E13  0.00      0 ! Fahr 91
+C2H2+M=C2H+H+M                 9.1E30 -3.7  127138 ! nbs86
+     H2/2/ CO/2/ CO2/3/  H2O/5/
+H2+C2H=C2H2+H                  4.1E05  2.39    864 ! gla86
+C2H2+O=CH2+CO                  6.1E6   2.00   1900 ! JAM,FONT,PEETERS
+C2H2+O=HCCO+H                  1.4E7   2.00   1900 ! JAM,FONT,PEETERS
+C2H2+O=C2H+OH                  3.2E15 -0.60  15000 ! gla86
+OH+C2H2=C2H+H2O                3.4E7   2.0   14000 ! mil88
+OH+C2H2=HCCOH+H                5.0E5   2.3   13500 ! mil88
+OH+C2H2=CH2CO+H                2.2E-4  4.5   -1000 ! mil88
+OH+C2H2=CH3+CO                 4.8E-4  4.0   -2000 ! mil88
+OH+C2H2(+M)=C2H2OH(+M)         1.5E8   1.7    1000 ! mil88,cec92
+   LOW/1.81E23  -2.0   0.0 /                       !
+  H2/2/  CO/2/   CO2/3/   H2O/5/
+HO2+C2H2=CH2HCO+O              1.0E12  0.0   10000 ! m
+HO2+C2H2=CH2O+HCO              1.0E12  0.0   10000 ! m
+C2H2+O2=HCO+HCO                2.0E08  1.5   30100 ! m,ben96
+C2+H2=C2H+H                    4.0E5   2.4    1000 ! m
+C2H+O=CH+CO                    5.0E13  0.00      0 ! gla86
+C2H+OH=HCCO+H                  2.0E13  0.00      0 ! m
+C2H+OH=C2+H2O                  4.0E7   2.0    8000 ! m
+C2H+O2=CO+CO+H                 2.5E13  0.0       0 ! mrev
+C2H+CH4=CH3+C2H2               7.2E12  0.0     976 ! Leone JPC 1996
+C2+OH=C2O+H                    5.0E13  0.0       0 ! m
+C2+O2=CO+CO                    5.0E13  0.0       0 ! m
+  !
+  ! *****************************************************
+  ! *   CH3HCO/CH2HCO/CH3CO/CH2CO/HCCOH/HCCO/C2O subset *
+  ! *****************************************************
+  !
+CH3HCO = CH3+HCO               7.1E15  0.00  81280 ! cec94
+CH3HCO+H = CH3CO+H2            4.1E09  1.16   2400 ! cec94
+CH3HCO+O = CH3CO+OH            5.8E12  0.00   1800 ! cec94
+CH3HCO+OH=CH3CO+H2O            2.3E10  0.73  -1110 ! cec94
+CH3HCO+HO2 = CH3CO+H2O2        3.0E12  0.00  12000 ! cec94
+CH3HCO+O2 = CH3CO+HO2          3.0E13  0.00  39000 ! cec94
+CH3HCO+CH3=CH3CO+CH4           2.0E-6  5.6    2464 ! cec94
+CH2HCO=CH3+CO                  1.0E13  0.0   42000 ! m
+CH2HCO+H=CH3+HCO               1.0E14  0.0       0 ! m
+CH2HCO+H=CH3CO+H               3.0E13  0.0       0 ! m
+CH2HCO+O=CH2O + HCO            5.0E13  0.0       0 ! m
+CH2HCO+OH=CH2CO+H2O            2.0E13  0.0       0 ! m
+CH2HCO+OH=CH2OH+HCO            1.0E13  0.0       0 ! m
+CH2HCO+O2 = CH2O+CO+OH         2.2E11  0.0    1500 ! m/cec92
+CH2HCO+CH3=C2H5CHO             5.0E13  0.0       0 !
+CH2HCO+CH2=C2H4+HCO            5.0E13  0.0       0 ! m
+CH2HCO+CH =C2H3+HCO            1.0E14  0.0       0 ! m
+C2H5+HCO = C2H5CHO             1.8E13  0.0       0 !
+C2H5CHO+H = C2H5CO+H2          8.0E13  0.0       0 !
+C2H5CHO+O = C2H5CO+OH          7.8E12  0.0    1730 !
+C2H5CHO+OH = C2H5CO+H2O        1.2E13  0.0       0 !
+C2H5+CO = C2H5CO               1.5E11  0.0    4800 !
+C2H2OH+H=CH2HCO+H              5.0E13  0.0       0 ! m
+C2H2OH+O=OCHCHO+H              5.0E13  0.0     0.0 ! m
+C2H2OH+O2=OCHCHO+OH            1.0E12  0.0    5000 ! m
+CH3CO(+M)=CH3+CO(+M)           2.8E13  0.0   17100 ! cec94
+  LOW/2.1E15  0.0  14000./
+  TROE/ 0.5 1.0E-30 1.0E30 /
+     H2/2/ CO/2/ CO2/3/  H2O/5/
+CH3CO+H = CH3+HCO              2.1E13  0.00      0 ! bar91,ohm90
+CH3CO+H = CH2CO+H2             1.2E13  0.00      0 ! bar91,ohm90
+CH3CO+O = CH3+CO2              1.5E14  0.00      0 ! cec94
+CH3CO+O = CH2CO+OH             4.0E13  0.00      0 ! cec94
+CH3CO+OH = CH2CO+H2O           1.2E13  0.00      0 ! nbs86
+CH2+CO(+M)=CH2CO(+M)           8.1E11  0.5    4510 ! GRI2.11
+  LOW/ 1.88E33 -5.11 7095./
+  TROE/ 0.5907 275 1226 5185/
+     H2/2/ CO/2/ CO2/3/  H2O/8.58/  N2/1.43/
+CH2CO+H=CH3+CO                 5.9E6   2.0    1300 ! cec92,m
+CH2CO+H=HCCO+H2                3.0E7   2.0   10000 ! m
+CH2CO+O=CO2+CH2                1.8E12  0.0    1350 ! mrev
+CH2CO+O=HCCO+OH                2.0E7   2.0   10000 ! m
+CH2CO+OH=HCCO+H2O              1.0E7   2.0    3000 ! m
+CH2CO+OH=CH2OH+CO              7.2E12  0.0       0 ! gru94
+CH2CO+OH=CH3+CO2               3.0E12  0.0       0 ! gru94
+HCCOH+H=HCCO +H2               3.0E7   2.0    1000 ! m
+HCCOH+OH=HCCO+H2O              1.0E7   2.0    1000 ! m
+HCCOH+O=HCCO+OH                2.0E7   3.0    1900 ! m
+OCHCHO+M=HCO+HCO+M             1.0E17  0.0   58000 ! m
+OCHCHO+H=CH2O+HCO              3.0E13  0.0       0 ! m
+CH+CO(+M)=HCCO(+M)             5.0E13  0.0       0 ! GRI2.11
+  LOW/ 1.88E28  -3.74 1936 /
+  TROE/ 0.5757 237  1652 5069 /
+  N2/1.43/ H2O/8.58/ CO/2/ CO2/3/ H2/2/
+H+HCCO=CH2(S)+CO               1.0E14  0.0       0 ! mrev
+O+HCCO=H+CO+CO                 1.0E14  0.0       0 ! mrev
+HCCO+OH=C2O+H2O                6.0E13  0.0       0 ! m
+HCCO+O2=CO2+CO+H               1.4E7   1.7    1000 ! mrev
+HCCO+O2=CO +CO +OH             2.9E7   1.7    1000 ! mrev
+HCCO+HCCO=C2H2+CO+CO           1.0E13  0.00      0 ! m
+C2O+H=CH+CO                    1.0E13  0.0       0 ! m
+C2O+O=CO+CO                    5.0E13  0.0       0 ! m
+C2O+OH=CO+CO+H                 2.0E13  0.0       0 ! m
+C2O+O2=CO+CO+O                 2.0E13  0.0       0 ! m
+  !
+  ! *****************************************************
+  ! *   H/N/O subset                                    *
+  ! *   taken from [nh2no2] except where noted          *
+  ! *****************************************************
+  !
+H+NO+M=HNO+M                   4.0E20 -1.75      0 ! 98hno (ABB)
+    H2O/4.1/  H2/1.25/  N2/1.0/
+  !
+NO+O+M=NO2+M                   7.5E19 -1.41      0 !
+  N2/1.7/   O2/1.5/  H2O/10/
+OH+NO+M=HONO+M                 5.1E23 -2.51    -68 !
+  H2O/5/
+HO2+NO=NO2+OH                  2.1E12  0.00   -479 !
+NO2+H=NO+OH                    8.4E13  0.0       0 !
+NO2+O=NO+O2                    3.9E12  0.0    -238 !
+NO2+O(+M)=NO3(+M)              1.3E13  0.0       0 !
+    LOW/1.0E28  -4.08 2470./
+   N2/1.5/ O2/1.5/  H2O/18.6/
+NO2+NO2=NO+NO+O2               1.6E12  0.0   26123 !
+NO2+NO2=NO3+NO                 9.6E09  0.73  20900 !
+NO3+H=NO2+OH                   6.0E13  0.0       0 !
+NO3+O=NO2+O2                   1.0E13  0.0       0 !
+NO3+OH=NO2+HO2                 1.4E13  0.0       0 !
+NO3+HO2=NO2+O2+OH              1.5E12  0.0       0 !
+NO3+NO2=NO+NO2+O2              5.0E10  0.0    2940 !
+HNO+H=H2+NO                    4.5E11  0.72    655 !
+HNO+O=NO+OH                    1.0E13  0.0       0 ! +
+HNO+OH=NO+H2O                  3.6E13  0.0       0 !
+HNO+O2=HO2+NO                  1.0E13  0.0   25000 !
+HNO+NO2=HONO+NO                6.0E11  0.0    2000 !
+HNO+HNO=N2O+H2O                9.0E08  0.0    3100 ! *
+HNO+NH2=NH3+NO                 3.63E6  1.63  -1252 ! lin96
+H2NO+M=HNO+H+M                 2.5E15  0.0   50000 ! see text
+  H2O/5/  N2/2/
+H2NO+H=HNO+H2                  3.0E7   2.0    2000 !
+H2NO+H=NH2+OH                  5.0E13  0.0       0 !
+H2NO+O=HNO+OH                  3.0E7   2.0    2000 !
+H2NO+O = NH2+O2                2.0E14   0        0 ! snr96
+H2NO+OH=HNO+H2O                2.0E7   2.0    1000 !
+H2NO+NO=HNO+HNO                2.0E04  2.0   13000 ! *
+H2NO+NO2=HNO+HONO              6.0E11  0.0    2000 !
+HONO+H=H2+NO2                  1.2E13  0.0    7352 !
+HONO+O=OH+NO2                  1.2E13  0.0    5961 !
+HONO+OH=H2O+NO2                4.0E12  0.0       0 !
+NH3+M = NH2+H+M                2.2E16   0    93470 ! +
+NH3+H=NH2+H2                   6.4E05  2.39  10171 !
+NH3+O=NH2+OH                   9.4E06  1.94   6460 ! *
+NH3+OH=NH2+H2O                 2.0E06  2.04    566 !
+NH3+HO2=NH2+H2O2               3.0E11  0.0   22000 !
+NH2+H=NH+H2                    4.0E13  0.00   3650 !
+NH2+O=HNO+H                    6.6E14 -0.50      0 !
+NH2+O=NH+OH                    6.8E12  0.        0 !
+NH2+OH=NH+H2O                  4.0E06  2.     1000 !
+NH2+HO2=H2NO+OH                5.0E13  0.0       0 !
+NH2+HO2=NH3+O2                 1.0E13  0.0       0 !
+NH2+NO=NNH+OH                  8.9E12 -0.35      0 ! bodenstein
+NH2+NO=N2+H2O                  1.72E19 -2.294      1058 ! Fit ABB
+NH2+NO2=N2O+H2O                3.2E18 -2.2       0 !
+NH2+NO2=H2NO+NO                3.5E12  0.        0 !
+NH2+H2NO=NH3+HNO               3.0E12  0.0    1000 !
+HONO+NH2=NO2+NH3               71.1    3.02  -4941 ! lin96
+NH2+NH2=N2H2+H2                8.5E11  0.        0 !
+NH2+NH=N2H2+H                  5.0E13  0.        0 !
+NH2+N=N2+H+H                   7.2E13  0.        0 !
+NH+H=N+H2                      3.0E13  0.        0
+NH+O=NO+H                      9.2E13  0.        0
+NH+OH=HNO+H                    2.0E13  0.        0
+NH+OH=N+H2O                    5.0E11  0.50   2000
+NH+O2=HNO+O                    4.6E05  2.     6500 !
+NH+O2=NO+OH                    1.3E06  1.5     100 !
+!
+NH+NO=N2O+H                    3.19E14 -0.455       0 ! Fitted from difference ABB
+NH+NO=N2+OH                    2.2E13 -0.23      0
+NH+NO2=N2O+OH                  1.0E13  0.        0
+NH+NH=N2+H+H                   2.5E13  0.        0
+NH+N=N2+H                      3.0E13  0.        0
+N+OH=NO+H                      3.8E13  0.        0
+N+O2=NO+O                      6.4E09  1.     6280
+N+NO=N2+O                      3.3E12  0.30      0
+N2H2+M=NNH+H+M                 5.0E16  0.    50000
+    H2O/15/ O2/2/ N2/2/ H2/2/
+N2H2+H=NNH+H2                  5.0E13  0.     1000
+N2H2+O=NH2+NO                  1.0E13  0.        0
+N2H2+O=NNH+OH                  2.0E13  0.     1000
+N2H2+OH=NNH+H2O                1.0E13  0.     1000
+N2H2+NO=N2O+NH2                3.0E12  0.        0
+N2H2+NH2=NH3+NNH               1.0E13  0.     1000
+N2H2+NH=NNH+NH2                1.0E13  0.     1000
+NNH=N2+H                       1.0E7   0.        0 ! bodenstein
+NNH+H=N2+H2                    1.0E14  0.        0
+NNH+O=N2+OH                    8.0E13  0.        0
+NNH+O=N2O+H                    1.0E14  0.        0
+NNH+O=NH+NO                    5.0E13  0.        0
+NNH+OH=N2+H2O                  5.0E13  0.        0
+NNH+O2=N2+HO2                  2.0E14  0.        0 ! bodenstein
+NNH+O2=N2+O2+H                 5.0E13  0.        0 ! bodenstein
+NNH+NO=N2+HNO                  5.0E13  0.        0
+NNH+NH2=N2+NH3                 5.0E13  0.        0
+NNH+NH=N2+NH2                  5.0E13  0.        0
+N2O+M=N2+O+M                   4.0E14  0.    56100
+ N2/1.7/   O2/1.4/ H2O/12/ CO/1.5/  CO2/3/
+N2O+H=N2+OH                    3.3E10  0.     4729
+ DUP
+N2O+H=N2+OH                    4.4E14  0.    19254
+ DUP
+N2O+O=NO+NO                    6.6E13  0.    26630 ! nbs91
+N2O+O=N2+O2                    1.0E14  0.    28000 ! nbs91
+N2O+OH=N2+HO2                  1.3E-2  4.72  36561 ! Mebel,Lin IJCK 1996
+N2O+OH=HNO+NO                  1.2E-4  4.33  25081 ! Mebel,Lin IJCK 1996
+N2O+NO=NO2+N2                  5.3E05  2.23  46281 ! Mebel,Lin IJCK 1996
+  !
+  ! *****************************************************
+  ! *  cyanide subset                                   *
+  ! *****************************************************
+  !
+CN+H2=HCN+H                    3.0E05  2.45   2237 !
+HCN+O=NCO+H                    1.4E04  2.64   4980
+HCN+O=NH+CO                    3.5E03  2.64   4980
+HCN+O=CN+OH                    2.7E09  1.58  29200
+HCN+OH = CN+H2O                3.9E06  1.83  10300 !
+HCN+OH=HOCN+H                  5.9E04  2.40  12500
+HCN+OH=HNCO+H                  2.0E-3  4.     1000
+HCN+OH=NH2+CO                  7.8E-4  4.     4000
+HCN+CN=C2N2+H                  1.5E07  1.71   1530 !
+CN+O=CO+N                      7.7E13  0.        0 !
+CN+OH=NCO+H                    4.0E13  0.        0 !
+CN+O2=NCO+O                    7.5E12  0.     -389 !
+CN+CO2=NCO+CO                  3.7E06  2.16  26884 !
+CN+NO2=NCO+NO                  5.3E15 -0.752   344 !
+CN+NO2=CO+N2O                  4.9E14 -0.752   344 !
+CN+NO2=N2+CO2                  3.7E14 -0.752   344 !
+CN+HNO=HCN+NO                  1.8E13  0.00      0
+CN+HONO=HCN+NO2                1.2E13  0.00      0
+CN+N2O=NCN+NO                  3.9E03  2.6    3696 !
+CN+HNCO=HCN+NCO                1.5E13  0.        0 !
+CN+NCO=NCN+CO                  1.8E13  0.        0 !
+HNCO+M=NH+CO                   1.1E16  0.    86000 !
+HNCO+H=NH2+CO                  2.2E07  1.7    3800 !
+HNCO+O=HNO+CO                  1.5E08  1.57  44012 !
+HNCO+O=NH+CO2                  9.8E7   1.41   8524 !
+HNCO+O=NCO+OH                  2.2E6   2.11  11425 !
+HNCO+OH=NCO+H2O                6.4E05  2.     2563 !
+HNCO+HO2=NCO+H2O2              3.0E11  0.    22000 !
+HNCO+O2=HNO+CO2                1.0E12  0.    35000 !
+HNCO+NH2=NH3+NCO               5.0E12  0.     6200 !
+HNCO+NH=NH2+NCO                3.0E13  0.    23700 !
+HOCN+H=NCO+H2                  2.0E07  2.     2000 !
+HOCN+O=NCO+OH                  1.5E04  2.64   4000 !
+HOCN+OH=NCO+H2O                6.4E05  2.     2563 !
+HCNO+H=HCN+OH                  1.0E14  0     12000 !
+HCNO+O=HCO+NO                  2.0E14  0.        0 !
+HCNO+OH=CH2O+NO                4.0E13  0.        0 !
+NCO+M=N+CO+M                   3.1E16 -0.50  48000 !
+NCO+H=NH+CO                    5.0E13  0.        0 !
+NCO+O=NO+CO                    4.7E13  0.        0 !
+NCO+OH=NO+HCO                  5.0E12  0.    15000 !
+NCO+O2=NO+CO2                  2.0E12  0.    20000 !
+NCO+H2=HNCO+H                  7.6E02  3.     4000 !
+NCO+HCO=HNCO+CO                3.6E13  0.        0 !
+NCO+NO=N2O+CO                  6.2E17 -1.73    763 !
+NCO+NO=N2+CO2                  7.8E17 -1.73    763 !
+NCO+NO2=CO+NO+NO               2.5E11  0.     -707 !
+NCO+NO2=CO2+N2O                3.0E12  0.     -707 !
+NCO+HNO=HNCO+NO                1.8E13  0.        0 !
+NCO+HONO=HNCO+NO2              3.6E12  0.        0 !
+NCO+N=N2+CO                    2.0E13  0.        0 !
+NCO+NCO=N2+CO+CO               1.8E13  0.        0 !
+C2N2+O=NCO+CN                  4.6E12  0.     8880 !
+C2N2+OH=HOCN+CN                1.9E11  0.     2900 !
+NCN+O=CN+NO                    1.0E14  0.        0 !
+NCN+OH=HCN+NO                  5.0E13  0.        0 !
+NCN+H=HCN+N                    1.0E14  0.        0 !
+NCN+O2=NO+NCO                  1.0E13  0.        0 !
+H+CH3CN=HCN+CH3                4.0E7   2.     2000 !
+H+CH3CN=CH2CN+H2               3.0E7   2.     1000 !
+O+CH3CN=NCO+CH3                1.5E4   2.64   4980 !
+OH+CH3CN=CH2CN+H2O             2.0E7   2.     2000 !
+CH2CN+O=CH2O+CN                1.0E14    0.   0.   !
+CN+CH2OH=CH2CN+OH              5.0E13  0.        0 !
+H2CN+M=HCN+H+M                 3.0E14  0.    22000 !
+  !
+  ! *****************************************************
+  ! *  subset for CxHyOz+nitrogen species reactions     *
+  ! *  (see paper for refs)                             *
+  ! *****************************************************
+  !
+CO+NO2 = CO2+NO                9.0E13  0.    33779 !
+CO+N2O=N2+CO2                  3.2E11  0.    20237 !
+CO2+N=NO+CO                    1.9E11  0.     3400 !
+CH2O+NCO=HNCO+HCO              6.0E12  0.        0 !
+CH2O+NO2 = HCO+HONO            8.0E02  2.77  13730 !
+HCO+NO=HNO+CO                  7.2E12  0.        0 !
+HCO+NO2 = CO+HONO              1.2E23 -3.29   2355 !
+HCO+NO2 = H+CO2+NO             8.4E15 -0.75   1930 !
+HCO+HNO=CH2O+NO                6.0E11  0.     2000 !
+CH4+CN=CH3+HCN                 6.2E04  2.64   -437 !
+NCO+CH4 = CH3+HNCO             9.8E12  0.00   8120 !
+CH3+NO=HCN+H2O                 1.5E-1  3.523  3950 !
+CH3+NO=H2CN+OH                 1.5E-1  3.523  3950 !
+CH3+NO2=CH3O+NO                4.0E13 -0.20      0 ! PGL 1.06
+CH3+N=H2CN+H                   7.1E13  0.        0 !
+CH3+CN=CH2CN+H                 1.0E14  0.        0 !
+CH3+HOCN=CH3CN+OH              5.0E12  0.     2000 !
+CH2+NO=HCN+OH                  2.2E12  0.     -378 !
+CH2+NO=HCNO+H                  1.3E12  0.     -378 !
+CH2+NO2=CH2O+NO                5.9E13  0.        0 !
+CH2+N=HCN+H                    5.0E13  0.        0 !
+CH2+N2=HCN+NH                  1.0E13  0.    74000 !
+H2CN+N=N2+CH2                  2.0E13  0.        0 !
+CH2(S)+NO=HCN+OH               2.0E13  0.        0 !
+CH2(S)+NO=CH2+NO               1.0E14  0.        0 !
+CH2(S)+HCN=CH3+CN              5.0E13  0.        0 !
+CH+NO2=HCO+NO                  1.0E14  0.        0 !
+CH+NO = HCN+O                  4.8E13  0.00      0 !
+CH+NO = HCO+N                  3.4E13  0.00      0 !
+CH+NO = NCO+H                  1.9E13  0.00      0 !
+CH+N=CN+H                      1.3E13  0.        0 !
+CH+N2=HCN+N                    3.7E07  1.42  20723 !
+CH+N2O=HCN+NO                  1.9E13  0.     -511 !
+C+NO=CN+O                      2.0E13  0.        0 !
+C+NO=CO+N                      2.8E13  0.        0 !
+C+N2=CN+N                      6.3E13  0.    46019 !
+C+N2O=CN+NO                    5.1E12  0.        0 !
+C2H6+CN=C2H5+HCN               1.2E05  2.77  -1788 !
+C2H6+NCO = C2H5+HNCO           1.5E-9  6.89  -2910 !
+C2H4+CN = C2H3+HCN             5.9E14 -0.24      0 !
+C2H3+NO=C2H2+HNO               1.0E12  0.     1000 !
+C2H3+N=HCN+CH2                 2.0E13  0.        0 !
+C2H2+NCO = HCCO+HCN            1.4E12  0.00   1815 !
+C2H+NO=CN+HCO                  2.1E13  0.        0 !
+CH2CO+CN=HCCO+HCN              2.0E13  0.        0 !
+HCCO+NO=HCNO+CO                7.2E12  0.        0 !
+HCCO+NO=HCN+CO2                1.6E13  0.        0 !
+HCCO+NO2=HCNO+CO2              1.6E13  0.        0 !
+HCCO+N=HCN+CO                  5.0E13  0.        0 !
+  ! ********************************************
+  ! *   CH3O2/CH3OOH subset                    *
+  ! ********************************************
+  ! From RBO.MEC
+CH3+O2(+M) = CH3O2(+M)      7.8E08  1.20     0 ! CEC94
+  LOW  / 5.4E25 -3.30  0 /                     !
+  N2/1.1/  H2O/10/
+  ! cec94 (Ar) (300-800) UF=2
+  !
+CH3O2+H = CH3O+OH           1.0E14  0.00     0 ! NBS86
+  ! nbs86 (300-2500) UF=3
+  !
+CH3O2+O = CH3O+O2           3.6E13  0.00     0 ! NBS86
+  ! nbs86 (300-2500) UF=3
+  !
+CH3O2+OH = CH3OH+O2         6.0E13  0.00     0 ! NBS86
+  ! nbs86 (300-2500) UF=5
+  !
+CH3O2+HO2 = CH3OOH+O2       2.5E11  0.00 -1570 ! CEC94
+  ! cec94 (298-700) UF=1.3-2.0
+  !
+CH3O2+H2O2 = CH3OOH+HO2     2.4E12  0.00  9940 ! NBS86
+  ! nbs86 (300-2500) UF=5
+  !
+CH3O2+CH2O = CH3OOH+HCO     2.0E12  0.00 11665 ! NBS86
+  ! nbs86 (300-2500) UF=5
+  !
+CH3O2+CH4 = CH3OOH+CH3      1.8E11  0.00 18500 ! NBS86
+  ! nbs86 (300-2500) UF=5
+  !
+CH3O2+CH3 = CH3O+CH3O       2.4E13  0.00     0 ! NBS86
+  ! nbs86 (300-2500) UF=3
+  !
+CH3O2+CH3O = CH2O+CH3OOH    3.0E11  0.00     0 ! NBS86
+  ! nbs86 (300-2500) UF=5
+  !
+CH3O2+CH2OH = CH2O+CH3OOH   1.2E13  0.00     0 ! NBS86/p
+  ! nbs86 (300-2500) UF=5
+  !
+CH3O2+CH3OH = CH3OOH+CH2OH  1.8E12  0.00 13700 ! NBS86
+  ! nbs86 (300-2500) UF=5
+  !
+CH3O2+CH3O2 = CH3O+CH3O+O2  1.0E11  0.00   300 ! CEC94
+CH3O2+CH3O2 = CH3OH+CH2O+O2 4.0E09  0.00 -2210 ! CEC94
+  ! cec94 ktot=5.5E10/0/-835 (298-700,UF=1.3-2.0), k1/k2=25/0/1170
+  !
+CH3OOH = CH3O+OH             6.3E14  0.00 42300 ! LIG/LES91
+  ! LIG/LES91 (600-700,1atm,N2) UF=*
+  !
+CH3OOH+H = CH3O2+H2          8.8E10  0.00  1860 ! SLE/WAR77
+  ! SLE/WAR77 (250-358) UF=*
+  !
+CH3OOH+H = CH3O+H2O          8.2E10  0.00  1860 ! SLE/WAR77
+  ! SLE/WAR77 (250-358) UF=*
+  !
+CH3OOH+O = CH3O2+OH          1.0E12  0.00  3000 ! VAG/RAV90/p,est
+  ! VAG/RAV90 ktot=6.4E9 (297K) UF=*
+  ! Ea est similar to cec rec
+  ! cec92/94 ktot=4.2E11/0.57/2762 (250-2200) UF=2 apparently too fast
+  !
+CH3OOH+OH = CH3O2+H2O        1.8E12  0.00  -378 ! ATK92/p
+  ! ATK92 (220-430) UF=*  CH3O2 channel only 60% (CH2OOH 40%)
+  !
+CH3O2+NO = CH3O+NO2         2.53E12  0  -358 ! 92ATK/BAU
+CH4+NO2=CH3+HONO            1.2E+13   0  30000    !81SLA/GRI
+  !
+  ! ********************************************
+  ! *   CH3NO2 subset                          *
+  ! ********************************************
+  !
+CH3NO2(+M) = CH3+NO2(+M)    1.8E16   0   58500 ! GLA/TRO72
+  LOW/1.3E17 0 42000/
+  TROE/ 0.183 1.0E-30 1.0E30 /
+CH3NO2+H = HONO+CH3         3.3E12   0    3730 ! THO/NIL93,KO/FON91 (BRO/HAY96)
+CH3NO2+H = CH3NO+OH         1.4E12   0    3730 ! THO/NIL93,KO/FON91 (BRO/HAY96)
+CH3NO2+H = H2CNO2+H2        5.4E02  3.5   5200 ! est
+  ! est as C2H6+H
+CH3NO2+O = H2CNO2+OH        1.5E13   0    5350 ! SAL/THR77/p (BRO/HAY96)
+CH3NO2+OH = H2CNO2+H2O      5.0E05  2.0   1000 ! LIU/NIE90,ZAB/LIN89,est
+  ! extrapolation of exp results, assuming T**2 dependence
+CH3NO2+OH = CH3OH+NO2       2.0E10  0.0  -1000 ! NIE89, est (1 atm)
+  ! 9.6E10 (295 K, 1 atm), assume Ea (pressure dependent)
+CH3NO2+HO2 = H2CNO2+H2O2    3.0E12  0.0  23000 ! est
+  ! est A factor, Ea = endothermicity+3kcal (as CH3OH+HO2)
+CH3NO2+O2 = H2CNO2+HO2      2.0E13  0.0  57000 ! est
+  ! A factor as CH3OH+O2, Ea = endothermicity
+CH3NO2+CH3 = CH4+H2CNO2     5.5E-1  4.0   8300 ! est
+  ! est as C2H6+CH3
+CH3NO2+CH2(S) = CH3+H2CNO2  1.2E14  0.0      0 ! est
+  ! est as C2H6+CH2(S)
+CH3NO2+CH2 = CH3+H2CNO2     6.5E12  0.0   7900 ! est
+  ! est as C2H6+CH2
+CH3NO2+CH3O = H2CNO2+CH3OH  3.0E11  0.0   7000 ! est
+  ! est as CH3OH+CH3O, with a 3 kcal increase in Ea
+CH3NO2+NO2 = H2CNO2+HONO    3.0E11  0.0  32000 ! est
+  ! est as CH3OH+NO2, with a 10.6 kcal increase in Ea (more endothermic)
+H2CNO2 = CH2O+NO            1.0E13   0   36000 ! (BRO/HAY96)
+H2CNO2+H = CH3+NO2          5.0E13   0       0 ! est
+H2CNO2+O = CH2O+NO2         5.0E13   0       0 ! est
+H2CNO2+OH = CH2OH+NO2       1.0E13   0       0 ! est
+H2CNO2+OH = CH2O+HONO       1.0E13   0       0 ! est
+END
+ 
+

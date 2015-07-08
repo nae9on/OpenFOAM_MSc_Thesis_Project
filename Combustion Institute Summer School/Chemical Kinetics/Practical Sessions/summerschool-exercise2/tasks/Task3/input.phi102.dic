@@ -1,0 +1,72 @@
+//-----------------------------------------------------------------//
+//     ____                    ______ __  __  ____  _  ________    //
+//    / __ \                  /  ___ |  \/  |/ __ \| |/ /  ____|   //
+//   | |  | |_ __   ___ _ __ |  (___ | \  / | |  | | ' /| |__      //
+//   | |  | | '_ \ / _ \ '_ \ \___  \| |\/| | |  | |  < |  __|     //
+//   | |__| | |_) |  __/ | | |____)  | |  | | |__| | . \| |____    //
+//    \____/| .__/ \___|_| |_|______/|_|  |_|\____/|_|\_\______|   //
+//         | |                                                     //
+//         |_|                                                     //
+//                                                                 //
+//                http://www.opensmoke.polimi.it/                  //
+//             http://creckmodeling.chem.polimi.it/                //
+//-----------------------------------------------------------------//
+
+Dictionary PerfectlyStirredReactor
+{
+		@KineticsFolder			../Task0/kinetics-POLIMI_PRF_PAH_LT_1412;
+		
+		@Type					Isothermal-ConstantPressure;
+		
+		@InletStatus            inlet-mixture;
+		
+		@ResidenceTime			50 ms;
+		
+		@EndTime				1.1 s;
+
+		@Volume                 1 cm3;
+		
+		@Options				output-options;
+		
+		@ParametricAnalysis     parametric-analysis;
+		
+		@OdeParameters			ode-parameters;
+}
+
+Dictionary inlet-mixture
+{
+		@Temperature   	750.   K ; 
+		@Pressure      	0.46   atm ;
+
+		@Moles 			C6H6 	0.0051 
+						O2 		0.0375 
+						AR 		0.9574;
+}
+
+Dictionary ode-parameters
+{	
+		@OdeSolver OpenSMOKE;
+		@AbsoluteTolerance 1e-10;
+		@RelativeTolerance 1e-6;
+}
+
+Dictionary parametric-analysis
+{	
+	@Type 				temperature; 
+
+	@NumberOfPoints     40;
+	@MinimumValue       850 K;
+	@MaximumValue       1350 K;
+
+	@NumberOfThreads	1;
+}
+
+Dictionary output-options
+{	
+		@OutputFolder Output-phi102;
+		@StepsFile  5000;
+		@StepsVideo 50;
+		@VerboseASCIIFile true;
+		@VerboseVideo true;
+}
+
