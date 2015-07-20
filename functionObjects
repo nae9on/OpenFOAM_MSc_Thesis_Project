@@ -21,6 +21,9 @@ $FOAM_SRC/postProcessing/functionObjects
 Examples
 /*..........................................................................................*/
 
+Lots of examples here
+https://github.com/wyldckat/swak4foam/blob/master/Examples/groovyBC/pulsedPitzDaily/system/controlDict
+
 execFlowFunctionObjects -help
 execFlowFunctionObjects -noFlow
 execFlowFunctionObjects -latestTime
