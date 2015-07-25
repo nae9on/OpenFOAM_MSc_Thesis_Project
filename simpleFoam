@@ -1,13 +1,16 @@
+/* ------------------- simpleFoam source code */
+
 #include "fvCFD.H"
 #include "singlePhaseTransportModel.H"
 #include "RASModel.H"
 #include "simpleControl.H"
 #include "fvIOoptionList.H"
 
-// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+// * * * * * * * * * * * * * * * * *  * * * * //
 
 int main(int argc, char *argv[])
-{
+{   
+    // 1. Pre-processing
     #include "setRootCase.H"
     #include "createTime.H"
     #include "createMesh.H"
@@ -17,56 +20,68 @@ int main(int argc, char *argv[])
 
     simpleControl simple(mesh);
 
-    // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+    // * * * * * * * * * * * * * * * * *  * * * * //
 
     Info<< "\nStarting time loop\n" << endl;
 
+    // SIMPLE loop
     while (simple.loop())
     {
         Info<< "Time = " << runTime.timeName() << nl << endl;
 
-        // --- Pressure-velocity SIMPLE corrector
         {
-
-	    // #include "UEqn.H" - Momentum predictor
-	       /* The momentum equation is solved first. The exact pressure gradient source
-		  term is not known at this stage – the pressure field from the previous time-step
-		  is used instead. This stage is called the momentum predictor. The solution
-		  of the momentum equation gives an approximation of the new velocity field. 
-               */
+	        // 2. Momentum Predictor
+	        /* The momentum equation is solved first. 
+                   The exact pressure gradient source term is 
+                   not known at this stage the pressure field 
+                   from the previous time-step is used instead. 
+                   This stage is called the momentum predictor. 
+                   The solution of the momentum equation gives 
+                   an approximation of the new velocity field. 
+                */
+                // #include "uEqn.H"
 		{    
-                    // 2. Solve the discretized momentum equation to compute the intermediate velocity field.
-                    tmp<fvVectorMatrix> UEqn // Define the equation for U.
+                    /* Solve the discretized momentum equation 
+                       to compute the intermediate velocity field. */
+
+                    // Define the equation for U.
+                    tmp<fvVectorMatrix> UEqn 
 		    (
 			fvm::div(phi, U)
 		      + turbulence->divDevReff(U)
 		      ==
 			fvOptions(U)
 		    );
-		    UEqn().relax(); // Under-relax the equation for U. 
+
+                    // Under-relax the equation for U.
+		    UEqn().relax();  
 		    fvOptions.constrain(UEqn());
-		    solve(UEqn() == -fvc::grad(p)); // Solve using previous p.
+                    
+                    // Solve using previous p.
+		    solve(UEqn() == -fvc::grad(p)); 
 		    fvOptions.correct(U);
                 }
 
 
-            // #include "pEqn.H"
+                // #include "pEqn.H"
 		{
 		    volScalarField rAU(1.0/UEqn().A());
-		    volVectorField HbyA("HbyA", U); //HbyA represents intermediate U.
+		    volVectorField HbyA("HbyA", U); 
 		    HbyA = rAU*UEqn().H();
 		    UEqn.clear();
 
-                    // 3. Compute the mass fluxes at the cells faces. 
+                    // 3. Compute the mass fluxes at the cell faces. 
 		    surfaceScalarField phiHbyA("phiHbyA", fvc::interpolate(HbyA) & mesh.Sf());
 		    fvOptions.makeRelative(phiHbyA);
 		    adjustPhi(phiHbyA, U, p);
 
-		    // Define and solve the pressure equation using the predicted velocities and repeat 
-                    // for the prescribed number of non-orthogonal corrector steps
+		    
+                    /* Define and solve the pressure equation using the 
+                       predicted velocities and repeat for the prescribed 
+                       number of non-orthogonal corrector steps. */
 		    while (simple.correctNonOrthogonal())
 		    {
-                        // 4. Solve the pressure equation 
+                        // 4. Pressure Correction 
 			fvScalarMatrix pEqn
 			(
 			    fvm::laplacian(rAU, p) == fvc::div(phiHbyA)
@@ -84,10 +99,11 @@ int main(int argc, char *argv[])
                     // Calculate continuity errors
 		    #include "continuityErrs.H"
 
-		    // Explicitly under-relax the pressure for momentum corrector
-		    p.relax();
-
-                    // 6. Correct the velocities on the basis of the new pressure field.   
+                    /* 6. Correct the velocities on the basis of 
+                       the new pressure field. */
+                    // Explicitly under-relax the pressure for 
+                    // momentum corrector.
+                    p.relax(); 
 		    U = HbyA - rAU*fvc::grad(p);
 
                     // 7. Update the boundary conditions. 
@@ -97,7 +113,7 @@ int main(int argc, char *argv[])
 
 
         }
-
+        // 8. Correct for turbulence.
         turbulence->correct();
 
         runTime.write();
