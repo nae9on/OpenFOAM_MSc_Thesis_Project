@@ -1,3 +1,5 @@
+/* ------------------- furnaceFoam source code */
+
 #include "fvCFD.H"
 #include "turbulenceModel.H"
 #include "psiCombustionModel.H"
@@ -8,6 +10,7 @@
 
 int main(int argc, char *argv[])
 {
+    // 1. Pre-processing
     #include "setRootCase.H"
     #include "createTime.H"
     #include "createMesh.H"
@@ -31,22 +34,29 @@ int main(int argc, char *argv[])
 
     while (runTime.run()) // to iterate in time.
     {
-        #include "readTimeControls.H" // Read the control parameters used by setDeltaT
-        #include "compressibleCourantNo.H" // Calculates and outputs the mean and maximum Courant Numbers.
+        // 2. Calculate T
+        {
+         // Read the control parameters used by setDeltaT
+         #include "readTimeControls.H" 
 
-        /* Reset the timestep to maintain a constant maximum courant Number.
-        Reduction of time-step is immediate, but increase is damped to avoid
-        unstable oscillations. */
-        #include "setDeltaT.H" 
+         // Calculates and outputs the mean and maximum Courant Numbers.
+         #include "compressibleCourantNo.H" 
 
-
-        runTime++;
-        Info<< "Time = " << runTime.timeName() << nl << endl;
-
-        #include "rhoEqn.H" // Solve the continuity equation for density.
+         /* Reset the timestep to maintain a constant maximum courant Number.
+         Reduction of time-step is immediate, but increase is damped to avoid
+         unstable oscillations. */
+         #include "setDeltaT.H" 
+        
+         runTime++;
+         Info<< "Time = " << runTime.timeName() << nl << endl;
+        }
+        
+        // 3. Solve the continuity equation to compute density.
+        #include "rhoEqn.H" 
 
         while (pimple.loop()) // outer iteration nOuterCorrectors = 1 (= 1 means PISO mode)
         {
+            // 4. Momentum Predictor
             // #include "UEqn.H"
             // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 	    fvVectorMatrix UEqn
@@ -64,7 +74,8 @@ int main(int argc, char *argv[])
 	    fvOptions.constrain(UEqn);
 
             // if momentum predictor is turned off, U from previous time-step is used, 
-            // if it is on once the solve method is executed U is updated using the old pressure field.
+            // if it is on once the solve method is executed U is updated using the old
+            //  pressure field.
 	    if (pimple.momentumPredictor()) // set No in PIMPLE control
 	    {
 		solve(UEqn == -fvc::grad(p));
@@ -74,6 +85,8 @@ int main(int argc, char *argv[])
 	    }
             // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
+
+            // 5. Species Transport
             // #include "YEqn.H"
             // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 		tmp<fv::convectionScheme<scalar> > mvConvection
@@ -131,7 +144,8 @@ int main(int argc, char *argv[])
 		    Y[inertIndex].max(0.0);
 		}
             // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
-
+            
+            // 6. Energy Transport
             // #include "EEqn.H"
             // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
                 // Solve energy equation to obtain new temperature field
@@ -167,8 +181,11 @@ int main(int argc, char *argv[])
 
 		    fvOptions.correct(he);
 
-		    radiation->correct(); // Solve transport equation for G
-
+                    // 7. Radiation Transport
+                    // Solve transport equation for G
+		    radiation->correct(); 
+                    
+                    // 8. Update thermophysical properties
 		    thermo.correct();
 
 		    Info<< "min/max(T) = "
