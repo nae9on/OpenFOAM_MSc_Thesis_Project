@@ -31,14 +31,19 @@ int main(int argc, char *argv[])
 
     while (runTime.run()) // to iterate in time.
     {
-        #include "readTimeControls.H"
-        #include "compressibleCourantNo.H"
-        #include "setDeltaT.H"
+        #include "readTimeControls.H" // Read the control parameters used by setDeltaT
+        #include "compressibleCourantNo.H" // Calculates and outputs the mean and maximum Courant Numbers.
+
+        /* Reset the timestep to maintain a constant maximum courant Number.
+        Reduction of time-step is immediate, but increase is damped to avoid
+        unstable oscillations. */
+        #include "setDeltaT.H" 
+
 
         runTime++;
         Info<< "Time = " << runTime.timeName() << nl << endl;
 
-        #include "rhoEqn.H"
+        #include "rhoEqn.H" // Solve the continuity equation for density.
 
         while (pimple.loop()) // outer iteration nOuterCorrectors = 1 (= 1 means PISO mode)
         {
@@ -58,6 +63,8 @@ int main(int argc, char *argv[])
 
 	    fvOptions.constrain(UEqn);
 
+            // if momentum predictor is turned off, U from previous time-step is used, 
+            // if it is on once the solve method is executed U is updated using the old pressure field.
 	    if (pimple.momentumPredictor()) // set No in PIMPLE control
 	    {
 		solve(UEqn == -fvc::grad(p));
@@ -147,8 +154,8 @@ int main(int argc, char *argv[])
 			)
 		      - fvm::laplacian(turbulence->alphaEff(), he)
 		     ==
-			reaction->Sh()
-		      + radiation->Sh(thermo)
+			reaction->Sh()        // Source term for combustion
+		      + radiation->Sh(thermo) // Source term for radiation
 		      + fvOptions(rho, he)
 		    );
 
@@ -160,7 +167,7 @@ int main(int argc, char *argv[])
 
 		    fvOptions.correct(he);
 
-		    radiation->correct();
+		    radiation->correct(); // Solve transport equation for G
 
 		    thermo.correct();
 
@@ -194,4 +201,4 @@ int main(int argc, char *argv[])
     Info<< "End\n" << endl;
 
     return 0;
-}
+} // Done - main
