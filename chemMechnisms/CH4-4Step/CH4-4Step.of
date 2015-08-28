@@ -1,0 +1,64 @@
+species
+7
+(
+O2
+H2O
+CO
+CO2
+N2
+CH4
+H2
+)
+;
+
+reactions
+{
+    un-named-reaction-0
+    {
+        type            irreversibleArrheniusReaction;
+        reaction        "CH4^0.5 + 0.5O2^1.25 = CO + 2H2";
+        A               4.39998e+11;
+        beta            0;
+        Ta              15095;
+    }
+    un-named-reaction-1
+    {
+        type            irreversibleArrheniusReaction;
+        reaction        "CH4 + H2O^0 + O2 = CO + 3H2 + O2";
+        A               3e+08;
+        beta            0;
+        Ta              15095;
+    }
+    un-named-reaction-2
+    {
+        type            irreversibleArrheniusReaction;
+        reaction        "CO + H2O = CO2 + H2";
+        A               2.75e+09;
+        beta            0;
+        Ta              10065;
+    }
+    un-named-reaction-3
+    {
+        type            irreversibleArrheniusReaction;
+        reaction        "CO2 + H2 = CO + H2O";
+        A               6.71e+10;
+        beta            0;
+        Ta              13688;
+    }
+    un-named-reaction-4
+    {
+        type            irreversibleArrheniusReaction;
+        reaction        "H2 + 0.5O2 = H2O";
+        A               5.68998e+11;
+        beta            0;
+        Ta              17609;
+    }
+    un-named-reaction-5
+    {
+        type            irreversibleArrheniusReaction;
+        reaction        "H2O = H2 + 0.5O2";
+        A               2.51e+14;
+        beta            0;
+        Ta              47859;
+    }
+}

@@ -1,0 +1,22 @@
+species
+5
+(
+O2
+H2O
+CO2
+N2
+CH4
+)
+;
+
+reactions
+{
+    un-named-reaction-0
+    {
+        type            reversibleArrheniusReaction;
+        reaction        "CH4^0.7 + 2O2^0.8 = CO2 + 2H2O";
+        A               9.48683e+11;
+        beta            0;
+        Ta              23650;
+    }
+}

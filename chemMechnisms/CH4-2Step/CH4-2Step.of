@@ -1,0 +1,39 @@
+species
+6
+(
+O2
+H2O
+CO
+CO2
+N2
+CH4
+)
+;
+
+reactions
+{
+    un-named-reaction-0
+    {
+        type            irreversibleArrheniusReaction;
+        reaction        "CH4^0.7 + 1.5O2^0.8 = CO + 2H2O";
+        A               5.02802e+11;
+        beta            0;
+        Ta              24056;
+    }
+    un-named-reaction-1
+    {
+        type            irreversibleArrheniusReaction;
+        reaction        "CO + 0.5O2^0.25 + H2O^0.5 = CO2 + H2O";
+        A               2.24001e+12;
+        beta            0;
+        Ta              20484;
+    }
+    un-named-reaction-2
+    {
+        type            irreversibleArrheniusReaction;
+        reaction        "CO2 = CO + 0.5O2";
+        A               5e+08;
+        beta            0;
+        Ta              20484;
+    }
+}

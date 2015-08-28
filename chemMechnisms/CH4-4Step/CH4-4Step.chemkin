@@ -1,0 +1,34 @@
+ELEMENTS
+ H   O    C   N
+END
+SPECIE 
+O2 	H2O 	CO 	CO2 	N2 	CH4	H2
+END
+REACTIONS
+ CH4 + 0.5O2 => CO + 2H2	7.8244E13  0  2.999855E4
+	FORD	/ CH4	0.5 /
+	FORD	/ O2 	1.25 /
+
+ CH4 + H2O + O2 => CO + 3H2 + O2	3E11     0	 2.999855E4
+	FORD	/ CH4	1 /
+	FORD	/ O2 	1 /
+	FORD	/ H2O 	0 /
+
+ CO + H2O => CO2 +  H2		2.75E12  0	 2.00023E4
+	FORD	/ CO	1 /
+	FORD	/ H2O 	1 /
+
+ CO2 +  H2 => CO + H2O		6.71E13  0	 2.72023E4
+	FORD	/ CO2	1 /
+	FORD	/ H2 	1 /
+
+ H2 + 0.5O2 => H2O		1.79933E13  0	 3.499466E4
+	FORD	/ H2	1 /
+	FORD	/ O2 	0.5 /
+
+ H2O => H2 + 0.5O2		2.51E14  0	 9.51110E4
+	FORD	/ H2O	1.0 /
+
+
+END
+
