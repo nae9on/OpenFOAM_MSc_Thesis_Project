@@ -1,0 +1,41 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2.3.0                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "constant";
+    object      thermoProperties;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+M_O2              M_O2  [ 1 0 0 0 -1 0 0 ] 31.9988e-3;
+M_H2O             M_H2O [ 1 0 0 0 -1 0 0 ] 18.0153e-3;
+M_CH4             M_CH4 [ 1 0 0 0 -1 0 0 ] 16.0428e-3;
+M_CO2             M_CO2 [ 1 0 0 0 -1 0 0 ] 44.01e-3;
+M_N2              M_N2  [ 1 0 0 0 -1 0 0 ] 28.0134e-3;
+M_NO              M_NO  [ 1 0 0 0 -1 0 0 ] 30.0061e-3;
+
+As                   As [ 1 -1 -1 -0.5 0 0 0 ] 1.67212e-06;
+Ts                   Ts [ 0 0 0 1 0 0 0 ] 170.672;
+
+flagThermal flagThermal [ 0 0 0 0 0 0 0 ] 1;
+flagPrompt flagPrompt [ 0 0 0 0 0 0 0 ] 0;
+
+
+// Parameters for computing prompt NOx
+// no of carbon atoms per molecule of the hydrocarbon fuel [C_{n}H_{2n+2}]
+n_p                  n_p  [ 0 0 0 0 0 0 0 ] 1; 
+// Overall equivalence ratio for the flame (between 0.6 and 1.6)
+phi_p              phi_p  [ 0 0 0 0 0 0 0 ] 0.77;
+
+Sc                   Sc [ 0 0 0 0 0 0 0 ] 0.85;
+Sc_t               Sc_t [ 0 0 0 0 0 0 0 ] 0.7;
+
+// ************************************************************************* //
